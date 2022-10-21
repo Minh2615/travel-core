@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "wp-scripts start",
-    "build": "wp-scripts build",
+    "start": "wp-scripts start src/index.js --output-path=build/js",
+    "build": "wp-scripts build src/index.js --output-path=build/js",
     "release": "npm run build && gulp release"
   },
   "author": "",
@@ -30,6 +30,8 @@
     "gulp-wp-pot": "^2.5.0",
     "jquery": "^3.4.1",
     "read-file": "^0.2.0",
-    "sass": "^1.53.0"
+    "sass": "^1.53.0",
+    "autoprefixer": "^9.0.0",
+    "browser-sync": "^2.27.9"
   }
 }

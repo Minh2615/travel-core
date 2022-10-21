@@ -1,4 +1,6 @@
 const gulp = require( 'gulp' );
+const autoprefixer = require( 'autoprefixer' );
+const browserSync = require( 'browser-sync' ).create();
 const cache = require( 'gulp-cache' );
 const lineec = require( 'gulp-line-ending-corrector' );
 const rename = require( 'gulp-rename' );
@@ -10,7 +12,10 @@ const uglifycss = require( 'gulp-uglifycss' );
 const del = require( 'del' );
 const readFile = require( 'read-file' );
 const rtlcss = require( 'gulp-rtlcss' );
+const sourcemaps = require( 'gulp-sourcemaps' );
+const postcss = require( 'gulp-postcss' );
 
+const errorHandler = r => notify.onError( '\n\n❌  ==> ERROR: <%= error.message %>\n' )( r );
 // Clear cache.
 gulp.task( 'clearCache', ( done ) => {
 	return cache.clearAll( done );
@@ -20,6 +25,37 @@ gulp.task( 'clearCache', ( done ) => {
 gulp.task( 'mincss', () => {
 	return '';
 } );
+
+gulp.task( 'clear', function( done ) {
+	return cache.clearAll( done );
+} );
+
+gulp.task( 'browser-sync', function( done ) {
+	browserSync.init( {
+		proxy: projectURL,
+		open: true,
+		injectChanges: true,
+	} );
+	done();
+} );
+
+gulp.task( 'styles', () => {
+	return gulp
+		.src( ['./src/css/style.scss'] )
+		.pipe( plumber( errorHandler ) )
+		.pipe( sourcemaps.init() )
+		.pipe( sass.sync().on( 'error', sass.logError ) )
+		.on( 'error', sass.logError )
+		.pipe( postcss( [ autoprefixer() ] ) )
+		.pipe( sourcemaps.write( './' ) )
+		.pipe( lineec() )
+		.pipe( gulp.dest( './build/css/' ) )
+		.pipe( browserSync.stream() );
+} );
+
+gulp.task( 'watch', gulp.series( 'clear', () => {
+	gulp.watch( ['./src/css/style.scss'], gulp.parallel( 'styles' ) );
+} ) );
 
 /******************************************* Release *******************************************/
 

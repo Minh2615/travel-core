@@ -21,39 +21,87 @@ class Travel_Core_Api {
 	public function register_routes() {
 		register_rest_route(
 			$this->namespace,
-			'add-to-cart-up-game',
+			'search-tours',
 			array(
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'add_to_cart_up_game' ),
-				'permission_callback' => '__return_true',
-			),
-		);
-		register_rest_route(
-			$this->namespace,
-			'add-to-cart-rank-level',
-			array(
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'add_to_cart_up_rank' ),
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'search_tours' ),
 				'permission_callback' => '__return_true',
 			),
 		);
 	}	
 
-	public function remove_comment(WP_REST_Request $request ){
+	public function search_tours(WP_REST_Request $request ){
 		$response = new stdClass();
+		$response->data = new stdClass();
 		$params   = $request->get_params();
-		$data     = $params['data'] ?? array();
-		$id  = $data['id'] ?? 0;
+		$s = $params['s'] ?? '';
+		$nguoi_lon = $params['nguoi_lon'] ?? '';
+		$tre_em = $params['tre_em'] ?? '';
+		$dia_diem = $params['dia_diem'] ?? '';
+		$so_phong = $params['so_phong'] ?? 1;
+		$min_price = $params['min_price'] ?? 0;
+		$max_price = $params['max_price'] ?? 0;
+		$star = $params['star'] ?? 0;
+		$loai_hinh = $params['loai_hinh'] ?? '';
+		$tien_ich = $params['tien_ich'] ?? '';
 
 		try {
-			if ( empty($id ) ) {
-				throw new Exception( 'Comment Không Hợp Lệ' );
+			$tax_query = array(
+				'relation' => 'AND',
+			);
+			if( $loai_hinh ){
+				$tax_query[] = array(
+					'taxonomy'        => 'pa_loai-hinh-noi-o',
+					'field'           => 'term_id',
+					'terms'           =>  array( $loai_hinh ),
+					'operator'        => 'IN',
+				);
+			}
+			if( $tien_ich ){
+				$tax_query[] = array(
+					'taxonomy'        => 'pa_tien-ich',
+					'field'           => 'term_id',
+					'terms'           =>  array( $tien_ich ),
+					'operator'        => 'IN',
+				);
+			}
+			// The query
+			$products = new WP_Query( array(
+				'post_type'      => array('product'),
+				'post_status'    => 'publish',
+				's'              => $s,
+				'posts_per_page' => 5,
+				'tax_query'      => $tax_query,
+			) );
+			$product_ids = array();
+			// The Loop
+			if ( $products->have_posts() ): while ( $products->have_posts() ):
+				$products->the_post();
+				$product_ids[] = $products->post->ID;
+			endwhile;
+				wp_reset_postdata();
+			endif;
+			
+			if ( !empty($product_ids) ) {
+				$total_page = ceil( count( $product_ids ) / 5 );
+				// $response->data->pagination = hb_get_template_content(
+				// 	'search/v2/pagination-v2.php',
+				// 	array(
+				// 		'total' => $total_page,
+				// 		'paged' => $results['page'],
+				// 	)
+				// );
+				$response->data->content = hb_get_template_content(
+					'results.php',
+					array(
+						'product_ids' => $product_ids,
+						'atts'        => $params,
+					)
+				);
+				$response->status = 'success';
+				$response->message = 'success';
 			}
 
-			if ( wp_delete_comment( $id ) ) {
-				$response->status  = 'success';
-				$response->message = 'Xoá Thành Công';
-			}
 		} catch ( Exception $e ) {
 			$response->status  = 'error';
 			$response->message = $e->getMessage();

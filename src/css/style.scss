@@ -1,0 +1,143 @@
+/* skeleton */
+.search-nk-skeleton-animation {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li{
+        width: 100%;
+        height: 16px;
+        margin-top: 15px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, rgba(190, 190, 190, 0.2) 25%, rgba(129, 129, 129, 0.24) 37%, rgba(190, 190, 190, 0.2) 63%);
+        background-size: 400% 100%;
+        list-style: none;
+        animation: wphb-skeleton-loading 1.4s ease infinite;
+    }
+}
+
+@keyframes wphb-skeleton-loading {
+    0% {
+      background-position: 100% 50%;
+    }
+    to {
+      background-position: 0 50%;
+    }
+}
+/* end skeleton */
+
+
+/* search form */
+.main-content{
+  &.page-search-tour{
+    padding: 40px 0;
+    .search-left{
+      box-shadow: 0px 0px 6px #80808036;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      .search-group{
+        padding-bottom: 20px;
+        border-bottom: 1px solid #80808024;
+        margin-bottom: 20px;
+      }
+      .search-by-hotel-name{
+        .search-group{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          input{
+            width: 80%;
+            margin-bottom: 0;
+          }
+          button{
+            width: 20%;
+            margin: 0;
+            background-color: #f7901e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      }
+      .search-by-hotel-ranking{
+        .icon-star{
+          color:#ffa11a;
+          margin-right: 5px;
+          font-size: 16px;
+        }
+      }
+    }
+    .search-right{
+      .filter-form{
+        margin: 20px 0;
+        padding-bottom: 0;
+        .form-search-key{
+          padding-bottom: 0;
+          .item{
+            position: relative;
+            i{
+              position: absolute;
+              width: 30px;
+              height: 100%;
+              top:0;
+              left: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+            input#form-search-key{
+              padding-left: 30px;
+              margin-bottom: 0;
+            }
+          }
+        }
+        .form-search-room-count{
+          .col{
+            padding-bottom: 0;
+            select{
+              margin-bottom: 0;
+            }
+          }
+        }
+        .form-button{
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          button.submit-search-room{
+            border: none;
+            background: #f7901e;
+            color: white;
+            text-transform: uppercase;
+            border-radius: 50px;
+            font-size: 14px;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            height: 39px;
+          }
+        }
+        
+      }
+    }
+    ul.list-tour-search{
+      li.tour-item{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content:space-between;
+        padding-bottom: 30px;
+        border-bottom: 2px solid #80808024;
+        margin-bottom: 30px;
+        .left-tour-item{
+          width: 47%;
+          img{
+            width: 100%;
+          }
+        }
+        .right-tour-item{
+          width: 50%;
+        }
+      }
+    }
+  }
+} 
