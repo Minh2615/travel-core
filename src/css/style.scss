@@ -67,6 +67,36 @@
           font-size: 16px;
         }
       }
+      #slider-range {
+        background-color: #f9f5f5;
+        border: 1px solid #f7901e;
+        height: 6px;
+      }
+      .ui-slider-horizontal .ui-slider-range { background-color: #f7901e; }
+      
+      .ui-state-hover, 
+      .ui-widget-content .ui-state-hover,
+      .ui-widget-header .ui-state-hover, 
+      .ui-state-active, .ui-widget-content .ui-state-active, 
+      .ui-state-focus, .ui-widget-content .ui-state-focus, 
+      .ui-widget-header .ui-state-focus, .ui-button:hover, .ui-button:focus { 
+        background: #fff!important;
+        border: 1px solid #cccccc!important;
+      }
+      
+      .ui-slider .ui-slider-handle {  
+        height: 16px;
+        width: 16px;
+        border-radius: 100%;
+        background: #f7901e;
+        border: unset;
+        top: -6px;
+      }
+      
+      #range-slider {
+        position: relative;
+        z-index: 0;
+      }
     }
     .search-right{
       .filter-form{
@@ -90,6 +120,19 @@
               padding-left: 30px;
               margin-bottom: 0;
             }
+            // .tt-menu{
+            //   position: absolute;
+            //   top: 45px;
+            //   left: 0;
+            //   width: 100%;
+            //   max-height: 300px;
+            //   overflow-y: scroll;
+            //   z-index: 1;
+            //   background: white;
+            //   box-shadow: 0 0 6px 0;
+            //   padding: 20px;
+            //   min-height: 200px;
+            // }
           }
         }
         .form-search-room-count{
@@ -119,6 +162,62 @@
         }
         
       }
+      .result-count{
+        font-size: 20px;
+        font-weight: bold;
+        color: #4d88c1;
+      }
+      .rooms-pagination{
+        ul.page-numbers{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-wrap: wrap;
+          list-style: none;
+          li{
+            margin: 0 5px;
+            span.current{
+              background-color: #f7901e;
+              color: white;
+              border-radius: 50%;
+              width: 30px;
+              height: 30px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+            a{
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              border: 1px solid #80808024;
+              color: #808080;
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 1.6875em;
+              text-align: center;
+              text-transform: uppercase;
+              &:hover{
+                background-color: #f7901e;
+                color: white;
+              }
+              &.current{
+                background-color: #f7901e;
+                color: white;
+              }
+              &.next{
+                display: none;
+              }
+              &.prev{
+                display: none;
+              }
+            }
+          }
+        }
+      }
     }
     ul.list-tour-search{
       li.tour-item{
@@ -136,8 +235,75 @@
         }
         .right-tour-item{
           width: 50%;
+          .title-tour{
+            font-size: 20px;
+            a{
+              color:#000;
+            }
+          }
+          p.dia-chi{
+            font-size: 14px;
+            font-style: italic;
+            opacity: 0.8;
+            line-height: 20px;
+            text-decoration: underline;
+            color: #a6a19c;
+          }
+          .price-tour{
+            font-weight: bold;
+            span{
+              color: #f7901e;
+              font-size: 20px;
+            }
+          }
+          ul.tien-nghi{
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            margin: 10px 0;
+            li{
+              padding-right: 10px;
+              margin-bottom: 0;
+            }
+          }
         }
       }
     }
   }
 } 
+
+
+// single hotel
+.block-detail-hotel-content{
+  padding: 40px 0;
+  width: 100%;
+  .detail-hotel-header{
+    .title-hotel {
+      display: flex;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      h3{
+        margin-bottom: 0px;
+      }
+      span.hotel_rate{
+        i.icon-star{
+          color: #F7901F;
+        }
+      }
+    }
+    .address-hotel{
+      margin-top: 5px;
+      margin-bottom: 20px;
+      i{
+        display:inline-block;
+        margin-right:5px;
+        font-size:20px;
+      }
+    }
+  }
+  .block-detail-tien-nghi{
+    padding: 20px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+  }
+}

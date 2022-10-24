@@ -113,3 +113,6 @@ if ( ! function_exists( 'hb_template_path' ) ) {
 		return apply_filters( 'hb_template_path', 'travel-core' );
 	}
 }
+
+
+

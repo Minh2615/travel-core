@@ -21,12 +21,17 @@
 						</div>
 						<div class="search-group">
 							<div class="search-item">
-								<input type="text" class="sliderValue fromPrice" data-index="0" value="100.000"> - &nbsp;&nbsp;&nbsp;
-								<input type="text" class="sliderValue toPrice" data-index="1" value="5.000.000">
-								<div id="priceRange" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content">
-									<span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 0%;"></span>
-									<span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span>
+							<div id="range-slider">
+								<div id="slider-range"></div>
+								<div class="range-value">
+									<input type="text" id="amount" readonly style="border:0;">
 								</div>
+								<div class="range-submit">
+									<input type="hidden" id="min-filter">
+									<input type="hidden" id="max-filter">
+									<a href="#" class="btn-filter-price btn-normal btn-large text-center mt-2 font_15px">Xem kết quả</a>
+								</div>
+							</div>
 							</div>
 						</div>
 					</div>
@@ -79,13 +84,18 @@
 							</div>
 						</div>
 					</div>
-					<div class="search-by-hotel-ranking">
+					<div class="search-by-tx-hotel">
 						<div class="block-title">
 							<h3>Loại hình nhà ở</h3>
 						</div>
 						<div class="search-group">
 							<?php 
-								$terms_noi_o = get_terms( 'pa_loai-hinh-noi-o' );
+								$terms_noi_o = get_terms(
+									array(
+										'taxonomy' => 'loai-phong',
+										'hide_empty' => false,
+									)
+								);
 								if ( $terms_noi_o ) {
 									foreach( $terms_noi_o as $noi_o ) { ?>
 										<div class="search-item">
@@ -103,7 +113,12 @@
 						</div>
 						<div class="search-group">
 							<?php 
-								$terms_tien_ich = get_terms( 'pa_tien-ich' );
+								$terms_tien_ich = get_terms(
+									array(
+										'taxonomy' => 'tien-nghi',
+										'hide_empty' => false,
+									)
+								);
 								if ( $terms_tien_ich ) {
 									foreach( $terms_tien_ich as $tien_ich ) { ?>
 										<div class="search-item">
@@ -118,66 +133,36 @@
 				</div>
 				<div class="col search-right medium-9">
 					<div class="block-container">
-						<div class="result-count">
-							Tìm thấy <span class="total-hotel">22</span>  khách sạn tại Đà Nẵng                                               
+						<div class="result-count" style="display:none;">
+							Tìm thấy <span class="total-hotel">22</span>  khách sạn <span class="hotel-address"></span>                                             
 						</div>
 						<div class="filter-form hotel-search-form">
 							<div class="row">
-								<div class="col medium-10">
+								<div class="col medium-8">
 									<div class="row">
-										<div class="col form-item medium-4 form-search-key">
+										<div class="col form-item medium-12 form-search-key">
 											<label for="">Chọn địa điểm</label>
 											<div class="item">
 												<i class="icon-map-pin-fill"></i>
-												<input id="form-search-key" type="text" value="Đà Nẵng" placeholder="Bạn muốn đi đâu">
-											</div>
-										</div>
-										<div class="form-item medium-8 form-search-room-count">
-											<div class="row">
-												<div class="col medium-4">
-													<label for="">Số phòng</label>
-													<div class="item">
-														<select name="count_room" id="count_room">
-															<option value="0">Chọn...</option>
-															<?php
-																for($i = 1; $i <= 10; $i++) {
-																	echo '<option value="'.$i.'">'.$i.'</option>';
-																}
-															?>
-														</select>
+												<input id="form-search-key" type="text" value="" placeholder="Bạn muốn đi đâu">
+												<!-- <div class="tt-menu">
+													<h5 class="item-title-autocomplete">
+														<span>Khu Vực</span>
+													</h5>
+													<div class="list-item-cate-search">
+														<div class="box-item">
+															<div class="box-title">
+																Khách sạn <strong class="tt-highlight">Đà Nẵng</strong>
+																<span class="pull-right extra-data">236 khách sạn</span> 
+															</div>
+														</div>
 													</div>
-												</div>
-												<div class="col medium-4">
-													<label for="">Số người lớn</label>
-													<div class="item">
-														<select name="count_adult" id="count_adult">
-															<option value="0">Chọn...</option>
-															<?php
-																for($i = 1; $i <= 10; $i++) {
-																	echo '<option value="'.$i.'">'.$i.'</option>';
-																}
-															?>
-														</select>
-													</div>
-												</div>
-												<div class="col medium-4">
-													<label for="">Số trẻ em</label>
-													<div class="item">
-														<select name="count_child" id="count_child">
-															<option value="0">Chọn...</option>
-															<?php
-																for($i = 1; $i <= 10; $i++) {
-																	echo '<option value="'.$i.'">'.$i.'</option>';
-																}
-															?>
-														</select>
-													</div>
-												</div>
+												</div> -->
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="col medium-2 form-button">
+								<div class="col medium-4 form-button">
 									<button class="submit-search-room">
 										<i class="icon-search"></i>
 										Tìm kiếm
@@ -195,4 +180,33 @@
 		</div>
 	</div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script defer>
+	(function ($) {
+		$(document).ready(function () {
+            let sliderRange = $( "#slider-range" );
+            sliderRange.slider({
+                range: true,
+                min: 1000000,
+                max: 10000000,
+                step: 100000,
+				value: [ 1000000, 10000000 ],
+                slide: function( event, ui ) {
+                    $( "#amount" ).val( new Intl.NumberFormat('de-DE').format(ui.values[ 0 ] * 1)
+                        + ' đ' + " - "
+                        + new Intl.NumberFormat('de-DE').format( ui.values[ 1 ] * 1) + ' đ' );
+                    $('input#min-filter').val(ui.values[ 0 ] * 1);
+                    $('input#max-filter').val(ui.values[ 1 ] * 1);
+                }
+            });
+            $( "#amount" ).val( new Intl.NumberFormat('de-DE').format(sliderRange.slider( "values", 0 ) * 1)
+                + ' đ' + " - "
+                + new Intl.NumberFormat('de-DE').format( sliderRange.slider( "values", 1 ) * 1) + ' đ' ) ;
+            $('input#min-filter').val(sliderRange.slider( "values", 0 ) * 1);
+            $('input#max-filter').val(sliderRange.slider( "values", 1 ) * 1);
+		})
+	})(jQuery)
+</script>
 <?php get_footer(); ?>
