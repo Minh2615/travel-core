@@ -39,6 +39,140 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 			add_action('template_include', array( $this, 'template_include' ), 10, 1 );
 
 			add_action( 'wp_print_scripts', array( $this, 'global_js' ) );
+
+			//enque admin srcipt
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+
+			//save meta box tour int single ks
+			add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ), 10 , 1 );
+			add_action( 'save_post', array( $this, 'save' ), 10, 1 );
+		}
+		public function add_meta_box( $post_type ) {
+			$post_types = array( 'khach-san' );
+
+			if ( in_array( $post_type, $post_types ) ) {
+				add_meta_box(
+					'list_hotel_rooms',
+					__( 'List Room', 'textdomain' ),
+					array( $this, 'render_meta_box_content' ),
+					$post_type,
+					'advanced',
+					'high'
+				);
+			}
+		}
+
+		public function render_meta_box_content($post) { 
+
+			wp_nonce_field( 'myplugin_inner_custom_box', 'myplugin_inner_custom_box_nonce' );
+			$list_ids = array();
+			$args = array(
+				'post_type' => 'hotel-room',
+				'posts_per_page' => -1,
+			);
+			$the_query = new WP_Query( $args );
+			if ( $the_query->have_posts() ) :
+			while ( $the_query->have_posts() ) : $the_query->the_post();
+				$hotel_id = get_post_meta( get_the_ID(), 'travel_hotel_id', true );
+				if ( empty( $hotel_id ) ) {
+					$list_ids[] = get_the_ID();
+				}
+			endwhile;
+			endif;
+
+			// Reset Post Data
+			wp_reset_postdata();
+
+			$value = get_post_meta( $post->ID, 'travel_list_rooms', true ) ?: array();
+			?>
+			<div class="list_room">
+				<select name="list_room[]" id="list_room" multiple="multiple">
+					<?php if ( ! empty( $value ) );
+						foreach( $value as $id ) {
+							?>
+							<option value="<?php echo $id; ?>" <?php echo in_array( $id, $value ) ? 'selected' : ''; ?> ><?php echo get_the_title($id); ?></option>
+							<?php
+						}
+					?>
+					<?php if ( !empty( $list_ids ) );
+						foreach( $list_ids as $id ) {
+							?>
+							<option value="<?php echo $id; ?>" <?php echo in_array( $id, $value ) ? 'selected' : ''; ?> ><?php echo get_the_title($id); ?></option>
+							<?php
+						}
+					?>
+				</select>
+			</div>
+			<script>
+				jQuery(document).ready(function($){
+					$('#list_room').select2({width:'100%', allowClear: true,height:'50px',placeholder: 'Select Rooms'});
+
+				});
+			</script>
+			<style>
+				#list_hotel_rooms .select2-container--default.select2-container--open .select2-search__field {
+					width: 100% !important;
+					height: 40px;
+					padding: 10px;
+				}
+			</style>
+		<?php }
+	
+		public function save( $post_id ) {
+			
+			if ( !isset( $_POST['myplugin_inner_custom_box_nonce'] ) ) {
+				return $post_id;
+			}
+
+			$nonce = $_POST['myplugin_inner_custom_box_nonce'];
+
+			if ( ! wp_verify_nonce( $nonce, 'myplugin_inner_custom_box' ) ) {
+				return $post_id;
+			}
+
+			if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+				return $post_id;
+			}
+
+			// Check the user's permissions.
+			if ( 'khach-san' == $_POST['post_type'] ) {
+				if ( ! current_user_can( 'edit_page', $post_id ) ) {
+					return $post_id;
+				}
+			} else {
+				if ( ! current_user_can( 'edit_post', $post_id ) ) {
+					return $post_id;
+				}
+			}
+			$room_ids  = $_POST['list_room'];
+			$room_olds = get_post_meta( $post_id, 'travel_list_rooms', true );
+			if ( ! empty( $room_olds ) ) {
+				foreach ( $room_olds as $room_old ) {
+					if ( ! in_array( $room_old, $room_ids ) ) {
+						update_post_meta( $room_old, 'travel_hotel_id', '' );
+					}
+				}
+			}
+			if( ! empty( $room_ids ) ) {
+				update_post_meta( $post_id, 'travel_list_rooms', $room_ids );
+				foreach( $room_ids as $id ){
+					update_post_meta( $id, 'travel_hotel_id', $post_id );
+				}
+			}else{
+				$room_ids = get_post_meta( $post_id, 'travel_list_rooms', true );
+				if( ! empty( $room_ids ) ) {
+					foreach( $room_ids as $id ){
+						update_post_meta( $id, 'travel_hotel_id', '' );
+					}
+				}
+				update_post_meta( $post_id, 'travel_list_rooms', array() );
+			}
+			
+		}
+
+		public function admin_enqueue_scripts(){
+			wp_enqueue_script( 'select2', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/js/select2.min.js', array() );
+			wp_enqueue_style( 'select2', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/select2.min.css', array() );
 		}
 
 		/**
@@ -155,6 +289,39 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 			);
 		
 			register_taxonomy( 'loai-phong', array( 'khach-san' ), $args_tax_loai_phong );
+
+			//Room
+			$args_hotel_room = array(
+				'labels'             => array(
+					'name'               => 'Rooms',
+					'singular_name'      => 'Rooms',
+					'menu_name'          => 'Rooms',
+					'parent_item_colon'  => 'Parent Rooms:',
+					'all_items'          => 'Rooms',
+					'view_item'          => 'View Rooms',
+					'add_new_item'       => 'Thêm mới',
+					'add_new'            => 'Thêm mới',
+					'edit_item'          => 'Edit Rooms',
+					'update_item'        => 'Update Rooms',
+					'search_items'       => 'Search Rooms',
+					'not_found'          => 'No Rooms found',
+					'not_found_in_trash' => 'No Rooms found in Trash',
+				),
+				'public'             => true,
+				'query_var'          => true,
+				'publicly_queryable' => true,
+				'show_ui'            => true,
+				'has_archive'        => true,
+				'map_meta_cap'       => true,
+				'show_in_admin_bar'  => true,
+				'show_in_nav_menus'  => true,
+				'rewrite'            => array( 'slug' => 'hotel-room' ),
+				'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
+				'menu_icon'          => 'dashicons-cloud-saved',
+				'menu_position'      => 6,
+				'hierarchical'       => false,
+			);
+			register_post_type( 'hotel-room', $args_hotel_room );
 		}
 
 		/**
@@ -245,6 +412,10 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 				wp_enqueue_script( 'custom-script-travel-nk', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/js/index.js', $dependencies , '1.0.0', true );
 			}
 			wp_enqueue_style( 'custom-style-travel-nk', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/style.css', array(), '1.0.0', '' );
+			wp_enqueue_style( 'slick-slider', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/slick.css', array() );
+			wp_enqueue_style( 'slick-slider-theme', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/slick-theme.css', array() );
+			wp_enqueue_script( 'slick-slider', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/js/slick.min.js', array('jquery') );
+
 			
 		}
 	}
