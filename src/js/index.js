@@ -106,10 +106,9 @@ const searchTourText = ( filterRooms, skeleton , wrapperResult ) => {
                 wrapperResult.innerHTML = '';
                 skeleton.style.display = 'block';
                 const input = elemSearchText.querySelector('input[name="hotel-name"]');
-                if ( input.value !== '' ) {
-                    filterRooms.s = input.value;
-                    requestSearchRoom(filterRooms);
-                }
+                filterRooms.s = input.value;
+                requestSearchRoom(filterRooms);
+                
             });
         }
     }
@@ -213,11 +212,14 @@ const searchFormRating = ( filterRooms, skeleton , wrapperResult ) => {
         ratings.forEach( function( rating ){
             rating.addEventListener('change', function(){
                 if ( rating.checked ){
-                    wrapperResult.innerHTML = '';
-                    skeleton.style.display = 'block';
-                    filterRooms.star = rating.value;
-                    requestSearchRoom(filterRooms);
+                    filterRooms.star = rating.value;       
+                }else{
+                    filterRooms.star = '';
                 }
+               
+                wrapperResult.innerHTML = '';
+                skeleton.style.display = 'block';
+                requestSearchRoom(filterRooms);
             });
         });
     }

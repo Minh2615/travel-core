@@ -189,10 +189,10 @@
             let sliderRange = $( "#slider-range" );
             sliderRange.slider({
                 range: true,
-                min: 1000000,
+                min: 0,
                 max: 10000000,
                 step: 100000,
-				value: [ 1000000, 10000000 ],
+				value: [ 0, 10000000 ],
                 slide: function( event, ui ) {
                     $( "#amount" ).val( new Intl.NumberFormat('de-DE').format(ui.values[ 0 ] * 1)
                         + ' đ' + " - "

@@ -32,18 +32,37 @@ if ( empty( $product_ids ) || empty( $atts ) ) {
 				<h2 class="title-tour">
 					<a href="<?php echo get_the_permalink(); ?>"><?php echo get_the_title($product_id); ?></a>
 				</h2>
-				<p class="dia-chi"><?php echo get_field('dia_chi_khach_san'); ?></p>
+				<div class="rating">
+					<?php 
+						$rating = get_field('danh_gia', $product_id);
+						for($i = 1 ; $i <= $rating ; $i++){ ?>
+							<i class="icon-star"></i>
+						<?php }
+						?>
+				</div>
+				<p class="dia-chi">
+					<i class="fa fa-map-o" aria-hidden="true"></i>
+					<span><?php echo get_field('dia_chi_khach_san', $product_id); ?></span>
+				</p>
 				<ul class="tien-nghi">
 					<?php $terms = get_the_terms( $product_id,'tien-nghi');
 						if ( !empty( $terms ) ){
 							foreach( $terms as $term ) { ?>
-								<li><?php echo $term->name; ?></li>
+								<li>
+									<i class="fa fa-check-square-o" aria-hidden="true"></i>
+									<span><?php echo $term->name; ?></span>
+								</li>
 						<?php }
 						}
 					?>
 				</ul>
 				<div class="price-tour">
-					Giá:  <span><?php echo number_format( get_field( 'price_ks' ) ); ?> VNĐ</span>
+					<div class="price-left">
+						Giá chỉ từ:  <span><?php echo number_format( get_field( 'price_ks' , $product_id ) ); ?> VNĐ</span>
+					</div>
+					<div class="price-right">
+						<a href="<?php echo get_permalink($product_id); ?>">Xem chi tiết</a>
+					</div>
 				</div>
 			</div>
 		</li>

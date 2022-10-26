@@ -415,6 +415,12 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 			wp_enqueue_style( 'slick-slider', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/slick.css', array() );
 			wp_enqueue_style( 'slick-slider-theme', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/slick-theme.css', array() );
 			wp_enqueue_script( 'slick-slider', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/js/slick.min.js', array('jquery') );
+			//font awesome
+			wp_enqueue_style( 'fontawesome', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/font-awesome.min.css', array() );
+			wp_enqueue_script( 'fanctybox', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/js/jquery.fancybox-1.3.4.js', array('jquery') );
+			wp_enqueue_style( 'fanctybox', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/jquery.fancybox-1.3.4.css', array() );
+
+
 
 			
 		}

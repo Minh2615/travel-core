@@ -241,19 +241,50 @@
               color:#000;
             }
           }
+          .rating{
+            margin: 5px 0;
+            color: #f7901e;
+          }
           p.dia-chi{
             font-size: 14px;
             font-style: italic;
             opacity: 0.8;
             line-height: 20px;
             text-decoration: underline;
-            color: #a6a19c;
+            color: #85817d;
+            i{
+              display: inline-block;
+              margin-right: 5px;
+            }
           }
           .price-tour{
             font-weight: bold;
-            span{
-              color: #f7901e;
-              font-size: 20px;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 26px;
+            padding-top: 25px;
+            border-top: dashed 1px #80808073;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            .price-left{
+              font-weight: normal;
+              font-size: 16px;
+              span{
+                color: #f7901e;
+                font-size: 20px;
+                font-weight: bold;
+              }
+            }
+          
+            .price-right{
+              a{
+                display: block;
+                background: #ffa11a;
+                color: white;
+                padding: 8px 12px;
+                border-radius: 50px;
+              }
             }
           }
           ul.tien-nghi{
@@ -337,12 +368,142 @@
        
       }
     }
-    
   }
-  .block-detail-tien-nghi{
+  .detail-hotel-wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     padding: 20px 0;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
+    .wrapper-left{
+      width: 77%;
+      .block-hotel-policy{
+        position: relative;
+        width: 100%;
+        margin-top: 30px;
+        .block-hotel-policy-title{
+          position: relative;
+          width: 100%;
+          margin-bottom: 30px;
+          h2{
+            display: inline-block;
+            font-size: 15px;
+            line-height: 18px;
+            padding-bottom: 3px;
+            text-transform: uppercase;
+            margin: 0px;
+            border-bottom: solid 2px rgba(51, 51, 51, 0.5);
+          }
+        }
+        .block-hotel-policy-list{
+          ul{
+            list-style: none;
+            padding-left: 0px;
+            margin-bottom: 0px;
+            li{
+              position: relative;
+              width: 100%;
+              display: flex;
+              align-items: flex-start;
+              padding: 23px 0 0;
+              padding-bottom: 12px;
+              border-bottom: solid thin #dddddd;
+              &:last-child{
+                border-bottom: 0px;
+              }
+              span{
+                flex: 0 0 30%;
+              }
+            }
+          }
+        }
+      }
+    }
+    .wrapper-right{
+      width: 22%;
+      .block-detail-vi-tri{
+        .content-vi-tri{
+          iframe{
+            width: 100%;
+            height: 250px;
+          }
+        }
+      }
+      .hotel-introduce{
+        margin-top: 30px;
+        position: relative;
+        width: 100%;
+        margin-bottom: 30px;
+        box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+        .hotel-introduce-title{
+          position: relative;
+          width: 100%;
+          padding: 15px 10px 12px;
+          display: flex;
+          align-items: flex-start;
+          border-bottom: solid thin #dddddd;
+          i{
+            display: inline-block;
+            margin-right: 5px;
+          }
+          h3{
+            font-size: 15px;
+            text-transform: uppercase;
+            line-height: 18px;
+          }
+        }
+        .hotel-introduce-text{
+          display: block;
+          padding: 15px 14px 31px;
+          text-align: justify;
+          line-height: 24px;
+          font-size: 15px;
+          font-weight: normal;
+        }
+      }
+      .hotel-utilities{
+        position: relative;
+        width: 100%;
+        margin-bottom: 30px;
+        box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+        margin-top: 30px;
+        .hotel-utilities-title{
+          position: relative;
+          width: 100%;
+          padding: 15px 10px 12px;
+          display: flex;
+          align-items: flex-start;
+          border-bottom: solid thin #dddddd;
+          span{
+            font-size: 15px;
+            line-height: 18px;
+            text-transform: uppercase;
+            font-weight: bold;
+          }
+        }
+        ul{
+          list-style: none;
+          display: flex;
+          flex-wrap: wrap;
+          padding: 15px 0;
+          justify-content: space-between;
+          li{
+            width: 100%;
+            padding-left: 20px;
+          }
+        }
+      }
+    }
+  }
+  ul.tien-nghi{
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    li{
+      width: 23%;
+    }
   }
 }
 
@@ -433,6 +594,12 @@
                 span{
                   line-height: 16px;
                   color: #11224d;
+                  text-align: left;
+                }
+                i{
+                  display: inline-block;
+                  margin-right: 10px;
+                  color: #f7901e;
                 }
               }
             }
@@ -507,6 +674,42 @@
               }
             }
           }
+        }
+      }
+    }
+  }
+  .hotel-img{
+    position: relative;
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: repeat(2, 1fr);
+    grid-auto-flow: dense;
+    grid-gap: 5px;
+    max-height: 420px;
+    .hotel-img-item{
+      position: relative;
+      &:nth-child(1){
+        grid-column: 1 / span 3;
+        grid-row: span 2;
+        max-height: 420px;
+      }
+      &:nth-child(2){
+        grid-column: 4 / span 2;
+        grid-row: 1 / 2;
+      }
+      &:nth-child(3){
+        max-height: 101px;
+        img{
+          width: 100%;
+          height: 100%;
+        }
+      }
+      &:nth-child(4){
+        max-height: 101px;
+        img{
+          width: 100%;
+          height: 100%;
         }
       }
     }

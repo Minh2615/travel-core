@@ -36,7 +36,7 @@ class Travel_Core_Api {
 		$params   = $request->get_params();
 		$s = $params['s'] ?? '';
 		$dia_diem = $params['dia_diem'] ?? '';
-		$min_price = $params['min_price'] ?: 1000000;
+		$min_price = $params['min_price'] ?: 0;
 		$max_price = $params['max_price'] ?: 10000000;
 		$star = $params['star'] ?? 1;
 		$loai_hinh = $params['loai_hinh'] ?? array();
@@ -96,6 +96,12 @@ class Travel_Core_Api {
 
 			$meta_query = array(
 				'relation' => 'AND',
+				array(
+					'key'     => 'price_ks',
+					'value'   => array( $min_price, $max_price ),
+					'compare' => 'BETWEEN',
+					'type'    => 'NUMERIC',
+				),
 			);
 
 			if(!empty($star)){
@@ -105,6 +111,7 @@ class Travel_Core_Api {
 					'compare'   => 'IN',
 				);
 			}
+
 			// The query
 			$products = new WP_Query( array(
 				'post_type'      => array('khach-san'),

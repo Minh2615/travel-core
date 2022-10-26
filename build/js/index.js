@@ -1,1 +1,224 @@
-!function(){var e;document.location.href,null===(e=hotel_settings)||void 0===e||e.url_page_search;let t={dia_diem:null,s:"",min_price:0,max_price:0,star:0,loai_hinh:[],tien_ich:[],page:1};const n=document.querySelector(".page-search-tour .block-result ul.search-nk-skeleton-animation"),r=document.querySelector(".page-search-tour .block-result .detail__booking-rooms"),o=e=>{const o=hotel_settings.wphb_rest_url;if(!o)return;const c=((e,t)=>{const n=new URL(e);return Object.keys(t).forEach((e=>{n.searchParams.set(e,t[e])})),n})(o+"travel-core/v1/search-tours",{...e});wp.apiFetch({path:"travel-core/v1/search-tours"+c.search,method:"GET"}).then((e=>{const{status:o,data:c,message:l,total:a,address:i}=e,u=document.querySelector(".rooms-pagination");if(u&&u.remove(),"error"===o)throw new Error(l||"Error");r.style.display="block",r.innerHTML=c.content;const h=c.pagination;if(void 0!==h){const e=(new DOMParser).parseFromString(h,"text/html").querySelector(".rooms-pagination");e&&(r.after(e),s(t,n,r))}const d=document.querySelector(".search-right .result-count");if(a>0){d.style.display="block";const e=document.querySelector(".search-right span.total-hotel");a&&null!==e&&(e.innerText=a);const t=document.querySelector(".search-right span.hotel-address");"null"!=i&&null!==t&&(t.innerText="tại "+i)}else d.style.display="none"})).catch((e=>{r.insertAdjacentHTML("beforeend",`<p class="wphb-message error" style="display:block">${e.message||"Error: Query wphb/v1/rooms/search-room"}</p>`)})).finally((()=>{n.style.display="none";const e=document.querySelector(".main-content.page-search-tour");null!=e&&e.scrollIntoView({behavior:"smooth"})}))},c=(e,t,n)=>{const r=document.querySelectorAll('.search-by-tx-hotel .search-item input[name="tx_hotel"]');r.length>0&&r.forEach((r=>{r.addEventListener("change",(function(r){this.checked?e.loai_hinh.push(this.value):e.loai_hinh=e.loai_hinh.filter((e=>e!==this.value)),n.innerHTML="",t.style.display="block",o(e)}))}))},l=(e,t,n)=>{const r=document.querySelectorAll('.search-by-convenient .search-item input[name="tx_convenient"]');r.length>0&&r.forEach((r=>{r.addEventListener("change",(function(r){this.checked?e.tien_ich.push(this.value):e.tien_ich=e.tien_ich.filter((e=>e!==this.value)),n.innerHTML="",t.style.display="block",o(e)}))}))},s=(e,t,n)=>{const r=document.querySelectorAll(".page-search-tour .rooms-pagination .page-numbers");r.length>0&&r.forEach((c=>c.addEventListener("click",(l=>{if(l.preventDefault(),l.stopPropagation(),n.style.display="none",t.style.display="block",l.currentTarget.getAttribute("href")){const t=[...r].filter((e=>e.classList.contains("current"))),n=parseInt(l.currentTarget.textContent)||c.classList.contains("next")&&parseInt(t[0].textContent)+1||c.classList.contains("prev")&&parseInt(t[0].textContent)-1;e.paged=n,o(e)}}))))};document.addEventListener("DOMContentLoaded",(()=>{o(t),((e,t,n)=>{const r=document.querySelector(".search-by-hotel-name .search-group");if(null!==r){const c=r.querySelector(".btn-search-by-hotel-name");null!==c&&c.addEventListener("click",(function(c){c.preventDefault(),n.innerHTML="",t.style.display="block";const l=r.querySelector('input[name="hotel-name"]');""!==l.value&&(e.s=l.value,o(e))}))}})(t,n,r),((e,t,n)=>{const r=document.querySelector(".price-filter #range-slider a.btn-filter-price");null!==r&&r.addEventListener("click",(function(r){var c,l;r.preventDefault(),n.innerHTML="",t.style.display="block";const s=null===(c=document.querySelector("#range-slider input#min-filter"))||void 0===c?void 0:c.value,a=null===(l=document.querySelector("#range-slider input#max-filter"))||void 0===l?void 0:l.value;0!==s&&0!==a&&(e.min_price=s,e.max_price=a,o(e))}))})(t,n,r),c(t,n,r),l(t,n,r),((e,t,n)=>{const r=document.querySelector(".search-right button.submit-search-room");null!==r&&r.addEventListener("click",(function(r){const c=document.querySelector("#form-search-key");null!==c&&(n.innerHTML="",t.style.display="block",e.dia_diem=c.value,o(e))}))})(t,n,r),((e,t,n)=>{const r=document.querySelectorAll('.search-by-hotel-ranking input[name="ranking"]');r.length>0&&r.forEach((function(r){r.addEventListener("change",(function(){r.checked&&(n.innerHTML="",t.style.display="block",e.star=r.value,o(e))}))}))})(t,n,r)}))}();
+/******/ (function() { // webpackBootstrap
+var __webpack_exports__ = {};
+/*!*************************!*\
+  !*** ./src/js/index.js ***!
+  \*************************/
+var _hotel_settings;
+/** search api */
+const urlCurrent = document.location.href;
+const urlPageSearch = (_hotel_settings = hotel_settings) === null || _hotel_settings === void 0 ? void 0 : _hotel_settings.url_page_search;
+let filterRooms = {
+  dia_diem: null,
+  s: '',
+  min_price: 0,
+  max_price: 0,
+  star: 0,
+  loai_hinh: [],
+  tien_ich: [],
+  page: 1
+};
+const skeleton = document.querySelector('.page-search-tour .block-result ul.search-nk-skeleton-animation');
+const wrapperResult = document.querySelector('.page-search-tour .block-result .detail__booking-rooms');
+const wphbAddQueryArgs = (endpoint, args) => {
+  const url = new URL(endpoint);
+  Object.keys(args).forEach(arg => {
+    url.searchParams.set(arg, args[arg]);
+  });
+  return url;
+};
+const searchRoomsPages = () => {
+  requestSearchRoom(filterRooms);
+};
+const requestSearchRoom = args => {
+  const wpRestUrl = hotel_settings.wphb_rest_url;
+  if (!wpRestUrl) {
+    return;
+  }
+  const urlWphbSearch = wphbAddQueryArgs(wpRestUrl + 'travel-core/v1/search-tours', {
+    ...args
+  });
+  wp.apiFetch({
+    path: 'travel-core/v1/search-tours' + urlWphbSearch.search,
+    method: 'GET'
+  }).then(response => {
+    const {
+      status,
+      data,
+      message,
+      total,
+      address
+    } = response;
+    const paginationEle = document.querySelector('.rooms-pagination');
+    if (paginationEle) {
+      paginationEle.remove();
+    }
+    if (status === 'error') {
+      throw new Error(message || 'Error');
+    }
+    wrapperResult.style.display = 'block';
+    wrapperResult.innerHTML = data.content;
+    const pagination = data.pagination;
+    if (typeof pagination !== 'undefined') {
+      const paginationHTML = new DOMParser().parseFromString(pagination, 'text/html');
+      const paginationNewNode = paginationHTML.querySelector('.rooms-pagination');
+      if (paginationNewNode) {
+        wrapperResult.after(paginationNewNode);
+        wphbPaginationRoom(filterRooms, skeleton, wrapperResult);
+      }
+    }
+    const eleCount = document.querySelector('.search-right .result-count');
+    if (total > 0) {
+      eleCount.style.display = 'block';
+      const eleTotal = document.querySelector('.search-right span.total-hotel');
+      if (total && eleTotal !== null) {
+        eleTotal.innerText = total;
+      }
+      const eleAddress = document.querySelector('.search-right span.hotel-address');
+      if (address != 'null' && eleAddress !== null) {
+        eleAddress.innerText = 'tại ' + address;
+      }
+    } else {
+      eleCount.style.display = 'none';
+    }
+  }).catch(error => {
+    wrapperResult.insertAdjacentHTML('beforeend', `<p class="wphb-message error" style="display:block">${error.message || 'Error: Query wphb/v1/rooms/search-room'}</p>`);
+  }).finally(() => {
+    skeleton.style.display = 'none';
+    const contentPageSearch = document.querySelector('.main-content.page-search-tour');
+    if (contentPageSearch != null) {
+      contentPageSearch.scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+  });
+};
+const searchTourText = (filterRooms, skeleton, wrapperResult) => {
+  const elemSearchText = document.querySelector('.search-by-hotel-name .search-group');
+  if (elemSearchText !== null) {
+    const btn = elemSearchText.querySelector('.btn-search-by-hotel-name');
+    if (btn !== null) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        wrapperResult.innerHTML = '';
+        skeleton.style.display = 'block';
+        const input = elemSearchText.querySelector('input[name="hotel-name"]');
+        filterRooms.s = input.value;
+        requestSearchRoom(filterRooms);
+      });
+    }
+  }
+};
+const filterPriceRooms = (filterRooms, skeleton, wrapperResult) => {
+  const btn = document.querySelector('.price-filter #range-slider a.btn-filter-price');
+  if (btn !== null) {
+    btn.addEventListener('click', function (e) {
+      var _document$querySelect, _document$querySelect2;
+      e.preventDefault();
+      wrapperResult.innerHTML = '';
+      skeleton.style.display = 'block';
+      const min = (_document$querySelect = document.querySelector('#range-slider input#min-filter')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.value;
+      const max = (_document$querySelect2 = document.querySelector('#range-slider input#max-filter')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.value;
+      if (min !== 0 && max !== 0) {
+        filterRooms.min_price = min;
+        filterRooms.max_price = max;
+        requestSearchRoom(filterRooms);
+      }
+    });
+  }
+};
+const filterLoaiHinh = (filterRooms, skeleton, wrapperResult) => {
+  const filterLoaiHinh = document.querySelectorAll('.search-by-tx-hotel .search-item input[name="tx_hotel"]');
+  if (filterLoaiHinh.length > 0) {
+    filterLoaiHinh.forEach(item => {
+      item.addEventListener('change', function (e) {
+        if (this.checked) {
+          filterRooms.loai_hinh.push(this.value);
+        } else {
+          filterRooms.loai_hinh = filterRooms.loai_hinh.filter(item => item !== this.value);
+        }
+        wrapperResult.innerHTML = '';
+        skeleton.style.display = 'block';
+        requestSearchRoom(filterRooms);
+      });
+    });
+  }
+};
+const filterTienIch = (filterRooms, skeleton, wrapperResult) => {
+  const filterTienIch = document.querySelectorAll('.search-by-convenient .search-item input[name="tx_convenient"]');
+  if (filterTienIch.length > 0) {
+    filterTienIch.forEach(item => {
+      item.addEventListener('change', function (e) {
+        if (this.checked) {
+          filterRooms.tien_ich.push(this.value);
+        } else {
+          filterRooms.tien_ich = filterRooms.tien_ich.filter(item => item !== this.value);
+        }
+        wrapperResult.innerHTML = '';
+        skeleton.style.display = 'block';
+        requestSearchRoom(filterRooms);
+      });
+    });
+  }
+};
+const wphbPaginationRoom = (filterRooms, skeleton, wrapperResult) => {
+  const paginationEle = document.querySelectorAll('.page-search-tour .rooms-pagination .page-numbers');
+  paginationEle.length > 0 && paginationEle.forEach(ele => ele.addEventListener('click', event => {
+    event.preventDefault();
+    event.stopPropagation();
+    wrapperResult.style.display = 'none';
+    skeleton.style.display = 'block';
+    const urlString = event.currentTarget.getAttribute('href');
+    if (urlString) {
+      const current = [...paginationEle].filter(el => el.classList.contains('current'));
+      const paged = parseInt(event.currentTarget.textContent) || ele.classList.contains('next') && parseInt(current[0].textContent) + 1 || ele.classList.contains('prev') && parseInt(current[0].textContent) - 1;
+      filterRooms.paged = paged;
+      requestSearchRoom(filterRooms);
+    }
+  }));
+};
+const searchFormCategory = (filterRooms, skeleton, wrapperResult) => {
+  const btn = document.querySelector('.search-right button.submit-search-room');
+  if (btn === null) {
+    return;
+  }
+  btn.addEventListener('click', function (e) {
+    const tax = document.querySelector('#form-search-key');
+    if (tax !== null) {
+      wrapperResult.innerHTML = '';
+      skeleton.style.display = 'block';
+      filterRooms.dia_diem = tax.value;
+      requestSearchRoom(filterRooms);
+    }
+  });
+};
+const searchFormRating = (filterRooms, skeleton, wrapperResult) => {
+  const ratings = document.querySelectorAll('.search-by-hotel-ranking input[name="ranking"]');
+  if (ratings.length > 0) {
+    ratings.forEach(function (rating) {
+      rating.addEventListener('change', function () {
+        if (rating.checked) {
+          filterRooms.star = rating.value;
+        } else {
+          filterRooms.star = '';
+        }
+        wrapperResult.innerHTML = '';
+        skeleton.style.display = 'block';
+        requestSearchRoom(filterRooms);
+      });
+    });
+  }
+};
+/** end search api */
+
+document.addEventListener('DOMContentLoaded', () => {
+  searchRoomsPages(); //use in page search room
+  searchTourText(filterRooms, skeleton, wrapperResult);
+  filterPriceRooms(filterRooms, skeleton, wrapperResult);
+  filterLoaiHinh(filterRooms, skeleton, wrapperResult);
+  filterTienIch(filterRooms, skeleton, wrapperResult);
+  searchFormCategory(filterRooms, skeleton, wrapperResult);
+  searchFormRating(filterRooms, skeleton, wrapperResult);
+});
+/******/ })()
+;
+//# sourceMappingURL=index.js.map
