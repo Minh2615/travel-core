@@ -210,14 +210,39 @@ const searchFormRating = (filterRooms, skeleton, wrapperResult) => {
 };
 /** end search api */
 
+//single ks 
+var timeout;
+const changeQuantity = () => {
+  const quantity = document.querySelectorAll('.hotel-room-number .number-room');
+  console.log(quantity);
+  const quantityValue = document.querySelectorAll('.hotel-room-number .number-room #numberOfroom');
+  const quantityMinus = document.querySelectorAll('.hotel-room-number .number-room span#minus-room-ks');
+  const quantityPlus = document.querySelectorAll('.hotel-room-number .number-room span#plus-room-ks');
+  if (quantity.length > 0) {
+    quantity.forEach((item, i) => {
+      quantityMinus[i].addEventListener('click', () => {
+        if (quantityValue[i].value > 1) {
+          quantityValue[i].value--;
+        }
+      });
+      quantityPlus[i].addEventListener('click', () => {
+        quantityValue[i].value++;
+      });
+    });
+  }
+};
 document.addEventListener('DOMContentLoaded', () => {
-  searchRoomsPages(); //use in page search room
-  searchTourText(filterRooms, skeleton, wrapperResult);
-  filterPriceRooms(filterRooms, skeleton, wrapperResult);
-  filterLoaiHinh(filterRooms, skeleton, wrapperResult);
-  filterTienIch(filterRooms, skeleton, wrapperResult);
-  searchFormCategory(filterRooms, skeleton, wrapperResult);
-  searchFormRating(filterRooms, skeleton, wrapperResult);
+  if (custom_script_travel.is_search_ks == 1) {
+    searchRoomsPages(); //use in page search room
+    searchTourText(filterRooms, skeleton, wrapperResult);
+    filterPriceRooms(filterRooms, skeleton, wrapperResult);
+    filterLoaiHinh(filterRooms, skeleton, wrapperResult);
+    filterTienIch(filterRooms, skeleton, wrapperResult);
+    searchFormCategory(filterRooms, skeleton, wrapperResult);
+    searchFormRating(filterRooms, skeleton, wrapperResult);
+  }
+  //single ks
+  changeQuantity();
 });
 /******/ })()
 ;

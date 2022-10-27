@@ -119,6 +119,7 @@
 																				foreach( $rows as $row ) {
 																					$tien_nghi = $row['cac_tien_nghi'];
 																					echo '<li>';
+																						echo '<i class="fa fa-hand-o-right" aria-hidden="true"></i>';
 																						echo '<span>';
 																							echo $tien_nghi;
 																						echo '</span>';
@@ -157,10 +158,9 @@
 															<div class="hotel-room-number">
 																<div class="hotel-room-number-content">
 																	<div class="number-room">
-																		<span class="minus"><i class="icon-plus"></i></span>
-																		<input type="text" min="0" max="999" step="1" value="0" class="numberOfroom" data-room-id="696">
-																		<span>Phòng</span>
-																		<span class="plus"><i class="icon-plus"></i></span>
+																		<span class="minus" id="minus-room-ks"><i class="fa fa-minus" aria-hidden="true"></i></span>
+																		<input type="text" min="0" max="999" step="1" value="1" class="numberOfroom" id="numberOfroom"data-room-id="<?php echo get_the_ID(); ?>">
+																		<span class="plus" id="plus-room-ks"><i class="fa fa-plus" aria-hidden="true"></i></span>
 																	</div>
 																	<div class="room-max-people">
 																		<?php echo get_field( 'so_luong', $room_id ); ?>

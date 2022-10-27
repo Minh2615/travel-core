@@ -171,7 +171,7 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 		}
 
 		public function admin_enqueue_scripts(){
-			wp_enqueue_script( 'select2', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/js/select2.min.js', array() );
+			wp_enqueue_script( 'select2', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/js/lib/select2.min.js', array() );
 			wp_enqueue_style( 'select2', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/select2.min.css', array() );
 		}
 
@@ -401,28 +401,31 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 		 * It enqueues the style-ramdom style sheet.
 		 */
 		public function enqueue_scripts() {
-			if ( is_page('search-hotel' ) ){
-				$dependencies = array(
-					'jquery',
-					'jquery-ui-sortable',
-					'jquery-ui-datepicker',
-					'wp-util',
-					'wp-api-fetch',
-				);
-				wp_enqueue_script( 'custom-script-travel-nk', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/js/index.js', $dependencies , '1.0.0', true );
-			}
+
+			$dependencies = array(
+				'jquery',
+				'jquery-ui-sortable',
+				'jquery-ui-datepicker',
+				'wp-util',
+				'wp-api-fetch',
+			);
+
+			wp_enqueue_script( 'custom-script-travel-nk', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/js/index.js', $dependencies , '1.0.0', true );
+			wp_localize_script(
+				'custom-script-travel-nk',
+				'custom_script_travel',
+				array(
+					'is_search_ks' => is_page( 'search-hotel' ),
+				)
+			);
 			wp_enqueue_style( 'custom-style-travel-nk', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/style.css', array(), '1.0.0', '' );
-			wp_enqueue_style( 'slick-slider', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/slick.css', array() );
-			wp_enqueue_style( 'slick-slider-theme', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/slick-theme.css', array() );
-			wp_enqueue_script( 'slick-slider', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/js/slick.min.js', array('jquery') );
 			//font awesome
 			wp_enqueue_style( 'fontawesome', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/font-awesome.min.css', array() );
-			wp_enqueue_script( 'fanctybox', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/js/jquery.fancybox-1.3.4.js', array(), '1.3.4', true );
-			wp_enqueue_style( 'fanctybox', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/jquery.fancybox-1.3.4.css', array() );
 
-
-
-			
+			if( is_singular('khach-san') ){
+				wp_enqueue_script( 'fanctybox', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/js/lib/jquery.fancybox-1.3.4.js', array(), '1.3.4', true );
+				wp_enqueue_style( 'fanctybox', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/jquery.fancybox-1.3.4.css', array() );
+			}
 		}
 	}
 
