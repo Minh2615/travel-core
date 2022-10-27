@@ -662,4 +662,298 @@
   width: 100%;
   height: 100%;
 }
+
+.page-full-header.book-hotel {
+  background: #fff;
+  min-height: 95px;
+}
+.page-full-header.book-hotel .box-logo {
+  padding-top: 25px;
+}
+.page-full-header.book-hotel .box-logo a img {
+  height: 50px;
+}
+.page-full-header.book-hotel .box-step ul {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 20% auto 20%;
+}
+.page-full-header.book-hotel .box-step ul li {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 14px;
+  color: #9aa2b2;
+  padding: 15px 0%;
+  text-align: center;
+}
+.page-full-header.book-hotel .box-step ul li span {
+  display: block;
+  font-size: 20px;
+  width: 40px;
+  border-radius: 100%;
+  margin: auto;
+  height: 40px;
+  line-height: 36px;
+  border: 2px solid #9aa2b2;
+  margin-bottom: 5px;
+}
+.page-full-header.book-hotel .box-step ul li.active {
+  color: #03A1FE;
+}
+.page-full-header.book-hotel .box-step ul li.active span {
+  background: #00a1fe;
+  color: #fff;
+  border: 2px solid #00a1fe;
+}
+
+.page-box-content.page-hotel {
+  background: #f4f4f4;
+  margin-top: 0px;
+  padding: 30px 0;
+  margin-bottom: 100px;
+}
+.page-box-content.page-hotel h3 {
+  color: #15284a;
+  font-size: 20px;
+  margin: 0px;
+  margin-bottom: 20px;
+}
+.page-box-content.page-hotel .box-content {
+  background: #fff;
+  border-radius: 5px;
+  border: solid 1px #dee3ed;
+  padding: 10px 0px;
+}
+.page-box-content.page-hotel .box-content form#form-hotel-create-booking {
+  margin-top: 20px;
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.page-box-content.page-hotel .box-content form#form-hotel-create-booking .input-item {
+  margin-bottom: 10px;
+}
+.page-box-content.page-hotel .box-content form#form-hotel-create-booking .input-item label {
+  font-size: 15px;
+  color: #15284a;
+  font-weight: normal;
+  margin: 0px;
+  margin-bottom: 10px;
+}
+.page-box-content.page-hotel .box-content form#form-hotel-create-booking .input-item label span {
+  color: #f90404;
+}
+.page-box-content.page-hotel .box-content form#form-hotel-create-booking .input-item input {
+  border-radius: 5px;
+  font-size: 15px;
+  color: #191919;
+  border: solid 1px #dee3ed;
+  height: 50px;
+}
+.page-box-content.page-hotel .box-content form#form-hotel-create-booking .input-item.box-full-services-extra {
+  background-color: #f9f9fa;
+}
+.page-box-content.page-hotel .box-content form#form-hotel-create-booking .input-item.box-full-services-extra label {
+  font-size: 15px;
+  color: #15284a;
+  font-weight: bold;
+  margin: 0px;
+  margin-bottom: 10px;
+}
+.page-box-content.page-hotel .box-content form#form-hotel-create-booking .input-item.box-full-services-extra .box-services-extra .note {
+  font-size: 14px;
+  color: #333333;
+}
+.page-box-content.page-hotel .box-content form#form-hotel-create-booking .input-item.box-full-services-extra .box-services-extra .box-services-extra-inner {
+  margin-top: 20px;
+}
+.page-box-content.page-hotel .box-content form#form-hotel-create-booking .input-item.box-full-services-extra .box-services-extra .box-services-extra-inner .box-item {
+  margin: 10px 0px;
+  margin-bottom: 20px;
+}
+.page-box-content.page-hotel .box-content form#form-hotel-create-booking .input-item.box-full-services-extra .box-services-extra .box-services-extra-inner .box-item.type-radio {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 50% auto;
+}
+.page-box-content.page-hotel .box-content form#form-hotel-create-booking .input-item.box-full-services-extra .box-services-extra .box-services-extra-inner label {
+  margin: 0px;
+  color: #333333;
+  font-size: 15px;
+  cursor: pointer;
+  display: block;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.page-box-content.page-hotel .box-content form#form-hotel-create-booking .input-item.box-full-services-extra .box-services-extra .box-services-extra-inner input[type=radio] {
+  position: relative;
+  cursor: pointer;
+  height: auto;
+}
+.page-box-content.page-hotel .box-content form#form-hotel-create-booking .input-item.box-full-services-extra .box-services-extra .box-services-extra-inner input[type=radio]:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 21px;
+  height: 21px;
+  top: -3px;
+  left: 0;
+  border: 2px solid #a9a9a9;
+  border-radius: 100%;
+  background-color: white;
+}
+.page-box-content.page-hotel .box-content form#form-hotel-create-booking .hotel-box-note .box-title {
+  font-size: 15px;
+  color: #085ae8;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.page-box-content.page-hotel .box-content form#form-hotel-create-booking .hotel-box-note .box-title i {
+  font-size: 22px;
+  margin-right: 5px;
+}
+.page-box-content.page-hotel .box-content form#form-hotel-create-booking .box-submit button.btn-submit-contact-booking {
+  background: #f04a22;
+  font-size: 14px;
+  line-height: 40px;
+  text-transform: uppercase;
+  min-width: 40%;
+  border-radius: 4px;
+  outline: 0;
+  color: #fff;
+  margin: auto;
+  border: 0px;
+  display: block;
+}
+.page-box-content.page-hotel .help-block {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: #737373;
+}
+
+.hotel-page-sidebar .box-summary {
+  width: 100%;
+  min-height: 100px;
+  border-radius: 5px;
+  border: solid 1px #eff3fe;
+  background-color: #ffffff;
+}
+.hotel-page-sidebar .box-summary .summary-main {
+  padding: 20px;
+  font-size: 16px;
+  color: #15284a;
+  margin-bottom: 0px;
+  padding-bottom: 15px;
+  display: grid;
+  grid-template-columns: 100px auto;
+}
+.hotel-page-sidebar .box-summary .summary-main .box-img {
+  width: 100%;
+  height: 80px;
+  overflow: hidden;
+}
+.hotel-page-sidebar .box-summary .summary-main .box-img img {
+  width: 100%;
+  border-radius: 5px;
+}
+.hotel-page-sidebar .box-summary .summary-main .box-title {
+  padding-left: 15px;
+}
+.hotel-page-sidebar .box-summary .summary-main .box-title h3 {
+  font-size: 15px;
+  color: #15284a;
+  font-weight: normal;
+  line-height: 22px;
+  margin: 0px;
+  margin-bottom: 10px;
+}
+.hotel-page-sidebar .box-summary .summary-main .box-title .description {
+  font-size: 13px;
+  color: #333333;
+  display: block;
+}
+.hotel-page-sidebar .box-summary .summary-total {
+  padding: 20px 20px;
+  border-top: 1px solid #eff3fe;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.hotel-page-sidebar .box-summary .summary-total .tlb-info {
+  width: 100%;
+  font-size: 14px;
+  color: #191919;
+}
+.hotel-page-sidebar .box-summary .summary-total .tlb-info tr td i {
+  margin-right: 10px;
+}
+.hotel-page-sidebar .box-summary .summary-total .tlb-info .title {
+  font-size: 14px;
+  color: #9aa2b2;
+}
+.hotel-page-sidebar .box-summary .summary-total .tlb-info .title.type-tax {
+  font-size: 13px;
+  color: #2681ff;
+}
+.hotel-page-sidebar .box-summary .summary-total .tlb-info.tlb-info-price {
+  margin-bottom: 0;
+}
+.hotel-page-sidebar .box-summary .summary-total .tlb-info.tlb-info-price td {
+  padding: 15px 0;
+  border: none;
+}
+.hotel-page-sidebar .box-summary .summary-total .tlb-info.tlb-info-price .info-right {
+  text-align: right;
+  font-weight: bold;
+}
+.hotel-page-sidebar .box-summary .summary-total .tlb-info.tlb-info-price .info-right.type-tax {
+  font-size: 13px;
+  color: #2681ff;
+  text-transform: uppercase;
+}
+.hotel-page-sidebar .box-summary .summary-total .tlb-info.tlb-info-price tr.tr-total {
+  border-top: 1px solid #f0f2f5;
+}
+.hotel-page-sidebar .box-summary .summary-total .tlb-info.tlb-info-price tr.tr-total .title {
+  font-size: 14px;
+  color: #191919;
+}
+.hotel-page-sidebar .box-summary .summary-total .tlb-info.tlb-info-price tr.tr-total .info-right {
+  font-size: 16px;
+  color: #ff9000;
+}
+.hotel-page-sidebar .icon-vnbk {
+  background-image: url(https://data.vietnambooking.com/common/ui_icon/ui_icon_vnbk.svg);
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+  vertical-align: middle;
+}
+.hotel-page-sidebar .icon-vnbk.icon-passenger-528-96 {
+  background-position: -528px -96px;
+}
+.hotel-page-sidebar .icon-vnbk.icon-phone-96-48 {
+  background-position: -96px -48px;
+}
+.hotel-page-sidebar .box-hotline {
+  border-radius: 3px;
+  background-color: #f0f2f5;
+  line-height: 37px;
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.hotel-page-sidebar .box-hotline i {
+  color: #9aa2b2;
+  padding-right: 10px;
+  font-size: 16px;
+  margin-right: 10px;
+}
 /*# sourceMappingURL=style.css.map */

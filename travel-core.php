@@ -395,6 +395,13 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 			include_once TRAVEL_CORE_PATH . '/inc/rest-api/class-theme-core-api.php';
 			//functions
 			include_once TRAVEL_CORE_PATH . '/inc/functions.php';
+
+			//post type room with woo
+			include_once TRAVEL_CORE_PATH . '/inc/helper/woo/room-hotel/class-travel-room-woo.php';
+			include_once TRAVEL_CORE_PATH . '/inc/helper/woo/room-hotel/class-travel-room-order.php';
+			include_once TRAVEL_CORE_PATH . '/inc/helper/woo/room-hotel/class-travel-room-hooks.php';
+
+			Hotel_Room_WC_Hooks::instance();
 		}
 
 		/**

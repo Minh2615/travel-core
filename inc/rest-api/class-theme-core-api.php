@@ -28,7 +28,78 @@ class Travel_Core_Api {
 				'permission_callback' => '__return_true',
 			),
 		);
-	}	
+		register_rest_route(
+			$this->namespace,
+			'add-to-cart',
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'add_to_cart' ),
+				'permission_callback' => '__return_true',
+			),
+		);
+	}
+
+	public function add_to_cart( WP_REST_Request $request ) {
+		wc_load_cart();
+		$response     = new stdClass();
+		$params       = $request->get_params();
+		$price        = $params['price'] ?? 0;
+		$id           = $params['id'] ?? 0;
+		$quantity     = $params['quantity'] ?? 1;
+
+		try {
+			if ( empty( $id ) ) {
+				throw new Exception( 'Phòng không hợp lệ, Vui lòng thử lại' );
+			}
+			$cart_id = WC()->cart->generate_cart_id(
+				$id,
+				0,
+				array(),
+				array(
+					'info_rooms' => array(
+						'price'    => $price,
+						'quantity' => $quantity,
+					),
+				)
+			);
+
+			$cart_item_key = WC()->cart->find_product_in_cart( $cart_id );
+
+			if ( $cart_item_key ) {
+				$new_quantity = 1 + WC()->cart->cart_contents[ $cart_item_key ]['quantity'];
+				WC()->cart->set_quantity( $cart_item_key, $new_quantity, false );
+				WC()->cart->calculate_totals();
+			} else {
+				$cart_item_key = WC()->cart->add_to_cart(
+					$id,
+					1,
+					0,
+					array(),
+					array(
+						'info_rooms' => array(
+							'price'    => $price,
+							'quantity' => $quantity,
+						),
+					),
+				);
+			}
+
+			if ( $cart_item_key ) {
+				$response->status = 'success';
+				$response->message = 'Thêm vào giỏ hàng thành công !';
+				// if ( ! empty( $redirect ) ) {
+				// 	$response->redirect = get_permalink( get_page_by_path( 'cart' ) );
+				// } else {
+				// 	$response->message = 'Thêm vào giỏ hàng thành công ! Tiếp tục mua hàng';
+				// }
+			}
+		} catch ( Exception $e ) {
+			$response->message = $e->getMessage();
+		}
+
+		return rest_ensure_response( $response );
+		
+	}
 
 	public function search_tours(WP_REST_Request $request ){
 		$response = new stdClass();

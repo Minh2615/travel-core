@@ -214,7 +214,6 @@ const searchFormRating = (filterRooms, skeleton, wrapperResult) => {
 var timeout;
 const changeQuantity = () => {
   const quantity = document.querySelectorAll('.hotel-room-number .number-room');
-  console.log(quantity);
   const quantityValue = document.querySelectorAll('.hotel-room-number .number-room #numberOfroom');
   const quantityMinus = document.querySelectorAll('.hotel-room-number .number-room span#minus-room-ks');
   const quantityPlus = document.querySelectorAll('.hotel-room-number .number-room span#plus-room-ks');
@@ -231,6 +230,46 @@ const changeQuantity = () => {
     });
   }
 };
+const addToCartHotel = () => {
+  const btn = document.querySelectorAll(".block-hotel-list-room-content .btn-booking-hotel");
+  if (btn.length > 0) {
+    const submit = async data => {
+      try {
+        const response = await wp.apiFetch({
+          path: "travel-core/v1/add-to-cart",
+          method: "POST",
+          data: data
+        });
+        const {
+          status,
+          message
+        } = response;
+        if ("success" === status) {
+          alert(message);
+        } else {
+          notify(message, false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    btn.forEach((item, i) => {
+      item.addEventListener('click', e => {
+        var _document$querySelect3, _document$querySelect4;
+        e.preventDefault();
+        const id = item.dataset.nid;
+        const quantity = (_document$querySelect3 = document.querySelector(`#numberOfroom-${id}`)) === null || _document$querySelect3 === void 0 ? void 0 : _document$querySelect3.value;
+        const price = (_document$querySelect4 = document.querySelector(`#price-room-${id}`)) === null || _document$querySelect4 === void 0 ? void 0 : _document$querySelect4.dataset.price;
+        const data = {
+          id: id,
+          quantity: quantity,
+          price: price
+        };
+        submit(data);
+      });
+    });
+  }
+};
 document.addEventListener('DOMContentLoaded', () => {
   if (custom_script_travel.is_search_ks == 1) {
     searchRoomsPages(); //use in page search room
@@ -243,6 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   //single ks
   changeQuantity();
+  addToCartHotel();
 });
 /******/ })()
 ;
