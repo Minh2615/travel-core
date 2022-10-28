@@ -159,7 +159,7 @@
 																<div class="hotel-room-number-content">
 																	<div class="number-room">
 																		<span class="minus" id="minus-room-ks"><i class="fa fa-minus" aria-hidden="true"></i></span>
-																		<input type="text" min="0" max="999" step="1" value="1" class="numberOfroom" id="numberOfroom"data-room-id="<?php echo get_the_ID(); ?>">
+																		<input type="text" min="0" max="999" step="1" value="1" class="numberOfroom" id="numberOfroom-<?php echo $room_id; ?>">
 																		<span class="plus" id="plus-room-ks"><i class="fa fa-plus" aria-hidden="true"></i></span>
 																	</div>
 																	<div class="room-max-people">
@@ -171,7 +171,7 @@
 														<td>
 															<div class="hotel-room-price">
 																<div class="hotel-room-price-content">
-																	Giá:  <span><?php echo number_format( get_field( 'price_zoom', $room_id ) ); ?> VNĐ</span>
+																	Giá:  <span id="price-room-<?php echo $room_id; ?>" data-price= "<?php echo get_field( 'price_zoom', $room_id ); ?>"><?php echo number_format( get_field( 'price_zoom', $room_id ) ); ?> VNĐ</span>
 																</div>
 															</div>
 														</td>
