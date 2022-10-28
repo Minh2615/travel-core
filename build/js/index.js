@@ -242,10 +242,12 @@ const addToCartHotel = () => {
         });
         const {
           status,
-          message
+          message,
+          redirect
         } = response;
         if ("success" === status) {
-          alert(message);
+          // alert(message);
+          window.location.href = redirect;
         } else {
           notify(message, false);
         }
@@ -270,6 +272,44 @@ const addToCartHotel = () => {
     });
   }
 };
+const checkoutHotel = () => {
+  const btn = document.querySelector(".box-submit .btn-submit-contact-booking");
+  if (btn !== null) {
+    const submit = async data => {
+      try {
+        const response = await wp.apiFetch({
+          path: "travel-core/v1/checkout",
+          method: "POST",
+          data: data
+        });
+        const {
+          status,
+          message,
+          redirect
+        } = response;
+        if ("success" === status) {
+          alert(message);
+          window.location.href = redirect;
+        } else {
+          alert(message, false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const data = {};
+      const form = document.querySelector("#form-hotel-create-booking");
+      const formData = new FormData(form);
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+      // console.log(data);
+      submit(data);
+    });
+  }
+};
 document.addEventListener('DOMContentLoaded', () => {
   if (custom_script_travel.is_search_ks == 1) {
     searchRoomsPages(); //use in page search room
@@ -283,6 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
   //single ks
   changeQuantity();
   addToCartHotel();
+  checkoutHotel();
 });
 /******/ })()
 ;

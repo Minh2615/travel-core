@@ -14,8 +14,13 @@ class Hotel_Room_WC_Hooks {
 		add_action( 'woocommerce_checkout_create_order_line_item', array( $this, 'order_item_line' ), 10, 4 );
 		add_filter( 'woocommerce_product_class', array( $this, 'product_class' ), 10, 4 );
 		add_filter( 'woocommerce_cart_needs_payment', '__return_false' );
+
+		add_filter( 'woocommerce_checkout_order_processed', array( $this, 'order_received_empty_cart_action' ), 99, 1 );
 	}
 
+	public function order_received_empty_cart_action( $order_id ){
+		WC()->cart->empty_cart();
+	}
 	/**
 	 * Get the product class name.
 	 *

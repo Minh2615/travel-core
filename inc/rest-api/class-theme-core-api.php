@@ -37,8 +37,95 @@ class Travel_Core_Api {
 				'permission_callback' => '__return_true',
 			),
 		);
+
+		register_rest_route(
+			$this->namespace,
+			'checkout',
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'checkout' ),
+				'permission_callback' => '__return_true',
+			),
+		);
 	}
 
+	public function checkout( WP_REST_Request $request ){
+		wc_load_cart();
+		$response = new stdClass();
+		$params   = $request->get_params();
+		// $data     = $params['data'] ?? array();
+		// print_R($request->get_params());die;
+		$first_name = $params['billing_first_name'] ?? '';
+		$last_name  = $params['billing_first_name'] ?? '';
+		$phone      = $params['billing_phone'] ?? '';
+		$email      = $params['billing_email'] ?? '';
+		$note       = $params['order_comments'] ?? '';
+
+		$data_customer = array(
+			'billing_first_name'    => $first_name,
+			'billing_last_name'     => $last_name,
+			'billing_phone'         => $phone,
+			'billing_email'         => $email,
+			'order_comments'        => $note,
+		);
+
+		try {
+
+			$current_user = wp_get_current_user();
+			if ( 0 == $current_user->ID ) {
+				throw new Exception( 'Vui lòng đăng nhập' );
+			}
+
+			if ( empty( $first_name ) || empty( $phone ) || empty( $email ) ) {
+				throw new Exception( 'Vui lòng nhập đầy đủ thông tin' );
+			}
+
+			$checkout = wc()->checkout;
+			$order_id = $checkout->create_order( $data_customer );
+
+			if ( is_wp_error( $order_id ) ) {
+				throw new Exception( $order_id->get_error_message() );
+			}
+
+			$response->status   = 'success';
+			$response->message   = 'Đặt Phòng Thành Công, Chờ xác nhận';
+			$link_process       = get_permalink( get_page_by_path( 'hotel-cart' ) );
+			$response->redirect = $link_process . '?room_order_id=' . $order_id;
+			$response->order_id = $order_id;
+
+			$cart  = WC()->cart->get_cart();
+			$order = new WC_Order( $order_id );
+			// foreach ( $order->get_items() as $item_id => $item ) {
+			// 	$id_up_game = wc_get_order_item_meta( $item_id, '_up_game_id' );
+			// 	$id_up_rank = wc_get_order_item_meta( $item_id, '_up_rank_id' );
+			// 	foreach ( $cart as $cart_item_key => $cart_item ) {
+			// 		if ( $id_up_rank == $cart_item['product_id'] ) {
+			// 			wc_add_order_item_meta( $item_id, '_wc_item_webgame', $cart_item['info_up_rank'] );
+			// 		}
+			// 		if ( $id_up_game == $cart_item['product_id'] ) {
+			// 			wc_add_order_item_meta( $item_id, '_wc_item_webgame', $cart_item['info_customer'] );
+			// 		}
+			// 	}
+			// 	if ( get_post_type( $cart_item['product_id'] ) == 'sell-acc' ) {
+			// 		update_post_meta( $cart_item['product_id'], 'webgame_acccount_da_mua', 1 );
+			// 	}
+			// };
+
+			$order->payment_complete();
+			WC()->cart->empty_cart( false );
+			// update_user_id
+			$user_id = $current_user->ID;
+			if ( $user_id ) {
+				foreach ( $data_customer as $key => $value ) {
+					update_user_meta( $user_id, $key, $value );
+				}
+			}
+			
+		} catch ( Exception $e ) {
+			$response->message = $e->getMessage();
+		}
+		return rest_ensure_response( $response );
+	}
 	public function add_to_cart( WP_REST_Request $request ) {
 		wc_load_cart();
 		$response     = new stdClass();
@@ -87,6 +174,7 @@ class Travel_Core_Api {
 			if ( $cart_item_key ) {
 				$response->status = 'success';
 				$response->message = 'Thêm vào giỏ hàng thành công !';
+				$response->redirect = get_permalink( get_page_by_path( 'hotel-cart' ) );
 				// if ( ! empty( $redirect ) ) {
 				// 	$response->redirect = get_permalink( get_page_by_path( 'cart' ) );
 				// } else {

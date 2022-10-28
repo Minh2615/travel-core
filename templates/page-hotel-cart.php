@@ -45,18 +45,18 @@
 					<div class="box-content">
 						<form id="form-hotel-create-booking">
 							<div class="input-item form-group col-lg-12 col-md-12">
-								<label for="txt_fullname">Họ và tên <span class="required">*</span></label>
-								<input type="text" name="txt_fullname" id="txt_fullname" class="form-control" placeholder="Họ và tên" required autocomplete="off">
+								<label for="billing_first_name">Họ và tên <span class="required">*</span></label>
+								<input type="text" name="billing_first_name" id="billing_first_name" class="form-control" placeholder="Họ và tên" required autocomplete="off">
 								<span class="help-block"></span>
 							</div>
 							<div class="input-item form-group col-lg-7 col-md-7">
-								<label for="txt_email">Email <span class="required">*</span></label>
-								<input type="email" name="txt_email" id="txt_email" class="form-control" placeholder="Email" required autocomplete="off">
+								<label for="billing_email">Email <span class="required">*</span></label>
+								<input type="email" name="billing_email" id="billing_email" class="form-control" placeholder="Email" required autocomplete="off">
 								<span class="help-block"></span>
 							</div>
 							<div class="input-item form-group col-lg-5 col-md-5">
-								<label for="txt_phone">Số điện thoại <span class="required">*</span></label>
-								<input type="text" name="txt_phone" id="txt_phone" class="form-control" placeholder="Số điện thoại" required autocomplete="off">
+								<label for="billing_phone">Số điện thoại <span class="required">*</span></label>
+								<input type="text" name="billing_phone" id="billing_phone" class="form-control" placeholder="Số điện thoại" required autocomplete="off">
 								<span class="help-block"></span>
 							</div>
 							<div class="input-item form-group col-lg-12 col-md-12 box-full-services-extra">
@@ -67,7 +67,7 @@
 										<div class="box-item type-radio">
 											<div class="box-item-inner">
 												<label for="rad-item-1"></label>
-												<input type="radio" id="info_services_extra][room_smoke]" value="0"></input>
+												<input type="radio" id="[info_services_extra][room_smoke]" value="0"></input>
 												 Phòng không hút thuốc 
 											</div>
 										</div>
@@ -80,7 +80,7 @@
 										<i class="fas fa-plus-circle"></i>
 										Thêm yêu cầu đặc biệt 
 									</div>
-									<textarea id="txt_note" autocomplete="off" maxlength="200" class="form-control txt_note hidden" name="info_services_extra][note]"></textarea>
+									<textarea id="order_comments" autocomplete="off" maxlength="200" class="form-control txt_note hidden" name="order_comments"></textarea>
 								</div>
 								<span class="help-block"></span>
 								<div class="box-submit">
@@ -135,7 +135,7 @@
 								<table class="tlb-info tlb-info-price">
 									<tbody>
 										<tr>
-											<td> <div class="title">1 phòng x 1 đêm </div> </td>
+											<!-- <td> <div class="title">1 phòng x 1 đêm </div> </td> -->
 											<td> <div class="info-right"><?php echo WC()->cart->get_cart_total(); ?></div> </td>
 										</tr>
 										<!-- <tr>

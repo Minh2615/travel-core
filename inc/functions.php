@@ -114,5 +114,13 @@ if ( ! function_exists( 'hb_template_path' ) ) {
 	}
 }
 
+add_action( 'init', 'woocommerce_clear_cart_url', 9999 );
+function woocommerce_clear_cart_url() {
+  	global $woocommerce;
+    if ( isset( $_GET['room_order_id'] ) ) {
+        WC()->cart->empty_cart(); 
+    }
+}
+
 
 
