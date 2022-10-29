@@ -42,7 +42,11 @@ if ( empty( $product_ids ) || empty( $atts ) ) {
 				</div>
 				<p class="dia-chi">
 					<i class="fa fa-map-o" aria-hidden="true"></i>
-					<span><?php echo get_field('dia_chi_khach_san', $product_id); ?></span>
+					<span>
+						<?php 
+							echo get_field('dia_chi_khach_san', $product_id); 
+						?>
+					</span>
 				</p>
 				<ul class="tien-nghi">
 					<?php $terms = get_the_terms( $product_id,'tien-nghi');

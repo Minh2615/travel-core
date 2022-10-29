@@ -21,7 +21,16 @@ class Travel_Core_Api {
 	public function register_routes() {
 		register_rest_route(
 			$this->namespace,
-			'search-tours',
+			'search-hotel',
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'search_hotel' ),
+				'permission_callback' => '__return_true',
+			),
+		);
+		register_rest_route(
+			$this->namespace,
+			'search-tour',
 			array(
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'search_tours' ),
@@ -189,12 +198,12 @@ class Travel_Core_Api {
 		
 	}
 
-	public function search_tours(WP_REST_Request $request ){
+	public function search_hotel(WP_REST_Request $request ){
 		$response = new stdClass();
 		$response->data = new stdClass();
 		$params   = $request->get_params();
 		$s = $params['s'] ?? '';
-		$dia_diem = $params['dia_diem'] ?? '';
+		$dia_diem = !empty($params['dia_diem']) ? $params['dia_diem'] : '';
 		$min_price = $params['min_price'] ?: 0;
 		$max_price = $params['max_price'] ?: 10000000;
 		$star = $params['star'] ?? 1;
@@ -311,6 +320,101 @@ class Travel_Core_Api {
 				
 			}else{
 				$response->data->content = 'Không tìm thấy Khách Sạn phù hợp ! ';
+			}
+
+		} catch ( Exception $e ) {
+			$response->status  = 'error';
+			$response->message = $e->getMessage();
+		}
+
+		return rest_ensure_response( $response );
+	}
+
+	public function search_tours(WP_REST_Request $request ){
+		$response = new stdClass();
+		$response->data = new stdClass();
+		$params   = $request->get_params();
+
+		$s = $params['s'] ?? '';
+		$dia_diem = !empty($params['loai_hinh'])  ? $params['loai_hinh'] : '';
+		$min_price = $params['min_price'] ?: 0;
+		$max_price = $params['max_price'] ?: 10000000;
+		$star = $params['star'] ?? 1;
+		$paged = $params['paged'] ?? 1;
+
+		try {
+			$tax_query = array(
+				'relation' => 'AND',
+			);
+			if ( ! empty( $dia_diem ) ) {
+
+				$tax_query[] = array(
+					'taxonomy'        => 'map-tour',
+					'field'           => 'term_id',
+					'terms'           =>  $dia_diem,
+					'operator'        => 'IN',
+				);
+			}
+
+			$meta_query = array(
+				'relation' => 'AND',
+				array(
+					'key'     => 'price_ks',
+					'value'   => array( $min_price, $max_price ),
+					'compare' => 'BETWEEN',
+					'type'    => 'NUMERIC',
+				),
+			);
+
+			if(!empty($star)){
+				$meta_query[] = array(
+					'key'       => 'danh_gia',
+					'value'     => array($star),
+					'compare'   => 'IN',
+				);
+			}
+
+			// The query
+			$products = new WP_Query( array(
+				'post_type'      => array('travel-tour'),
+				'post_status'    => 'publish',
+				's'              => $s,
+				'posts_per_page' => 6,
+				'tax_query'      => $tax_query,
+				'meta_query'     => $meta_query,
+				'paged'          => $paged
+			) );
+			$product_ids = array();
+			// The Loop
+			if ( $products->have_posts() ): while ( $products->have_posts() ):
+				$products->the_post();
+				$product_ids[] = $products->post->ID;
+			endwhile;
+				wp_reset_postdata();
+			endif;
+
+			if ( !empty($product_ids) ) {
+				
+				$response->data->pagination = hb_get_template_content(
+					'pagination.php',
+					array(
+						'total' => $products->max_num_pages,
+						'paged' => $paged
+					)
+				);
+				$response->data->content = hb_get_template_content(
+					'results.php',
+					array(
+						'product_ids' => $product_ids,
+						'atts'        => $params,
+					)
+				);
+				$response->status = 'success';
+				$response->message = 'success';
+				$response->total = $products->found_posts;
+				
+			}else{
+				$response->data->content = 'Không tìm thấy Tour phù hợp ! ';
 			}
 
 		} catch ( Exception $e ) {

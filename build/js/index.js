@@ -8,7 +8,7 @@ var _hotel_settings;
 const urlCurrent = document.location.href;
 const urlPageSearch = (_hotel_settings = hotel_settings) === null || _hotel_settings === void 0 ? void 0 : _hotel_settings.url_page_search;
 let filterRooms = {
-  dia_diem: null,
+  dia_diem: '',
   s: '',
   min_price: 0,
   max_price: 0,
@@ -19,6 +19,7 @@ let filterRooms = {
 };
 const skeleton = document.querySelector('.page-search-tour .block-result ul.search-nk-skeleton-animation');
 const wrapperResult = document.querySelector('.page-search-tour .block-result .detail__booking-rooms');
+const urlApi = custom_script_travel.url_api;
 const wphbAddQueryArgs = (endpoint, args) => {
   const url = new URL(endpoint);
   Object.keys(args).forEach(arg => {
@@ -34,11 +35,11 @@ const requestSearchRoom = args => {
   if (!wpRestUrl) {
     return;
   }
-  const urlWphbSearch = wphbAddQueryArgs(wpRestUrl + 'travel-core/v1/search-tours', {
+  const urlWphbSearch = wphbAddQueryArgs(wpRestUrl + 'travel-core/v1/' + urlApi, {
     ...args
   });
   wp.apiFetch({
-    path: 'travel-core/v1/search-tours' + urlWphbSearch.search,
+    path: 'travel-core/v1/' + urlApi + urlWphbSearch.search,
     method: 'GET'
   }).then(response => {
     const {
@@ -73,9 +74,11 @@ const requestSearchRoom = args => {
       if (total && eleTotal !== null) {
         eleTotal.innerText = total;
       }
-      const eleAddress = document.querySelector('.search-right span.hotel-address');
-      if (address != 'null' && eleAddress !== null) {
-        eleAddress.innerText = 'tại ' + address;
+      if (urlApi && urlApi == 'search-hotel') {
+        const eleAddress = document.querySelector('.search-right span.hotel-address');
+        if (address && eleAddress !== null) {
+          eleAddress.innerText = 'tại ' + address;
+        }
       }
     } else {
       eleCount.style.display = 'none';
@@ -311,7 +314,7 @@ const checkoutHotel = () => {
   }
 };
 document.addEventListener('DOMContentLoaded', () => {
-  if (custom_script_travel.is_search_ks == 1) {
+  if (custom_script_travel.is_search_ks == 1 || custom_script_travel.is_search_tour == 1) {
     searchRoomsPages(); //use in page search room
     searchTourText(filterRooms, skeleton, wrapperResult);
     filterPriceRooms(filterRooms, skeleton, wrapperResult);

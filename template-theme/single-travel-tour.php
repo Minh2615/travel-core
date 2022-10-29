@@ -57,7 +57,7 @@
 										<table class="tlb-info-tour">
 											<tbody><tr>
 												<td><i class="fa fa-map-o" aria-hidden="true"></i>
-												<?php echo get_field('depart_location'); ?></td>
+												<?php echo get_field('dia_chi_khach_san'); ?></td>
 												<td><i class="fa fa-clock-o" aria-hidden="true"></i> <span><?php echo get_field('duration'); ?></span></td>
 												<td>
 													<span>Phương tiện: </span>
@@ -87,6 +87,7 @@
 										<?php
 
 												$rows = get_field('tab_tour');
+												if( !empty($row) ) : 
 													foreach( $rows as $key => $row ) {
 													$title = $row['tieu_de'];
 													$content_tab = $row['noi_dung_tab'];
@@ -110,6 +111,7 @@
 														</div>
 													</div>
 												<?php  };
+												endif;
 										?>
 									</div>
 									<div class="box-tour-product-relative">
@@ -189,7 +191,7 @@
 											<tr>
 												<td colspan="2">
 													<span class="price-tour">
-														<div class="title-price-old"></div><?php echo number_format( get_field( 'gia_tour' , get_the_ID() ) ); ?> <span>VND/người</span>
+														<div class="title-price-old"></div><?php echo number_format( get_field( 'price_ks' , get_the_ID() ) ); ?> <span>VND/người</span>
 													</span>
 												</td>
 											</tr>
@@ -251,21 +253,6 @@
 		var checkin = $('#date_start');
 		checkin.datepicker({});
 
-		// const tabs = document.querySelectorAll('.panel-group .panel-tour-product');
-		// if(tabs.length > 0){
-		// 	tabs.forEach((item, i) => {
-		// 		item.addEventListener('click', (e) => {
-		// 			e.preventDefault();
-		// 			if($(this).find('.panel-content').hasClass('active')){
-		// 				$(this).find('.panel-content.active').removeClass('active');
-		// 			}else{
-		// 				$(this).find('.panel-content').addClass('active');
-		// 			}
-					
-					
-		// 		});
-       	// 	});
-		// }
 		$('.panel-group .panel-tour-product').click(function(e){
 			e.preventDefault();
 			if($(this).find('.panel-content').hasClass('active')){

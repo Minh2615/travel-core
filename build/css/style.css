@@ -28,6 +28,16 @@
 .main-content.page-search-tour {
   padding: 40px 0;
 }
+.main-content.page-search-tour.cpt-tour .search-left {
+  margin-top: 15px;
+}
+.main-content.page-search-tour.cpt-tour .result-count {
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+.main-content.page-search-tour.cpt-tour ul.tien-nghi {
+  display: none !important;
+}
 .main-content.page-search-tour .search-left {
   box-shadow: 0px 0px 6px rgba(128, 128, 128, 0.2117647059);
   padding-top: 20px;
