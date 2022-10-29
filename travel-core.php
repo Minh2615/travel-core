@@ -322,6 +322,66 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 				'hierarchical'       => false,
 			);
 			register_post_type( 'hotel-room', $args_hotel_room );
+
+			//Tour
+			$args_tour = array(
+				'labels'             => array(
+					'name'               => 'Tours',
+					'singular_name'      => 'Tours',
+					'menu_name'          => 'Tours',
+					'parent_item_colon'  => 'Parent Tours:',
+					'all_items'          => 'Tours',
+					'view_item'          => 'View Tours',
+					'add_new_item'       => 'Thêm mới',
+					'add_new'            => 'Thêm mới',
+					'edit_item'          => 'Edit Tours',
+					'update_item'        => 'Update Tours',
+					'search_items'       => 'Search Tours',
+					'not_found'          => 'No Tours found',
+					'not_found_in_trash' => 'No Rooms found in Trash',
+				),
+				'public'             => true,
+				'query_var'          => true,
+				'publicly_queryable' => true,
+				'show_ui'            => true,
+				'has_archive'        => true,
+				'map_meta_cap'       => true,
+				'show_in_admin_bar'  => true,
+				'show_in_nav_menus'  => true,
+				'rewrite'            => array( 'slug' => 'travel-tour' ),
+				'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
+				'menu_icon'          => 'dashicons-cloud-saved',
+				'menu_position'      => 6,
+				'hierarchical'       => false,
+			);
+			register_post_type( 'travel-tour', $args_tour );
+
+			//tax tour
+			$labels_tax_tour = array(
+				'name'              => 'Địa Điểm',
+				'singular_name'     => 'Địa Điểm',
+				'search_items'      => 'Search Địa Điểm',
+				'all_items'         => 'All Địa Điểm',
+				'parent_item'       => 'Parent Địa Điểm',
+				'parent_item_colon' => 'Parent Địa Điểm',
+				'edit_item'         => 'Edit Địa Điểm',
+				'update_item'       => 'Update Địa Điểm',
+				'add_new_item'      => 'Add New Địa Điểm',
+				'new_item_name'     => 'Add New Địa Điểm',
+				'menu_name'         => 'Địa Điểm',
+			);
+		
+			$args_tax_tour = array(
+				'hierarchical'           => true,
+				'labels'                 => $labels_tax_tour,
+				'show_ui'                => true,
+				'show_admin_column'      => true,
+				'query_var'              => true,
+				'rewrite'                => array( 'slug' => 'map-tour' ),
+				'show_in_quick_editbool' => true,
+			);
+
+			register_taxonomy( 'map-tour', array( 'travel-tour' ), $args_tax_tour );
 		}
 
 		/**
@@ -433,6 +493,23 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 				wp_enqueue_script( 'fanctybox', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/js/lib/jquery.fancybox-1.3.4.js', array(), '1.3.4', true );
 				wp_enqueue_style( 'fanctybox', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/jquery.fancybox-1.3.4.css', array() );
 			}
+			//carousel
+			wp_enqueue_style( 'carousel', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/css/lib/owl.carousel.min.css', array() );
+			wp_enqueue_style( 'carousel-theme', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/css/lib/owl.theme.default.min.css', array() );
+			wp_enqueue_script( 'carousel-js', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/js/lib/owl.carousel.min.js', array('jquery'), '2.3.4', true );
+
+			//bs4
+			wp_enqueue_style( 'bs4-css', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/css/lib/bootstrap.min.css', array() );
+
+			//moment
+			wp_enqueue_script( 'moment-js', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/js/lib/moment.min.js', array('jquery'), '2.3.4', true );
+
+			//fullcalendar
+			wp_enqueue_style( 'calendar-css', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/css/lib/fullcalendar.min.css', array() );
+			wp_enqueue_script( 'calendar-js', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/js/lib/fullcalendar.min.js', array('jquery'), '2.3.4', true );
+
+
+
 		}
 	}
 

@@ -25,12 +25,12 @@ if ( empty( $product_ids ) || empty( $atts ) ) {
 		<li class="tour-item">
 			<div class="left-tour-item">
 				<a href="<?php echo get_permalink($product_id); ?>">
-					<img src="<?php echo get_the_post_thumbnail_url($product_id); ?>" alt="<?php echo get_the_title(); ?>">
+					<img src="<?php echo get_the_post_thumbnail_url($product_id); ?>" alt="<?php echo get_the_title($product_id); ?>">
 				</a>
 			</div>
 			<div class="right-tour-item">
 				<h2 class="title-tour">
-					<a href="<?php echo get_the_permalink(); ?>"><?php echo get_the_title($product_id); ?></a>
+					<a href="<?php echo get_permalink($product_id); ?>"><?php echo get_the_title($product_id); ?></a>
 				</h2>
 				<div class="rating">
 					<?php 
