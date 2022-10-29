@@ -87,7 +87,7 @@
 										<?php
 
 												$rows = get_field('tab_tour');
-												if( !empty($row) ) : 
+												if( !empty($rows) ) : 
 													foreach( $rows as $key => $row ) {
 													$title = $row['tieu_de'];
 													$content_tab = $row['noi_dung_tab'];
@@ -220,7 +220,12 @@
 												</td>
 											</tr>
 											<tr>
-												<td colspan="2"><button data-role="none" class="btn-submit-set-tour" type="submit">Đặt Tour</button></td>
+												<td colspan="2">
+													<button data-role="none" 
+														class="btn-submit-set-tour add-cart-tour" 
+														data-id="<?php echo get_the_ID(); ?>" data-price="<?php echo get_field( 'price_ks' , get_the_ID() ) ?>" type="submit">
+														Đặt Tour
+													</button></td>
 											</tr>
 										</tbody>
 									</table>

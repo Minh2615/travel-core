@@ -1259,4 +1259,152 @@
   margin-top: 10px;
   display: block;
 }
+
+.book-box-container.book-tour {
+  width: 100%;
+  background: #fff;
+  padding: 20px 0px;
+}
+.book-box-container.book-tour h2.title-book-tour {
+  color: #000000;
+  font-weight: normal;
+  margin-top: 0px;
+  font-size: 28px;
+  border-bottom: 3px solid #ed1c24;
+  display: inline;
+  padding-bottom: 5px;
+  margin-top: 10px;
+}
+.book-box-container.book-tour table.tlb-contact-payment-tour tr td label {
+  font-weight: bold;
+  color: #011e41;
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+}
+.book-box-container.book-tour table.tlb-contact-payment-tour tr td label span.red {
+  color: red;
+  display: inline-block;
+  margin-left: 5px;
+}
+.book-box-container.book-tour table.tlb-contact-payment-tour tr td input {
+  border-radius: 4px;
+}
+.book-box-container.book-tour table.tlb-contact-payment-tour .box-change-type-payment {
+  margin-top: 30px;
+}
+.book-box-container.book-tour table.tlb-contact-payment-tour .box-van-phong.box-payment table.tlb-payment-office-default {
+  margin-top: 20px;
+}
+.book-box-container.book-tour table.tlb-contact-payment-tour .box-van-phong.box-payment table.tlb-payment-office-default tr td {
+  border: none;
+  color: #000000;
+  font-size: 12px;
+  border-top: 0px;
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+}
+.book-box-container.book-tour table.tlb-contact-payment-tour .box-van-phong.box-payment table.tlb-payment-office-default tr td:first-child {
+  width: 130px;
+}
+.book-box-container.book-tour table.tlb-contact-payment-tour .box-van-phong.box-payment table.tlb-payment-office-default tr td .box-title {
+  font-size: 12px;
+  font-weight: bold;
+  color: #037dfa;
+  text-transform: uppercase;
+}
+.book-box-container.book-tour table.tlb-contact-payment-tour .box-van-phong.box-payment table.tlb-payment-office-default tr td .box-title a {
+  text-decoration: none;
+  color: #000;
+}
+.book-box-container.book-tour table.tlb-contact-payment-tour .ensure-security-for-customer {
+  font-size: 15px;
+  color: #a3a3a3;
+  margin-top: 15px;
+}
+.book-box-container.book-tour table.tlb-contact-payment-tour .box-submit-form-set-tour {
+  margin-top: 10px;
+}
+.book-box-container.book-tour table.tlb-contact-payment-tour .box-submit-form-set-tour .btn-submit-form-set-tour {
+  font-size: 15px;
+  color: #ffffff;
+  text-transform: uppercase;
+  width: 200px;
+  text-align: center;
+  line-height: 35px;
+  outline: 0;
+  background: #ed1c24;
+  border: 0px;
+  border-radius: 5px;
+}
+.book-box-container.book-tour .box-img-feature.payment-tour img {
+  width: 100%;
+  max-height: 250px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.book-box-container.book-tour .box-info-tour {
+  color: #808a9b;
+  font-size: 15px;
+  min-height: 195px;
+  background: #011e41;
+  width: 100%;
+  padding: 15px;
+}
+.book-box-container.book-tour .box-info-tour .code-tour {
+  font-size: 16px;
+  color: #ffc600;
+}
+.book-box-container.book-tour .box-info-tour .code-tour a {
+  font-size: 16px;
+  color: #fff;
+}
+.book-box-container.book-tour .box-info-tour table {
+  width: 100%;
+}
+.book-box-container.book-tour .box-info-tour table tr td {
+  padding: 5px 0;
+  border: none;
+  color: #bcbcbc;
+}
+.book-box-container.book-tour .box-info-tour table tr td i {
+  display: inline-block;
+  margin-right: 5px;
+}
+.book-box-container.book-tour .box-price-tour {
+  background: #ffc600;
+  line-height: 37px;
+  width: 100%;
+  color: #011e41;
+  text-align: center;
+}
+.book-box-container.book-tour .box-price-tour .box-item {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+.book-box-container.book-tour .box-price-tour .box-item span:first-child {
+  font-size: 16px;
+  text-align: left;
+  padding-left: 15px;
+}
+.book-box-container.book-tour .box-price-tour .box-item span:last-child {
+  font-size: 16px;
+  text-align: right;
+  padding-right: 15px;
+}
+.book-box-container.book-tour .box-guide-payment-tour {
+  padding: 15px;
+  background: #eef0f4;
+  font-size: 15px;
+  color: #011e41;
+  margin-top: 20px;
+}
+.book-box-container.book-tour .box-guide-payment-tour span {
+  color: #011e41;
+  font-size: 20px;
+}
+.book-box-container .alert-warning {
+  background-color: #fff3cd;
+}
 /*# sourceMappingURL=style.css.map */

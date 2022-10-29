@@ -5,9 +5,9 @@ if ( ! class_exists( 'WC_Product' ) ) {
 	return;
 }
 /**
- * Class WC_Product_Rooms
+ * Class WC_Product_Tours
  */
-class WC_Product_Rooms extends WC_Product {
+class WC_Product_Tours extends WC_Product {
 	/**
 	 * @var array|bool|null|WP_Post
 	 */
@@ -47,8 +47,8 @@ class WC_Product_Rooms extends WC_Product {
 		$cart  = WC()->cart->get_cart();
 
 		foreach ( $cart as $key => $item ) {
-			if ( isset( $item['info_rooms']['price'] ) ) {
-				$price = absint( $item['info_rooms']['price'] );
+			if ( isset( $item['info_tour']['price'] ) ) {
+				$price = absint( $item['info_tour']['price'] );
 			}
 		}
 		return $price;
@@ -69,7 +69,7 @@ class WC_Product_Rooms extends WC_Product {
 	 * @return bool
 	 */
 	public function exists( $context = 'view' ) {
-		return $this->post && ( get_post_type( $this->post->ID ) == 'hotel-room' ) && ( $this->post->post_status == 'publish' );
+		return $this->post && ( get_post_type( $this->post->ID ) == 'travel-tour' ) && ( $this->post->post_status == 'publish' );
 	}
 
 	public function is_sold_individually() {
@@ -81,11 +81,11 @@ class WC_Product_Rooms extends WC_Product {
 	 * @return type
 	 */
 	public function is_virtual() {
-		return apply_filters( 'travel_wc_product_rooms_is_virtual', true, $this );
+		return apply_filters( 'travel_wc_product_tour_is_virtual', true, $this );
 	}
 
 	public function is_downloadable() {
-		return apply_filters( 'travel_wc_product_rooms_is_downloadable', true, $this );
+		return apply_filters( 'travel_wc_product_tour_is_downloadable', true, $this );
 	}
 
 	public function get_image( $size = 'woocommerce_thumbnail', $attr = array(), $placeholder = true ) {

@@ -313,6 +313,86 @@ const checkoutHotel = () => {
     });
   }
 };
+const checkoutTour = () => {
+  const btn = document.querySelector('.book-tour button.checkout-tour');
+  if (btn !== null) {
+    const submit = async data => {
+      try {
+        const response = await wp.apiFetch({
+          path: 'travel-core/v1/checkout-tour',
+          method: 'POST',
+          data: data
+        });
+        const {
+          status,
+          message,
+          redirect
+        } = response;
+        if ('success' === status) {
+          alert(message);
+          window.location.href = redirect;
+        } else {
+          alert(message, false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const data = {};
+      const form = document.querySelector('#customer_booking_tour');
+      const formData = new FormData(form);
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+      console.log(data);
+      submit(data);
+    });
+  }
+};
+const addToCartTour = () => {
+  const btn = document.querySelector('.block-detail-tour-content .add-cart-tour');
+  if (btn !== null) {
+    const submit = async data => {
+      try {
+        const response = await wp.apiFetch({
+          path: 'travel-core/v1/add-cart-tour',
+          method: 'POST',
+          data: data
+        });
+        const {
+          status,
+          message,
+          redirect
+        } = response;
+        if ('success' === status) {
+          alert(message);
+          window.location.href = redirect;
+        } else {
+          notify(message, false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    btn.addEventListener('click', e => {
+      var _document$querySelect5, _document$querySelect6;
+      e.preventDefault();
+      const id = btn.dataset.id;
+      const capacity = (_document$querySelect5 = document.querySelector('select[name="number_people"]')) === null || _document$querySelect5 === void 0 ? void 0 : _document$querySelect5.value;
+      const date_start = (_document$querySelect6 = document.querySelector('input[name="date_start"]')) === null || _document$querySelect6 === void 0 ? void 0 : _document$querySelect6.value;
+      const price = btn.dataset.price;
+      const data = {
+        id: id,
+        date_start: date_start,
+        price: price,
+        capacity: capacity
+      };
+      submit(data);
+    });
+  }
+};
 document.addEventListener('DOMContentLoaded', () => {
   if (custom_script_travel.is_search_ks == 1 || custom_script_travel.is_search_tour == 1) {
     searchRoomsPages(); //use in page search room
@@ -327,6 +407,8 @@ document.addEventListener('DOMContentLoaded', () => {
   changeQuantity();
   addToCartHotel();
   checkoutHotel();
+  addToCartTour();
+  checkoutTour();
 });
 /******/ })()
 ;
