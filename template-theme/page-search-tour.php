@@ -5,6 +5,9 @@
 		<div class="container">
 			<div class="row">
 				<div class="col search-left medium-3">
+                    <div class="mobile-close">
+                        <i class="fa fa-angle-right"></i>
+                    </div>
 					<div class="search-by-hotel-name">
 						<div class="block-title">
 							<h3>Tìm kiếm</h3>
@@ -150,6 +153,16 @@
                 + new Intl.NumberFormat('de-DE').format( sliderRange.slider( "values", 1 ) * 1) + ' đ' ) ;
             $('input#min-filter').val(sliderRange.slider( "values", 0 ) * 1);
             $('input#max-filter').val(sliderRange.slider( "values", 1 ) * 1);
+
+            $(".search-left .mobile-close").click(function () {
+                if ($(this).parent().hasClass("hide")) {
+                    $(this).parent().removeClass("hide");
+                    $(this).parent().css("transform", "translateX(0)");
+                } else {
+                    $(this).parent().addClass("hide");
+                    $(this).parent().css("transform", "translateX(-100%)");
+                }
+            })
 		})
 	})(jQuery)
 </script>

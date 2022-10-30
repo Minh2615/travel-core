@@ -1844,4 +1844,14 @@
 .book-box-container .alert-warning {
   background-color: #fff3cd;
 }
+
+@media screen and (max-width: 768px) {
+  .single-box-content > .container > .row {
+    flex-direction: column-reverse;
+  }
+}
+
+.block-detail-tour-content {
+  width: 100%;
+}
 /*# sourceMappingURL=style.css.map */

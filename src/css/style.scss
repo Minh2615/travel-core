@@ -1958,3 +1958,12 @@
 }
 
 // end book tour
+
+.single-box-content > .container > .row {
+  @media screen and (max-width: 768px) {
+    flex-direction: column-reverse;
+  }
+}
+.block-detail-tour-content {
+  width: 100%;
+}
