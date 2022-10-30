@@ -492,6 +492,7 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 					'is_search_ks' => is_page( 'search-hotel' ),
 					'is_search_tour' => is_page( 'search-tour' ),
 					'url_api' => is_page( 'search-hotel' ) ? 'search-hotel' : 'search-tour',
+					'url_page_search' => home_url( '/search-hotel' ),
 				)
 			);
 			wp_enqueue_style( 'custom-style-travel-nk', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/style.css', array(), '1.0.0', '' );
