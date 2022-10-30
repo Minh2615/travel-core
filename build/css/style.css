@@ -1260,6 +1260,336 @@
   display: block;
 }
 
+.mix-search {
+  position: relative;
+  z-index: 5;
+  background: #fff;
+  box-shadow: 0 3px 17px 0 rgba(215, 220, 230, 0.72);
+  border-radius: 8px;
+}
+.mix-search__header {
+  display: flex;
+  background: #f6f9ff;
+  padding: 20px;
+}
+@media screen and (max-width: 768px) {
+  .mix-search__header {
+    flex-direction: column;
+  }
+}
+.mix-search__content {
+  background: white;
+  padding: 20px;
+}
+.mix-search__content .tab-content {
+  display: none;
+}
+.mix-search__content .tab-content.active {
+  display: block;
+}
+.mix-search__content .hotel .title {
+  font-size: 18px;
+  color: #15284a;
+  margin: 0;
+}
+.mix-search__content .hotel .form-content {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+}
+@media screen and (max-width: 768px) {
+  .mix-search__content .hotel .form-content {
+    grid-template-columns: 1fr;
+  }
+}
+.mix-search__content .hotel .form-content .hotel-btn-submit {
+  box-sizing: border-box;
+  height: 40px;
+  background-color: #ff5e1f;
+  border: 0;
+  outline: 0;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #ffffff;
+  border-radius: 5px;
+  width: 100%;
+}
+.mix-search__title {
+  width: 50%;
+  font-size: 19px;
+  color: #15284a;
+  margin-top: 40px;
+  font-weight: bold;
+}
+@media screen and (max-width: 768px) {
+  .mix-search__title {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 30px;
+  }
+}
+.mix-search__tab-panels {
+  width: 50%;
+}
+@media screen and (max-width: 768px) {
+  .mix-search__tab-panels {
+    width: 100%;
+  }
+}
+.mix-search__tab-panels ul {
+  display: flex;
+  list-style: none;
+  margin-bottom: 0;
+}
+@media screen and (max-width: 768px) {
+  .mix-search__tab-panels ul {
+    justify-content: center;
+  }
+}
+.mix-search__tab-panels li a {
+  display: flex;
+  width: 90px;
+  height: 90px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+  font-size: 12px;
+  border: 2px solid #c7d6f5;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  color: #15284a;
+  text-decoration: none;
+  font-weight: bold;
+}
+.mix-search__tab-panels li:hover a, .mix-search__tab-panels li.active a {
+  border: 2px solid #00a1fe;
+}
+.mix-search .sub-location-search {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  width: min(600px, 100%);
+  padding: 20px;
+  margin-top: 1px;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 2px 30px -2px rgba(0, 0, 0, 0.4), 0 0 3px -1px rgba(0, 0, 0, 0.6);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+}
+.mix-search .sub-location-search .hotel-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+@media screen and (max-width: 768px) {
+  .mix-search .sub-location-search .hotel-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (max-width: 425px) {
+  .mix-search .sub-location-search .hotel-list {
+    grid-template-columns: 1fr;
+  }
+}
+.mix-search .sub-location-search .hotel-list span:hover {
+  color: #00a1fe;
+}
+.mix-search .sub-people-select {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  padding: 20px;
+  margin-top: 1px;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 2px 30px -2px rgba(0, 0, 0, 0.4), 0 0 3px -1px rgba(0, 0, 0, 0.6);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+}
+.mix-search .sub-people-select__item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+.mix-search .sub-people-select .count-total {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.mix-search .sub-people-select .count-total button {
+  cursor: pointer;
+  color: #2f6bff;
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  border: 1px solid #d1d1d1;
+  border-radius: 100%;
+  height: 30px;
+  padding: 0;
+  width: 30px;
+  line-height: 0;
+  font-weight: bold;
+  min-height: 20px;
+  margin: 0;
+}
+
+.form-input {
+  position: relative;
+}
+.form-input.location:before {
+  font-family: "FontAwesome";
+  position: absolute;
+  content: "\f041";
+  top: 7px;
+  left: 13px;
+}
+.form-input.duration:before {
+  font-family: "FontAwesome";
+  position: absolute;
+  content: "\f073";
+  top: 7px;
+  left: 13px;
+}
+.form-input.people:before {
+  font-family: "FontAwesome";
+  position: absolute;
+  content: "\f007";
+  top: 7px;
+  left: 13px;
+}
+
+.form-input input[type=text], .form-input input[type=datetime-local], .form-input input[type=date], .form-input input[type=daterange] {
+  height: 40px;
+  outline: 0;
+  box-shadow: none;
+  font-size: 14px;
+  color: #191919;
+  border: 1px solid #cad2de;
+  text-align: left;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 5px !important;
+  padding: 0 20px 0 30px !important;
+}
+
+.m_b_0px {
+  margin-bottom: 0 !important;
+}
+
+.m_b_10px {
+  margin-bottom: 10px !important;
+}
+
+.m_b_20px {
+  margin-bottom: 20px !important;
+}
+
+.m_b_30px {
+  margin-bottom: 30px !important;
+}
+
+.m_b_40px {
+  margin-bottom: 40px !important;
+}
+
+.m_r_0px {
+  margin-bottom: 0 !important;
+}
+
+.m_r_5px {
+  margin-bottom: 5px !important;
+}
+
+.m_r_10px {
+  margin-bottom: 10px !important;
+}
+
+.m_r_20px {
+  margin-bottom: 20px !important;
+}
+
+.m_r_30px {
+  margin-bottom: 30px !important;
+}
+
+.m_r_40px {
+  margin-bottom: 40px !important;
+}
+
+.m_l_0px {
+  margin-bottom: 0 !important;
+}
+
+.m_l_5px {
+  margin-bottom: 5px !important;
+}
+
+.m_l_10px {
+  margin-bottom: 10px !important;
+}
+
+.m_l_20px {
+  margin-bottom: 20px !important;
+}
+
+.m_l_30px {
+  margin-bottom: 30px !important;
+}
+
+.m_l_40px {
+  margin-bottom: 40px !important;
+}
+
+.relative {
+  position: relative !important;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.z-0 {
+  z-index: 0 !important;
+}
+
+.z-1 {
+  z-index: 1 !important;
+}
+
+.pointer {
+  cursor: pointer !important;
+}
+
+.prevent-select {
+  -webkit-user-select: none; /* Safari */ /* IE 10 and IE 11 */
+  -moz-user-select: none;
+       user-select: none; /* Standard syntax */
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.ui-widget-header {
+  background: white;
+}
+
+.ui-widget.ui-widget-content {
+  border: none;
+}
+
+.ui-tabs .ui-tabs-nav {
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+}
+
 .book-box-container.book-tour {
   width: 100%;
   background: #fff;
