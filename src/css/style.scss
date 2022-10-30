@@ -1386,6 +1386,10 @@
     display: flex;
     background: #f6f9ff;
     padding: 20px;
+
+    @media screen and (max-width: 768px){
+      flex-direction: column;
+    }
   }
 
   &__content {
@@ -1398,10 +1402,35 @@
     .tab-content.active {
       display: block;
     }
-    .hotel .title {
-      font-size: 18px;
-      color: #15284a;
-      margin: 0;
+    .hotel  {
+      .title {
+        font-size: 18px;
+        color: #15284a;
+        margin: 0;
+      }
+
+      .form-content {
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: repeat(3 , 1fr);
+
+        @media screen and (max-width: 768px) {
+          grid-template-columns: 1fr;
+        }
+
+        .hotel-btn-submit {
+          box-sizing: border-box;
+          height: 40px;
+          background-color: #ff5e1f;
+          border: 0;
+          outline: 0;
+          font-size: 14px;
+          text-transform: uppercase;
+          color: #ffffff;
+          border-radius: 5px;
+          width: 100%;
+        }
+      }
     }
     .flight {
 
@@ -1415,14 +1444,27 @@
     font-size: 19px;
     color: #15284a;
     margin-top: 40px;
+    font-weight: bold;
+
+    @media screen and (max-width: 768px){
+      text-align: center;
+      width: 100%;
+      margin-bottom: 30px;
+    }
   }
   &__tab-panels {
     width: 50%;
+    @media screen and (max-width: 768px){
+      width: 100%;
+    }
   }
   &__tab-panels ul {
     display: flex;
     list-style: none;
     margin-bottom: 0;
+    @media screen and (max-width: 768px){
+      justify-content: center;
+    }
   }
   &__tab-panels li a {
     display: flex;
@@ -1445,8 +1487,10 @@
   }
 
   .sub-location-search {
+    display: none;
     position: absolute;
-    width: 650px;
+    z-index: 1;
+    width: min(600px, 100%);
     padding: 20px;
     margin-top: 1px;
     background: #fff;
@@ -1459,21 +1503,59 @@
     .hotel-list {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
+      @media screen and (max-width: 768px) {
+        grid-template-columns: 1fr 1fr;
+      }
+      @media screen and (max-width: 425px) {
+        grid-template-columns: 1fr;
+      }
+
+      span:hover {
+        color: #00a1fe;
+      }
+    }
+  }
+
+  .sub-people-select {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    padding: 20px;
+    margin-top: 1px;
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0 2px 30px -2px rgba(0, 0, 0, 0.4),
+    0 0 3px -1px rgba(0, 0, 0, 0.6);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+
+    &__item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
     }
 
-    .hotel-btn-submit {
-      height: 50px;
-      background-color: #ff5e1f;
-      border: 0;
-      outline: 0;
-      font-size: 14px;
-      text-transform: uppercase;
-      color: #ffffff;
-      font-family: 'os_bold';
-      padding: 15px 30px;
-      border-radius: 5px;
-      margin-left: 5px;
-      width: 260px;
+    .count-total {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      button {
+        cursor: pointer;
+        color: #2f6bff;
+        display: inline-block;
+        vertical-align: top;
+        text-align: center;
+        border: 1px solid #d1d1d1;
+        border-radius: 100%;
+        height: 30px;
+        padding: 0;
+        width: 30px;
+        line-height: 0;
+        font-weight: bold;
+        min-height: 20px;
+        margin: 0;
+      }
     }
   }
 }
@@ -1483,27 +1565,44 @@
 .form-input {
   position: relative;
 
+
   &.location:before {
     font-family: "FontAwesome";
-    content: "\f041";
     position: absolute;
+    content: "\f041";
+    top: 7px;
+    left: 13px;
+  }
+
+  &.duration:before {
+    font-family: "FontAwesome";
+    position: absolute;
+    content: "\f073";
+    top: 7px;
+    left: 13px;
+  }
+
+  &.people:before {
+    font-family: "FontAwesome";
+    position: absolute;
+    content: "\f007";
     top: 7px;
     left: 13px;
   }
 }
-.form-input input[type="text"] {
+.form-input input[type="text"], .form-input input[type="datetime-local"], .form-input input[type="date"], .form-input input[type="daterange"] {
   height: 40px;
   outline: 0;
-  padding-left: 35px;
   box-shadow: none;
   font-size: 14px;
   color: #191919;
   border: 1px solid #cad2de;
   text-align: left;
-  border-radius: 5px;
   display: block;
-  width: 1000px;
-  max-width: 290px;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 5px !important;
+  padding: 0 20px 0 30px !important;
 }
 
 // common
@@ -1566,6 +1665,9 @@
 .d-flex {
   display: flex;
 }
+.justify-end {
+  justify-content: flex-end;
+}
 .z-0 {
   z-index: 0 !important;
 }
@@ -1579,6 +1681,10 @@
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
+}
+
+.bold {
+  font-weight: bold;
 }
 
 // fix
