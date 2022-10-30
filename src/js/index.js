@@ -384,7 +384,8 @@ const checkoutHotel = () => {
             const { status, message, redirect } = response;
             if ("success" === status) {
                 alert(message);
-                window.location.href = redirect;
+                // window.location.href = redirect;
+                window.location.href = "/success";
             } else {
               alert(message, false);
             }
@@ -509,7 +510,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
         custom_script_travel.is_search_ks == 1 ||
         custom_script_travel.is_search_tour == 1
     ) {
-        searchRoomsPages(); //use in page search room
+        searchRoomsPages();
         searchTourText(filterRooms, skeleton, wrapperResult);
         filterPriceRooms(filterRooms, skeleton, wrapperResult);
         filterLoaiHinh(filterRooms, skeleton, wrapperResult);

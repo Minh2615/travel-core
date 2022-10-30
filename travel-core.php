@@ -517,9 +517,6 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 			//fullcalendar
 			wp_enqueue_style( 'calendar-css', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/css/lib/fullcalendar.min.css', array() );
 			wp_enqueue_script( 'calendar-js', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/js/lib/fullcalendar.min.js', array('jquery'), '2.3.4', true );
-
-
-
 		}
 	}
 

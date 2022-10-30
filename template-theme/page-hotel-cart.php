@@ -74,13 +74,13 @@
 								</div>
 							</div>
 							<div class="input-item form-group col-lg-12 col-md-12">
-								<div class="hotel-box-note">
-									<div class="box-title">
-										<i class="fas fa-plus-circle"></i>
-										Thêm yêu cầu đặc biệt 
-									</div>
-									<textarea id="order_comments" autocomplete="off" maxlength="200" class="form-control txt_note hidden" name="order_comments"></textarea>
-								</div>
+<!--								<div class="hotel-box-note">-->
+<!--									<div class="box-title">-->
+<!--										<i class="fas fa-plus-circle"></i>-->
+<!--										Thêm yêu cầu đặc biệt -->
+<!--									</div>-->
+<!--									<textarea id="order_comments" autocomplete="off" maxlength="200" class="form-control txt_note hidden" name="order_comments"></textarea>-->
+<!--								</div>-->
 								<span class="help-block"></span>
 								<div class="box-submit">
 									<button type="submit" class="btn-submit-contact-booking">Tiếp Tục</button>
@@ -155,7 +155,7 @@
 										</tr>
 										<tr class="tr-note">
 											<td colspan="2"> 
-												<div class="alert alert-warning">
+												<div class="alert alert-warning white">
 													Booking của bạn đang được chờ xác nhận. Tư vấn viên sẽ sớm liên hệ với bạn
 												</div>
 											</td>

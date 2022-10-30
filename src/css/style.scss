@@ -819,7 +819,6 @@
             width: 40px;
             border-radius: 100%;
             margin: auto;
-            height: 40px;
             line-height: 36px;
             border: 2px solid #9aa2b2;
             margin-bottom: 5px;
@@ -876,7 +875,6 @@
             font-size: 15px;
             color: #191919;
             border: solid 1px #dee3ed;
-            height: 50px;
           }
           &.box-full-services-extra{
             background-color: #f9f9fa;
@@ -899,8 +897,6 @@
                   margin-bottom: 20px;
                   &.type-radio{
                     width: 100%;
-                    display: grid;
-                    grid-template-columns: 50% auto;
                   }
                 }
                 label{

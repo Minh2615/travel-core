@@ -172,7 +172,59 @@
 						</div>
 						<div class="block-result">
 							<?php echo nk_skeleton_animation_html( 20, '100%', 'height:20px', 'width:100%' ); ?>
-							<div class="detail__booking-rooms"></div>
+							<div class="detail__booking-rooms">
+                                <ul class="list-tour-search">
+                                    <li class="tour-item">
+                                        <div class="left-tour-item">
+                                            <a href="http://vietnamvivu.ktwebtest.xyz/khach-san/pandora-boutique-hotel/">
+                                                <img src="http://vietnamvivu.ktwebtest.xyz/wp-content/uploads/2022/10/pandora-boutique-hotel-1.jpg" alt="Pandora Boutique Hotel">
+                                            </a>
+                                        </div>
+                                        <div class="right-tour-item">
+                                            <h2 class="title-tour">
+                                                <a href="http://vietnamvivu.ktwebtest.xyz/khach-san/pandora-boutique-hotel/">Pandora Boutique Hotel</a>
+                                            </h2>
+                                            <div class="rating">
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                            </div>
+                                            <p class="dia-chi">
+                                                <i class="fa fa-map-o" aria-hidden="true"></i>
+                                                <span>
+						21-23 Phan Tôn, Bắc Mỹ Phú, Ngũ Hành Sơn, Đà Nẵng					</span>
+                                            </p>
+                                            <ul class="tien-nghi">
+                                                <li>
+                                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                                    <span>Hồ bơi</span>
+                                                </li>
+                                                <li>
+                                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                                    <span>Máy giặt</span>
+                                                </li>
+                                                <li>
+                                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                                    <span>Máy nước nóng</span>
+                                                </li>
+                                                <li>
+                                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                                    <span>Nhà hàng</span>
+                                                </li>
+                                            </ul>
+                                            <div class="price-tour">
+                                                <div class="price-left">
+                                                    Giá chỉ từ:  <span>500,000 VNĐ</span>
+                                                </div>
+                                                <div class="price-right">
+                                                    <a href="http://vietnamvivu.ktwebtest.xyz/khach-san/pandora-boutique-hotel/">Xem chi tiết</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
 						</div>
 					</div>
 				</div>

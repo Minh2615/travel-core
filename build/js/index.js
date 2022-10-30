@@ -314,7 +314,8 @@ const checkoutHotel = () => {
         } = response;
         if ("success" === status) {
           alert(message);
-          window.location.href = redirect;
+          // window.location.href = redirect;
+          window.location.href = "/success";
         } else {
           alert(message, false);
         }
@@ -432,7 +433,13 @@ const searchHotelHomePage = () => {
 };
 document.addEventListener('DOMContentLoaded', () => {
   if (custom_script_travel.is_search_ks == 1 || custom_script_travel.is_search_tour == 1) {
-    z;
+    searchRoomsPages();
+    searchTourText(filterRooms, skeleton, wrapperResult);
+    filterPriceRooms(filterRooms, skeleton, wrapperResult);
+    filterLoaiHinh(filterRooms, skeleton, wrapperResult);
+    filterTienIch(filterRooms, skeleton, wrapperResult);
+    searchFormCategory(filterRooms, skeleton, wrapperResult);
+    searchFormRating(filterRooms, skeleton, wrapperResult);
   }
   console.log(document.location);
   //single ks
