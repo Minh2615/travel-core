@@ -3,20 +3,21 @@ var __webpack_exports__ = {};
 /*!*************************!*\
   !*** ./src/js/index.js ***!
   \*************************/
-var _hotel_settings;
+var _custom_script_travel;
 /** search api */
 const urlCurrent = document.location.href;
-const urlPageSearch = (_hotel_settings = hotel_settings) === null || _hotel_settings === void 0 ? void 0 : _hotel_settings.url_page_search;
-let filterRooms = {
-  dia_diem: '',
-  s: '',
-  min_price: 0,
-  max_price: 0,
-  star: 0,
-  loai_hinh: [],
-  tien_ich: [],
-  page: 1
-};
+const urlPageSearch = (_custom_script_travel = custom_script_travel) === null || _custom_script_travel === void 0 ? void 0 : _custom_script_travel.url_page_search;
+// let filterRooms = {
+//     dia_diem : '',
+//     s : '',
+//     min_price : 0,
+//     max_price:0,
+//     star : 0,
+//     loai_hinh : [],
+//     tien_ich: [],
+//     page: 1,
+// };
+let filterRooms = JSON.parse(window.localStorage.getItem('wphb_filter_rooms')) || {};
 const skeleton = document.querySelector('.page-search-tour .block-result ul.search-nk-skeleton-animation');
 const wrapperResult = document.querySelector('.page-search-tour .block-result .detail__booking-rooms');
 const urlApi = custom_script_travel.url_api;
@@ -34,6 +35,16 @@ const requestSearchRoom = args => {
   const wpRestUrl = hotel_settings.wphb_rest_url;
   if (!wpRestUrl) {
     return;
+  }
+  if (Object.keys(args).length === 0) {
+    args.dia_diem = 0;
+    args.text = '';
+    args.min_price = 0;
+    args.max_price = 0;
+    args.star = 0;
+    args.loai_hinh = [];
+    args.tien_ich = [];
+    args.paged = 1;
   }
   const urlWphbSearch = wphbAddQueryArgs(wpRestUrl + 'travel-core/v1/' + urlApi, {
     ...args
@@ -86,6 +97,10 @@ const requestSearchRoom = args => {
   }).catch(error => {
     wrapperResult.insertAdjacentHTML('beforeend', `<p class="wphb-message error" style="display:block">${error.message || 'Error: Query wphb/v1/rooms/search-room'}</p>`);
   }).finally(() => {
+    window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(args));
+    const urlPush = wphbAddQueryArgs(document.location, args);
+    // console.log(urlPush);
+    window.history.pushState('', '', urlPush);
     skeleton.style.display = 'none';
     const contentPageSearch = document.querySelector('.main-content.page-search-tour');
     if (contentPageSearch != null) {
@@ -105,7 +120,8 @@ const searchTourText = (filterRooms, skeleton, wrapperResult) => {
         wrapperResult.innerHTML = '';
         skeleton.style.display = 'block';
         const input = elemSearchText.querySelector('input[name="hotel-name"]');
-        filterRooms.s = input.value;
+        filterRooms.text = input.value;
+        window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(filterRooms));
         requestSearchRoom(filterRooms);
       });
     }
@@ -124,6 +140,7 @@ const filterPriceRooms = (filterRooms, skeleton, wrapperResult) => {
       if (min !== 0 && max !== 0) {
         filterRooms.min_price = min;
         filterRooms.max_price = max;
+        window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(filterRooms));
         requestSearchRoom(filterRooms);
       }
     });
@@ -141,6 +158,7 @@ const filterLoaiHinh = (filterRooms, skeleton, wrapperResult) => {
         }
         wrapperResult.innerHTML = '';
         skeleton.style.display = 'block';
+        window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(filterRooms));
         requestSearchRoom(filterRooms);
       });
     });
@@ -158,6 +176,7 @@ const filterTienIch = (filterRooms, skeleton, wrapperResult) => {
         }
         wrapperResult.innerHTML = '';
         skeleton.style.display = 'block';
+        window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(filterRooms));
         requestSearchRoom(filterRooms);
       });
     });
@@ -175,6 +194,7 @@ const wphbPaginationRoom = (filterRooms, skeleton, wrapperResult) => {
       const current = [...paginationEle].filter(el => el.classList.contains('current'));
       const paged = parseInt(event.currentTarget.textContent) || ele.classList.contains('next') && parseInt(current[0].textContent) + 1 || ele.classList.contains('prev') && parseInt(current[0].textContent) - 1;
       filterRooms.paged = paged;
+      window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(filterRooms));
       requestSearchRoom(filterRooms);
     }
   }));
@@ -190,6 +210,7 @@ const searchFormCategory = (filterRooms, skeleton, wrapperResult) => {
       wrapperResult.innerHTML = '';
       skeleton.style.display = 'block';
       filterRooms.dia_diem = tax.value;
+      window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(filterRooms));
       requestSearchRoom(filterRooms);
     }
   });
@@ -206,6 +227,7 @@ const searchFormRating = (filterRooms, skeleton, wrapperResult) => {
         }
         wrapperResult.innerHTML = '';
         skeleton.style.display = 'block';
+        window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(filterRooms));
         requestSearchRoom(filterRooms);
       });
     });
@@ -393,16 +415,35 @@ const addToCartTour = () => {
     });
   }
 };
+const searchHotelHomePage = () => {
+  const btn = document.querySelector('.mix-search .hotel-btn-submit');
+  if (btn !== null) {
+    btn.addEventListener('click', function (e) {
+      var _document$querySelect7;
+      e.preventDefault();
+      const idDiaDiem = (_document$querySelect7 = document.querySelector('input[name="location-search-id"]')) === null || _document$querySelect7 === void 0 ? void 0 : _document$querySelect7.value;
+      filterRooms.dia_diem = idDiaDiem;
+      window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(filterRooms));
+      const urlPush = wphbAddQueryArgs(document.location, filterRooms);
+      const urlString = urlPush.search;
+      window.location.href = urlPageSearch + urlString;
+    });
+  }
+};
 document.addEventListener('DOMContentLoaded', () => {
   if (custom_script_travel.is_search_ks == 1 || custom_script_travel.is_search_tour == 1) {
     z;
   }
+  console.log(document.location);
   //single ks
   changeQuantity();
   addToCartHotel();
   checkoutHotel();
   addToCartTour();
   checkoutTour();
+
+  //form search home page
+  searchHotelHomePage();
 });
 /******/ })()
 ;

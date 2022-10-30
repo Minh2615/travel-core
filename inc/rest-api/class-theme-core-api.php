@@ -221,8 +221,8 @@ class Travel_Core_Api {
 		$response = new stdClass();
 		$response->data = new stdClass();
 		$params   = $request->get_params();
-		$s = $params['s'] ?? '';
-		$dia_diem = !empty($params['dia_diem']) ? $params['dia_diem'] : '';
+		$s = $params['text'] ?? '';
+		$dia_diem = !empty($params['dia_diem']) ? $params['dia_diem'] : 0;
 		$min_price = $params['min_price'] ?: 0;
 		$max_price = $params['max_price'] ?: 10000000;
 		$star = $params['star'] ?? 1;
@@ -251,14 +251,12 @@ class Travel_Core_Api {
 				);
 			}
 			if ( ! empty( $dia_diem ) ) {
-				$args = array(
-					'taxonomy'      => array( 'dia-diem' ), // taxonomy name
-					'orderby'       => 'id', 
-					'order'         => 'ASC',
-					'hide_empty'    => true,
-					'fields'        => 'all',
-					'name__like'    => $dia_diem
-				); 
+				$tax_query[] = array(
+					'taxonomy'        => 'dia-diem',
+					'field'           => 'term_id',
+					'terms'           =>  array($dia_diem),
+					'operator'        => 'IN',
+				);
 				
 				$terms = get_terms( $args );
 

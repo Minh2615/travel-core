@@ -49,6 +49,7 @@ add_shortcode("mix-search-form", function ($atts) {
                             <label for="dia-diem">Địa điểm</label>
                             <div class="form-input location">
                                 <input type="text" name="location-search" placeholder="Nhập địa điểm">
+                                <input type="hidden" name="location-search-id" placeholder="Nhập địa điểm">
                             </div>
                             <!--                sub search-->
                             <div class="sub-search sub-location-search">
@@ -67,7 +68,7 @@ add_shortcode("mix-search-form", function ($atts) {
                                         <div class="hotel-list">
 					                        <?php
 					                        foreach ($terms as $term) : ?>
-                                                <span class="pointer prevent-select"><?php echo $term->name; ?></span>
+                                                <span class="pointer prevent-select" data-id="<?php echo $term->term_id; ?>"><?php echo $term->name; ?></span>
 					                        <?php
 					                        endforeach; ?>
                                         </div>
@@ -175,6 +176,7 @@ add_shortcode("mix-search-form", function ($atts) {
             // hotel item click
             $(".hotel-list span").click(function () {
                 $('input[name="location-search"]').val($(this).text());
+                $('input[name="location-search-id"]').val($(this).data('id'));
             })
 
             // sub search click
