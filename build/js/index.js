@@ -395,13 +395,7 @@ const addToCartTour = () => {
 };
 document.addEventListener('DOMContentLoaded', () => {
   if (custom_script_travel.is_search_ks == 1 || custom_script_travel.is_search_tour == 1) {
-    searchRoomsPages(); //use in page search room
-    searchTourText(filterRooms, skeleton, wrapperResult);
-    filterPriceRooms(filterRooms, skeleton, wrapperResult);
-    filterLoaiHinh(filterRooms, skeleton, wrapperResult);
-    filterTienIch(filterRooms, skeleton, wrapperResult);
-    searchFormCategory(filterRooms, skeleton, wrapperResult);
-    searchFormRating(filterRooms, skeleton, wrapperResult);
+    z;
   }
   //single ks
   changeQuantity();

@@ -325,8 +325,11 @@
     flex-wrap: wrap;
     justify-content: space-between;
     margin:20px 0;
+    @media screen and (max-width: 425px) {
+      flex-direction: column;
+    }
     .left-title{
-      width: 78%;
+      width: 70%;
       .title-hotel {
         display: flex;
         align-items: flex-end;
@@ -351,7 +354,10 @@
       }
     }
     .right-title{
-      width: 20%;
+      width: 30%;
+      @media screen and (max-width: 425px) {
+        width: 100%;
+      }
       p{
         margin-bottom: 0;
       }
@@ -359,6 +365,7 @@
         color: #f7901e;
         font-weight: bold;
         font-size: 20px;
+        margin-bottom: 8px;
         .price-text{
           font-size: 15px;
         }
@@ -367,11 +374,11 @@
         a{
           display: block;
           background: #f7901e;
-          border: 0px;
+          border: 0;
           outline: 0;
           border-radius: 5px;
           text-transform: uppercase;
-          line-height: 50px;
+          line-height: 40px;
           width: 100%;
           color: #fff;
           text-align: center;
@@ -390,6 +397,9 @@
     border-bottom: 1px solid #eee;
     .wrapper-left{
       width: 75%;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
       .block-hotel-policy{
         position: relative;
         width: 100%;
@@ -434,6 +444,9 @@
     }
     .wrapper-right{
       width: 22%;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
       .block-detail-vi-tri{
         .content-vi-tri{
           iframe{
@@ -512,9 +525,8 @@
     list-style: none;
     display: flex;
     justify-content: space-between;
-    align-items: center;
     li{
-      width: 23%;
+      width: 30%;
     }
   }
 }
@@ -525,6 +537,7 @@
 .block-detail-hotel-content{
   .block-hotel-list-room{
     .table-room{
+      overflow-x: scroll;
       table{
         thead{
           th{
@@ -539,6 +552,7 @@
         }
         tbody{
           td{
+            min-width: 150px;
             vertical-align:top;
           }
           .hotel-room{
@@ -681,6 +695,15 @@
             top: 50%;
             width: 100%;
             padding: 13px 10px;
+            @media screen and (max-width: 425px) {
+              position: fixed;
+              bottom: 0;
+              left: 0;
+              right: 0;
+              top: auto;
+              padding: 0;
+              z-index: 1;
+            }
             a.btn-booking-hotel{
               line-height: 16px;
               padding: 8px 11px;
@@ -691,6 +714,20 @@
                 background-color: #f7901e;
                 color: white;
                 white-space: nowrap;
+                @media screen and (max-width: 425px) {
+                  display: block;
+                  background: #f7901e;
+                  border: 0;
+                  outline: 0;
+                  border-radius: 0;
+                  text-transform: uppercase;
+                  line-height: 40px;
+                  font-size: 16px;
+                  width: 100%;
+                  color: #fff;
+                  text-align: center;
+                  font-weight: bold;
+                }
               }
             }
           }
@@ -708,11 +745,17 @@
     grid-gap: 5px;
     max-height: 420px;
     .hotel-img-item{
+      overflow: hidden;
       position: relative;
+      img {
+        object-fit: cover;
+      }
       &:nth-child(1){
         grid-column: 1 / span 3;
         grid-row: span 2;
-        height: 411px;
+        @media screen and (max-width: 425px) {
+          grid-column: 1/span 4;
+        }
         img{
           height: 100%;
           width: 100%;
@@ -721,17 +764,18 @@
       &:nth-child(2){
         grid-column: 4 / span 2;
         grid-row: 1 / 2;
-        height: 286px;
+        @media screen and (max-width: 425px) {
+          grid-column: 1/span 2;
+          grid-row: span 1;
+        }
       }
       &:nth-child(3){
-        max-height: 120px;
         img{
           width: 100%;
           height: 100%;
         }
       }
       &:nth-child(4){
-        max-height: 120px;
         img{
           width: 100%;
           height: 100%;
@@ -1484,6 +1528,7 @@
   }
   &__tab-panels li:hover a, &__tab-panels li.active a {
     border: 2px solid #00a1fe;
+    white-space: nowrap;
   }
 
   .sub-location-search {
