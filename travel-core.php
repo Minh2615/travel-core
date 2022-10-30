@@ -461,8 +461,14 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 			include_once TRAVEL_CORE_PATH . '/inc/helper/woo/room-hotel/class-travel-room-woo.php';
 			include_once TRAVEL_CORE_PATH . '/inc/helper/woo/room-hotel/class-travel-room-order.php';
 			include_once TRAVEL_CORE_PATH . '/inc/helper/woo/room-hotel/class-travel-room-hooks.php';
-
 			Hotel_Room_WC_Hooks::instance();
+
+			//post type tour with woo
+			include_once TRAVEL_CORE_PATH . '/inc/helper/woo/tour-hotel/class-travel-tour-woo.php';
+			include_once TRAVEL_CORE_PATH . '/inc/helper/woo/tour-hotel/class-travel-tour-order.php';
+			include_once TRAVEL_CORE_PATH . '/inc/helper/woo/tour-hotel/class-travel-tour-hooks.php';
+
+			Hotel_Tour_WC_Hooks::instance();
 		}
 
 		/**

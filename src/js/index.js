@@ -358,6 +358,86 @@ const checkoutHotel = () => {
     }
 }
 
+const checkoutTour = () => {
+    const btn = document.querySelector('.book-tour button.checkout-tour');
+    if (btn !== null) {
+        const submit = async (data) => {
+            try {
+                const response = await wp.apiFetch({
+                    path: 'travel-core/v1/checkout-tour',
+                    method: 'POST',
+                    data: data,
+                });
+                const { status, message, redirect } = response;
+                if ('success' === status) {
+                    alert(message);
+                    window.location.href = redirect;
+                } else {
+                    alert(message, false);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const data = {};
+            const form = document.querySelector('#customer_booking_tour');
+            const formData = new FormData(form);
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            console.log(data);
+            submit(data);
+        });
+    }
+}
+
+const addToCartTour = () => {
+    const btn = document.querySelector(
+        '.block-detail-tour-content .add-cart-tour'
+    );
+     if (btn !== null) {
+         const submit = async (data) => {
+             try {
+                 const response = await wp.apiFetch({
+                     path: 'travel-core/v1/add-cart-tour',
+                     method: 'POST',
+                     data: data,
+                 });
+                 const { status, message, redirect } = response;
+                 if ('success' === status) {
+                     alert(message);
+                     window.location.href = redirect;
+                 } else {
+                     notify(message, false);
+                 }
+             } catch (error) {
+                 console.log(error);
+             }
+         };
+
+         btn.addEventListener('click', (e) => {
+             e.preventDefault();
+             const id = btn.dataset.id;
+             const capacity = document.querySelector(
+                 'select[name="number_people"]'
+             )?.value;
+             const date_start = document.querySelector(
+                 'input[name="date_start"]'
+             )?.value;
+             const price = btn.dataset.price; 
+             const data = {
+                 id: id,
+                 date_start: date_start,
+                 price: price,
+                 capacity: capacity
+            };
+            submit(data);
+         });
+     }
+}
+
 document.addEventListener( 'DOMContentLoaded', () => {
     if (
         custom_script_travel.is_search_ks == 1 ||
@@ -375,4 +455,6 @@ document.addEventListener( 'DOMContentLoaded', () => {
     changeQuantity();
     addToCartHotel();
     checkoutHotel();
+    addToCartTour();
+    checkoutTour();
 } );
