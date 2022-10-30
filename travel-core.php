@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 const TRAVEL_CORE_FILE = __FILE__;
 define( 'TRAVEL_CORE_PATH', dirname( __FILE__ ) );
+define( 'TRAVEL_CORE_URL', plugin_dir_url(__FILE__) );
 
 if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 	class TRAVEL_CORE {
@@ -517,4 +518,12 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 
 	new TRAVEL_CORE();
 }
+
+// custom shortcode
+include __DIR__ . "/shortcodes/mix-search-form.php";
+
+add_action("wp_enqueue_scripts", function () {
+	wp_enqueue_style("vietnamairline", "https://www.vietnamaairlines.com/wp-content/themes/vietnamairlines/vinajet.css");
+    wp_enqueue_script("vietnamairline", "https://cdn.vinajet.vn/plugins/tim-ve-bay-gia-re.min.js");
+});
 
