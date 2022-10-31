@@ -13,6 +13,32 @@
 								<i class="fa fa-map-o" aria-hidden="true"></i>
 								<input type="text" name="search-tour-text" id="search-tour-text" placeholder="Quốc gia, thành phố, địa điểm du lịch">
 							</div>
+							<div class="tt-menu" id="list-map-tour">
+								<h5 class="item-title-autocomplete">
+									<i class="fa fa-map-o" aria-hidden="true"></i>
+									ĐỊA ĐIỂM HOT
+								</h5>
+								<?php 
+									$args = array(
+										'taxonomy' => 'map-tour',
+										'hide_empty' => false,
+									);
+									$terms = get_terms( $args );
+									if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){ 
+										foreach ( $terms as $term ) { ?>
+											<ul class="list-tour-top tt-suggestion tt-selectable" data-id="<?php echo $term->term_id; ?>" data-name="<?php echo $term->name; ?>">
+												<li>
+													<img src="<?php echo get_field( 'anh_dai_dien', $term ) ?>">
+													<div class="box-info"> 
+														<h4 class="media-heading"><?php echo $term->name; ?></h4>
+														<span class="vcolor-primary"><b><?php echo $term->count; ?></b> tours</span>
+													</div>
+												</li>
+											</ul>
+										<?php }
+									}
+								?>
+							</div>
 							<div class="box-button-tour">
 								<a href="<?php echo get_permalink(get_page_by_path('search-tour')); ?>">
 									Tìm Kiếm

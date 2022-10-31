@@ -431,6 +431,47 @@ const searchHotelHomePage = () => {
     });
   }
 };
+const selectFormTour = () => {
+  const input = document.querySelector('input#search-tour-text');
+  if (input !== null) {
+    input.addEventListener('click', function (e) {
+      e.preventDefault();
+      const form = document.querySelector('#list-map-tour');
+      form.classList.toggle('active');
+    });
+    const listTax = document.querySelectorAll('.list-tour-top');
+    if (listTax.length > 0) {
+      listTax.forEach((item, i) => {
+        item.addEventListener('click', function (e) {
+          e.preventDefault();
+          const id = item.dataset.id;
+          const name = item.dataset.name;
+          const form = document.querySelector('#list-map-tour');
+          form.classList.toggle('active');
+          input.value = name;
+          input.dataset.id = id;
+        });
+      });
+    }
+    const btn = document.querySelector('.box-search-tour .box-button-tour');
+    if (btn !== null) {
+      btn.addEventListener('click', function (e) {
+        var _document$querySelect8;
+        e.preventDefault();
+        const data = [];
+        const idDiaDiem = (_document$querySelect8 = document.querySelector('input#search-tour-text')) === null || _document$querySelect8 === void 0 ? void 0 : _document$querySelect8.dataset.id;
+        data.push(idDiaDiem);
+        filterRooms.loai_hinh = data;
+        window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(filterRooms));
+        const urlPush = wphbAddQueryArgs(document.location, filterRooms);
+        const urlString = urlPush.search;
+        window.location.href = urlPageSearch + urlString;
+      });
+    }
+  }
+};
+
+//
 document.addEventListener('DOMContentLoaded', () => {
   if (custom_script_travel.is_search_ks == 1 || custom_script_travel.is_search_tour == 1) {
     searchRoomsPages();
@@ -441,7 +482,6 @@ document.addEventListener('DOMContentLoaded', () => {
     searchFormCategory(filterRooms, skeleton, wrapperResult);
     searchFormRating(filterRooms, skeleton, wrapperResult);
   }
-  console.log(document.location);
   //single ks
   changeQuantity();
   addToCartHotel();
@@ -451,6 +491,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //form search home page
   searchHotelHomePage();
+  //single tour
+  selectFormTour();
 });
 /******/ })()
 ;

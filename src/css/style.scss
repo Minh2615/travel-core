@@ -1220,6 +1220,74 @@
       }
     }
   }
+  .tt-menu{
+    &.active{
+      display: block;
+    }
+    display: none;
+    position: absolute;
+    left:0;
+    width: 100%;
+    margin: 5px 0;
+    padding: 8px 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 5px 10px rgb(0 0 0 / 20%);
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgb(0 0 0 / 20%);
+    z-index: 100000 !important;
+    h5.item-title-autocomplete{
+      font-size: 16px;
+      text-align: center;
+      color: #1397e2;
+      text-transform: none;
+      margin: 15px 0;
+    }
+    ul.list-tour-top{
+      &:hover{
+        background-color: #00a1fe;
+        li{
+          color: white;
+          h4{
+            color: white;
+          }
+        }
+      }
+      cursor: pointer;
+      margin: 0px;
+      padding: 5px;
+      display: inline-block;
+      width: 25%;
+      font-size: 14px;
+      line-height: 24px;
+      text-align: left;
+      li{
+        list-style: none;
+        display: inline-block;
+        vertical-align: top;
+        img{
+          width: 50px;
+          display: inline-block;
+          vertical-align: top;
+          height: 40px;
+          border-radius: 5px;
+          margin-right: 5px;
+        }
+        .box-info{
+          display: inline-block;
+          padding-left: 5px;      
+          h4.media-heading{
+            font-size: 14px;
+            margin: 0 0 5px;
+          }
+        }
+      }
+    }
+  }
 }
 .single-box-content{
   .single-box-content-inner{
