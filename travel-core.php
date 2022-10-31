@@ -552,6 +552,6 @@ include __DIR__ . "/shortcodes/mix-search-form.php";
 
 add_action("wp_enqueue_scripts", function () {
 	wp_enqueue_style("vietnamairline", "https://www.vietnamaairlines.com/wp-content/themes/vietnamairlines/vinajet.css");
-    wp_enqueue_script("vietnamairline", "https://cdn.vinajet.vn/plugins/tim-ve-bay-gia-re.min.js");
+    wp_enqueue_script("vietnamairline", "https://cdn.vinajet.vn/plugins/tim-ve-bay-gia-re.min.js", array(), '1.0.0', true);
 });
 
