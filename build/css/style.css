@@ -1869,4 +1869,9 @@
 .block-detail-tour-content {
   width: 100%;
 }
+
+.sidebar-box-tour {
+  position: sticky;
+  top: 50px;
+}
 /*# sourceMappingURL=style.css.map */

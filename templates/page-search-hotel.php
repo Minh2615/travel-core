@@ -267,10 +267,8 @@
             $(".search-left .mobile-close").click(function () {
                 if ($(this).parent().hasClass("hide")) {
                     $(this).parent().removeClass("hide");
-                    $(this).parent().css("transform", "translateX(0)");
                 } else {
                     $(this).parent().addClass("hide");
-                    $(this).parent().css("transform", "translateX(-100%)");
                 }
             })
 		})

@@ -32,6 +32,9 @@
     &.cpt-tour{
       .search-left{
         margin-top: 15px;
+        &.hide {
+          transform: translateX(-100%);
+        }
       }
       .result-count{
         margin-top: 5px;
@@ -1975,4 +1978,10 @@
 }
 .block-detail-tour-content {
   width: 100%;
+}
+
+// single tour
+.sidebar-box-tour {
+  position: sticky;
+  top: 50px;
 }
