@@ -31,6 +31,9 @@
 .main-content.page-search-tour.cpt-tour .search-left {
   margin-top: 15px;
 }
+.main-content.page-search-tour.cpt-tour .search-left.hide {
+  transform: translateX(-100%);
+}
 .main-content.page-search-tour.cpt-tour .result-count {
   margin-top: 5px;
   margin-bottom: 20px;
@@ -45,6 +48,9 @@
   background: white;
   transition: all 0.3s ease;
   transform-origin: left;
+}
+.main-content.page-search-tour .search-left.hide {
+  transform: translateX(-100%);
 }
 @media screen and (max-width: 768px) {
   .main-content.page-search-tour .search-left {

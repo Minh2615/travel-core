@@ -3,7 +3,7 @@
 	<div class="content-wrap">
 		<div class="container">
 			<div class="row">
-				<div class="col search-left medium-3">
+				<div class="col search-left medium-3 hide">
                     <div class="mobile-close">
                         <i class="fa fa-angle-right"></i>
                     </div>

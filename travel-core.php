@@ -37,7 +37,7 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ));
 
 			//template include
-			add_action('template_include', array( $this, 'template_include' ), 10, 1 );
+//			add_action('template_include', array( $this, 'template_include' ), 10, 1 );
 
 			add_action( 'wp_print_scripts', array( $this, 'global_js' ) );
 

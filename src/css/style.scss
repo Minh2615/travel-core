@@ -52,6 +52,9 @@
       background: white;
       transition: all 0.3s ease;
       transform-origin: left;
+      &.hide {
+        transform: translateX(-100%);
+      }
       @media screen and (max-width: 768px) {
         min-width: 280px;
         box-shadow: 0 0 6px rgb(128 128 128 / 60%);
