@@ -175,7 +175,7 @@
 																</div>
 															</div>
 														</td>
-														<td>
+														<td class="col-book-room">
 															<div class="hotel-room-booking">
 																<div class="hotel-room-booking-content">
 																	<a href="#" class="btn-oranges btn-booking-hotel" data-nid="<?php echo $room_id; ?>">Đặt phòng</a>	

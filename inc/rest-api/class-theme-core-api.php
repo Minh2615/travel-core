@@ -172,7 +172,7 @@ class Travel_Core_Api {
 				array(),
 				array(
 					'info_rooms' => array(
-						'price'    => $price,
+						'price'    => $price * $quantity,
 						'quantity' => $quantity,
 					),
 				)
@@ -187,12 +187,12 @@ class Travel_Core_Api {
 			} else {
 				$cart_item_key = WC()->cart->add_to_cart(
 					$id,
-					1,
+					$quantity,
 					0,
 					array(),
 					array(
 						'info_rooms' => array(
-							'price'    => $price,
+							'price'    => $price * $quantity,
 							'quantity' => $quantity,
 						),
 					),
@@ -258,25 +258,25 @@ class Travel_Core_Api {
 					'operator'        => 'IN',
 				);
 				
-				$terms = get_terms( $args );
+				// $terms = get_terms( $args );
 
-				$list_dia_diem = array();
+				// $list_dia_diem = array();
 
-				if ( ! empty( $terms ) ) {
-					foreach( $terms as $term){
-						$list_dia_diem[] = $term->term_id;
-					}
-				}
+				// if ( ! empty( $terms ) ) {
+				// 	foreach( $terms as $term){
+				// 		$list_dia_diem[] = $term->term_id;
+				// 	}
+				// }
 
-				if ( ! empty( $list_dia_diem ) ) {
-					$tax_query[] = array(
-						'taxonomy' => 'dia-diem',
-						'field'    => 'term_id',
-						'terms'    =>  $list_dia_diem,
-						'operator' => 'IN',
-						);
-				}
-				$response->address = $dia_diem;
+				// if ( ! empty( $list_dia_diem ) ) {
+				// 	$tax_query[] = array(
+				// 		'taxonomy' => 'dia-diem',
+				// 		'field'    => 'term_id',
+				// 		'terms'    =>  $list_dia_diem,
+				// 		'operator' => 'IN',
+				// 		);
+				// }
+				// $response->address = $dia_diem;
 			}
 
 			$meta_query = array(

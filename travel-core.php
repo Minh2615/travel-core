@@ -494,7 +494,26 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 
 			Hotel_Tour_WC_Hooks::instance();
 		}
-
+		public function url_api_search(){
+			if(is_page('search-hotel')){
+				$url_api = 'search-hotel';
+			}else if(is_page('search-tour')){
+				$url_api = 'search-tour';
+			}else{
+				$url_api = 'search-hotel';
+			}
+			return $url_api;
+		}
+		public function url_page_search(){
+			if(is_singular('travel-tour')){
+				$url_search = home_url( '/search-tour' );
+			}else if(is_home()){
+				$url_search = home_url( '/search-hotel' );
+			}else{
+				$url_search = home_url( '/search-hotel' );
+			}
+			return $url_search;
+		}
 		/**
 		 * It enqueues the style-ramdom style sheet.
 		 */
@@ -515,8 +534,9 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 				array(
 					'is_search_ks' => is_page( 'search-hotel' ),
 					'is_search_tour' => is_page( 'search-tour' ),
-					'url_api' => is_page( 'search-hotel' ) ? 'search-hotel' : 'search-tour',
-					'url_page_search' => is_singular('travel-tour') ? home_url( '/search-tour' ) : home_url( '/search-hotel' ),
+					'is_archive_ks' => is_post_type_archive( 'khach-san' ),
+					'url_api' => $this->url_api_search(),
+					'url_page_search' => $this->url_page_search(),
 				)
 			);
 			wp_enqueue_style( 'custom-style-travel-nk', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/style.css', array(), '1.0.0', '' );

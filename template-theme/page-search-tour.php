@@ -4,7 +4,7 @@
 	<div class="content-wrap">
 		<div class="container">
 			<div class="row">
-				<div class="col search-left medium-3 hide">
+				<div class="col search-left large-3 hide">
                     <div class="mobile-close">
                         <i class="fa fa-angle-right"></i>
                     </div>
@@ -112,7 +112,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col search-right medium-9">
+				<div class="col search-right large-9 medium-12">
 					<div class="block-container">
 						<div class="result-count" style="display:none;">
 							Tìm thấy <span class="total-hotel">22</span> Tour <span class="hotel-address"></span>                                             

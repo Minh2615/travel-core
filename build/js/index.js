@@ -239,7 +239,7 @@ const searchFormRating = (filterRooms, skeleton, wrapperResult) => {
 var timeout;
 const changeQuantity = () => {
   const quantity = document.querySelectorAll('.hotel-room-number .number-room');
-  const quantityValue = document.querySelectorAll('.hotel-room-number .number-room #numberOfroom');
+  const quantityValue = document.querySelectorAll('.hotel-room-number .number-room .numberOfroom');
   const quantityMinus = document.querySelectorAll('.hotel-room-number .number-room span#minus-room-ks');
   const quantityPlus = document.querySelectorAll('.hotel-room-number .number-room span#plus-room-ks');
   if (quantity.length > 0) {
@@ -473,7 +473,7 @@ const selectFormTour = () => {
 
 //
 document.addEventListener('DOMContentLoaded', () => {
-  if (custom_script_travel.is_search_ks == 1 || custom_script_travel.is_search_tour == 1) {
+  if (custom_script_travel.is_search_ks == 1 || custom_script_travel.is_search_tour == 1 || custom_script_travel.is_archive_ks == 1) {
     searchRoomsPages();
     searchTourText(filterRooms, skeleton, wrapperResult);
     filterPriceRooms(filterRooms, skeleton, wrapperResult);
