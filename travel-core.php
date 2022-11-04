@@ -348,6 +348,30 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 			);
 			register_post_type( 'hotel-room', $args_hotel_room );
 
+			$labels_tax_room_tag = array(
+				'name'              => 'Thẻ',
+				'singular_name'     => 'Thẻ',
+				'search_items'      => 'Search Thẻ',
+				'all_items'         => 'All Thẻ',
+				'edit_item'         => 'Edit Thẻ',
+				'update_item'       => 'Update Thẻ',
+				'add_new_item'      => 'Add New Thẻ',
+				'new_item_name'     => 'Add New Thẻ',
+				'menu_name'         => 'Thẻ',
+			);
+
+			$args_tax_room_tag = array(
+				'hierarchical'           => false,
+				'labels'                 => $labels_tax_room_tag,
+				'show_ui'                => true,
+				'show_admin_column'      => true,
+				'query_var'              => true,
+				'rewrite'                => array( 'slug' => 'room-tag' ),
+				'show_in_quick_editbool' => true,
+			);
+
+			register_taxonomy( 'room-tag', array( 'hotel-room' ), $args_tax_room_tag );
+
 			//Tour
 			$args_tour = array(
 				'labels'             => array(
