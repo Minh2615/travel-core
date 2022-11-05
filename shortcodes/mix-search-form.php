@@ -223,6 +223,7 @@ add_shortcode("mix-search-form", function ($atts) {
         })(jQuery)
     </script>
     <script type='text/javascript'>
+        <?php if(is_home()) : ?>
         var vjs_search = {
             path: ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.vinajet.vn/plugins',
             productKey: 'ADM-ADMVINAJET922',
@@ -239,6 +240,7 @@ add_shortcode("mix-search-form", function ($atts) {
             vjs_script.charset = 'UTF-8';
             vjs_head.appendChild(vjs_script);
         })();
+        <?php endif; ?>
     </script>
 
 	<?php

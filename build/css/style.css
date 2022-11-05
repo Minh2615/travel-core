@@ -31,9 +31,6 @@
 .main-content.page-search-tour.cpt-tour .search-left {
   margin-top: 15px;
 }
-.main-content.page-search-tour.cpt-tour .search-left.hide {
-  transform: translateX(-100%);
-}
 .main-content.page-search-tour.cpt-tour .result-count {
   margin-top: 5px;
   margin-bottom: 20px;

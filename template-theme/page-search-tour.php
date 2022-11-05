@@ -1,5 +1,5 @@
 <?php get_header(); ?>
-<?php get_header(); ?>
+
 <div class="main-content page-search-tour cpt-tour">
 	<div class="content-wrap">
 		<div class="container">

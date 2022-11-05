@@ -32,9 +32,9 @@
     &.cpt-tour{
       .search-left{
         margin-top: 15px;
-        &.hide {
-          transform: translateX(-100%);
-        }
+        // &.hide {
+        //   transform: translateX(-100%);
+        // }
       }
       .result-count{
         margin-top: 5px;

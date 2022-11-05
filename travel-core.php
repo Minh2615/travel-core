@@ -47,7 +47,25 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 			//save meta box tour int single ks
 			add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ), 10 , 1 );
 			add_action( 'save_post', array( $this, 'save' ), 10, 1 );
+			add_action( 'delete_post', array( $this, 'delete_list_room' ), 10, 1 );
+			add_action( 'wp_trash_post', array( $this, 'delete_list_room' ), 10, 1 );
 		}
+		
+		public function delete_list_room($post_id){
+			//delete post meta
+			$list_rooms = get_post_meta( $post_id, 'travel_list_rooms', true );
+			if( !empty($list_rooms)){
+				foreach ($list_rooms as $room_id){
+					$hotel_id = get_post_meta( $room_id, 'travel_hotel_id', true );
+					if ( ! empty( $hotel_id ) ) {
+						delete_post_meta( $room_id, 'travel_hotel_id');
+
+					}
+				}
+			}
+			delete_post_meta( $post_id , 'travel_list_rooms');
+		}
+		
 		public function add_meta_box( $post_type ) {
 			$post_types = array( 'khach-san' );
 
@@ -585,6 +603,9 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 			//fullcalendar
 			wp_enqueue_style( 'calendar-css', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/css/lib/fullcalendar.min.css', array() );
 			wp_enqueue_script( 'calendar-js', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/js/lib/fullcalendar.min.js', array('jquery'), '2.3.4', true );
+
+			//jquery ui 
+			wp_enqueue_style( 'jquery-ui-css', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/css/lib/jquery-ui.min.css', array() );
 		}
 	}
 
