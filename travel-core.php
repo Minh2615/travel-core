@@ -191,7 +191,7 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 
 		public function admin_enqueue_scripts(){
 			wp_enqueue_script( 'select2', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/js/lib/select2.min.js', array() );
-			wp_enqueue_style( 'select2', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/select2.min.css', array() );
+			wp_enqueue_style( 'select2', plugins_url( '/', TRAVEL_CORE_FILE ) . 'assets/select2.min.css', array() );
 		}
 
 		/**
@@ -583,11 +583,11 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 			);
 			wp_enqueue_style( 'custom-style-travel-nk', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/style.css', array(), '1.0.0', '' );
 			//font awesome
-			wp_enqueue_style( 'fontawesome', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/font-awesome.min.css', array() );
+			wp_enqueue_style( 'fontawesome', plugins_url( '/', TRAVEL_CORE_FILE ) . 'assets/font-awesome.min.css', array() );
 
 			if( is_singular('khach-san') ){
 				wp_enqueue_script( 'fanctybox', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/js/lib/jquery.fancybox-1.3.4.js', array(), '1.3.4', true );
-				wp_enqueue_style( 'fanctybox', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/jquery.fancybox-1.3.4.css', array() );
+				wp_enqueue_style( 'fanctybox', plugins_url( '/', TRAVEL_CORE_FILE ) . 'assets/jquery.fancybox-1.3.4.css', array() );
 			}
 			//carousel
 			wp_enqueue_style( 'carousel', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/css/lib/owl.carousel.min.css', array() );
@@ -604,8 +604,6 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 			wp_enqueue_style( 'calendar-css', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/css/lib/fullcalendar.min.css', array() );
 			wp_enqueue_script( 'calendar-js', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/js/lib/fullcalendar.min.js', array('jquery'), '2.3.4', true );
 
-			//jquery ui 
-			wp_enqueue_style( 'jquery-ui-css', plugins_url( '/', TRAVEL_CORE_FILE ) . 'src/css/lib/jquery-ui.min.css', array() );
 		}
 	}
 

@@ -842,6 +842,21 @@
           height: 100%;
         }
       }
+      .overlay{
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #00000085;
+        z-index: 1;
+        color: white;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
+        font-weight: bold;
+      }
     }
   }
 }

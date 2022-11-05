@@ -10,7 +10,12 @@
 						if( !empty( $galery ) ) { 
 							foreach($galery as $key => $image){ ?>
 								<div class="hotel-img-item">
-									<a href="<?php echo $image['img_hotel']; ?>" data-fancybox ="images">
+									<?php if($key ==3) :  ?>
+										<div class="overlay">
+											<p>Xem thêm <?php echo absint( count($galery) - 3 ) ; ?> ảnh</p>
+										</div>
+									<?php endif; ?>
+									<a href="<?php echo $image['img_hotel']; ?>" data-fancybox ="images" rel="group1">
 										<img src="<?php echo $image['img_hotel']; ?>" />
 									</a>
 								</div>
@@ -23,7 +28,7 @@
 							<?php while( have_rows('gallery_hotel') ): the_row(); 
 								$image = get_sub_field('img_hotel');
 								?>
-									<a href="<?php echo $image; ?>" data-fancybox ="images">
+									<a href="<?php echo $image; ?>" data-fancybox ="images" rel="group1">
 									</a>
 							<?php endwhile; ?>
 						<?php endif; ?>
@@ -269,15 +274,11 @@
 
 <script type="text/javascript">
     jQuery(document).ready(function($){
-		$("a[data-fancybox = 'images']").fancybox({
-			openEffect  : 'elastic',
-			closeEffect : 'elastic',
-			showNavArrows        : true,
-			closeBtn        : false,
-			helpers     : { 
-				title   : { type : 'inside' },
-				buttons : {}
-			}
+		$("a[data-fancybox='images']").fancybox({
+			'transitionIn'	:	'none',
+			'transitionOut'	:	'none',
+			'speedIn'		:	600, 
+			'speedOut'		:	200, 
 		});
     //   $('.img-wrapper').slick({
     //     slidesToShow: 1,
