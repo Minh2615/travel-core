@@ -7,17 +7,8 @@ var _custom_script_travel;
 /** search api */
 const urlCurrent = document.location.href;
 const urlPageSearch = (_custom_script_travel = custom_script_travel) === null || _custom_script_travel === void 0 ? void 0 : _custom_script_travel.url_page_search;
-// let filterRooms = {
-//     dia_diem : '',
-//     s : '',
-//     min_price : 0,
-//     max_price:0,
-//     star : 0,
-//     loai_hinh : [],
-//     tien_ich: [],
-//     page: 1,
-// };
-let filterRooms = JSON.parse(window.localStorage.getItem('wphb_filter_rooms')) || {};
+let filterHotel = JSON.parse(window.localStorage.getItem('wphb_filter_hotel')) || {};
+let filterTour = JSON.parse(window.localStorage.getItem('wphb_filter_tour')) || {};
 const skeleton = document.querySelector('.page-search-tour .block-result ul.search-nk-skeleton-animation');
 const wrapperResult = document.querySelector('.page-search-tour .block-result .detail__booking-rooms');
 const urlApi = custom_script_travel.url_api;
@@ -29,22 +20,39 @@ const wphbAddQueryArgs = (endpoint, args) => {
   return url;
 };
 const searchRoomsPages = () => {
-  requestSearchRoom(filterRooms);
+  if (urlApi == 'search-hotel') {
+    requestSearchRoom(filterHotel);
+  } else {
+    requestSearchRoom(filterTour);
+  }
 };
 const requestSearchRoom = args => {
   const wpRestUrl = hotel_settings.wphb_rest_url;
   if (!wpRestUrl) {
     return;
   }
-  if (Object.keys(args).length === 0) {
-    args.dia_diem = 0;
-    args.text = '';
-    args.min_price = 0;
-    args.max_price = 0;
-    args.star = 0;
-    args.loai_hinh = [];
-    args.tien_ich = [];
-    args.paged = 1;
+  if (urlApi == 'search-hotel') {
+    if (Object.keys(args).length === 0) {
+      args.dia_diem = 0;
+      args.text = '';
+      args.min_price = 0;
+      args.max_price = 0;
+      args.star = 0;
+      args.loai_hinh = [];
+      args.tien_ich = [];
+      args.paged = 1;
+    }
+  } else {
+    if (Object.keys(args).length === 0) {
+      args.dia_diem = 0;
+      args.text = '';
+      args.min_price = 0;
+      args.max_price = 0;
+      args.star = 0;
+      args.loai_hinh = [];
+      args.tien_ich = [];
+      args.paged = 1;
+    }
   }
   const urlWphbSearch = wphbAddQueryArgs(wpRestUrl + 'travel-core/v1/' + urlApi, {
     ...args
@@ -75,7 +83,11 @@ const requestSearchRoom = args => {
       const paginationNewNode = paginationHTML.querySelector('.rooms-pagination');
       if (paginationNewNode) {
         wrapperResult.after(paginationNewNode);
-        wphbPaginationRoom(filterRooms, skeleton, wrapperResult);
+        if (urlApi == 'search-hotel') {
+          wphbPaginationRoom(filterHotel, skeleton, wrapperResult);
+        } else {
+          wphbPaginationRoom(filterTour, skeleton, wrapperResult);
+        }
       }
     }
     const eleCount = document.querySelector('.search-right .result-count');
@@ -97,7 +109,11 @@ const requestSearchRoom = args => {
   }).catch(error => {
     wrapperResult.insertAdjacentHTML('beforeend', `<p class="wphb-message error" style="display:block">${error.message || 'Error: Query wphb/v1/rooms/search-room'}</p>`);
   }).finally(() => {
-    window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(args));
+    if (urlApi == 'search-hotel') {
+      window.localStorage.setItem('wphb_filter_hotel', JSON.stringify(args));
+    } else {
+      window.localStorage.setItem('wphb_filter_tour', JSON.stringify(args));
+    }
     const urlPush = wphbAddQueryArgs(document.location, args);
     // console.log(urlPush);
     window.history.pushState('', '', urlPush);
@@ -110,7 +126,7 @@ const requestSearchRoom = args => {
     }
   });
 };
-const searchTourText = (filterRooms, skeleton, wrapperResult) => {
+const searchTourText = (filterHotel, filterTour, skeleton, wrapperResult) => {
   const elemSearchText = document.querySelector('.search-by-hotel-name .search-group');
   if (elemSearchText !== null) {
     const btn = elemSearchText.querySelector('.btn-search-by-hotel-name');
@@ -120,14 +136,20 @@ const searchTourText = (filterRooms, skeleton, wrapperResult) => {
         wrapperResult.innerHTML = '';
         skeleton.style.display = 'block';
         const input = elemSearchText.querySelector('input[name="hotel-name"]');
-        filterRooms.text = input.value;
-        window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(filterRooms));
-        requestSearchRoom(filterRooms);
+        if (urlApi == 'search-hotel') {
+          filterHotel.text = input.value;
+          window.localStorage.setItem('wphb_filter_hotel', JSON.stringify(filterHotel));
+          requestSearchRoom(filterHotel);
+        } else {
+          filterTour.text = input.value;
+          window.localStorage.setItem('wphb_filter_tour', JSON.stringify(filterHotel));
+          requestSearchRoom(filterTour);
+        }
       });
     }
   }
 };
-const filterPriceRooms = (filterRooms, skeleton, wrapperResult) => {
+const filterPriceRooms = (filterHotel, filterTour, skeleton, wrapperResult) => {
   const btn = document.querySelector('.price-filter #range-slider a.btn-filter-price');
   if (btn !== null) {
     btn.addEventListener('click', function (e) {
@@ -138,51 +160,86 @@ const filterPriceRooms = (filterRooms, skeleton, wrapperResult) => {
       const min = (_document$querySelect = document.querySelector('#range-slider input#min-filter')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.value;
       const max = (_document$querySelect2 = document.querySelector('#range-slider input#max-filter')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.value;
       if (min !== 0 && max !== 0) {
-        filterRooms.min_price = min;
-        filterRooms.max_price = max;
-        window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(filterRooms));
-        requestSearchRoom(filterRooms);
+        if (urlApi == 'search-hotel') {
+          filterHotel.min_price = min;
+          filterHotel.max_price = max;
+          window.localStorage.setItem('wphb_filter_hotel', JSON.stringify(filterHotel));
+          requestSearchRoom(filterHotel);
+        } else {
+          filterTour.min_price = min;
+          filterTour.max_price = max;
+          window.localStorage.setItem('wphb_filter_tour', JSON.stringify(filterTour));
+          requestSearchRoom(filterTour);
+        }
       }
     });
   }
 };
-const filterLoaiHinh = (filterRooms, skeleton, wrapperResult) => {
+const filterLoaiHinh = (filterHotel, filterTour, skeleton, wrapperResult) => {
   const filterLoaiHinh = document.querySelectorAll('.search-by-tx-hotel .search-item input[name="tx_hotel"]');
   if (filterLoaiHinh.length > 0) {
     filterLoaiHinh.forEach(item => {
       item.addEventListener('change', function (e) {
         if (this.checked) {
-          filterRooms.loai_hinh.push(this.value);
+          if (urlApi == 'search-hotel') {
+            filterHotel.loai_hinh.push(this.value);
+          } else {
+            filterTour.loai_hinh.push(this.value);
+          }
         } else {
-          filterRooms.loai_hinh = filterRooms.loai_hinh.filter(item => item !== this.value);
+          if (urlApi == 'search-hotel') {
+            filterHotel.loai_hinh = filterHotel.loai_hinh.filter(item => item !== this.value);
+          } else {
+            filterTour.loai_hinh = filterTour.loai_hinh.filter(item => item !== this.value);
+          }
         }
         wrapperResult.innerHTML = '';
         skeleton.style.display = 'block';
-        window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(filterRooms));
-        requestSearchRoom(filterRooms);
+        if (urlApi == 'search-hotel') {
+          window.localStorage.setItem('wphb_filter_hotel', JSON.stringify(filterHotel));
+          requestSearchRoom(filterHotel);
+        } else {
+          window.localStorage.setItem('wphb_filter_tour', JSON.stringify(filterTour));
+          requestSearchRoom(filterTour);
+        }
       });
     });
   }
 };
-const filterTienIch = (filterRooms, skeleton, wrapperResult) => {
+const filterTienIch = (filterHotel, filterTour, skeleton, wrapperResult) => {
   const filterTienIch = document.querySelectorAll('.search-by-convenient .search-item input[name="tx_convenient"]');
   if (filterTienIch.length > 0) {
     filterTienIch.forEach(item => {
       item.addEventListener('change', function (e) {
         if (this.checked) {
-          filterRooms.tien_ich.push(this.value);
+          if (urlApi == 'search-hotel') {
+            filterHotel.tien_ich.push(this.value);
+            window.localStorage.setItem('wphb_filter_hotel', JSON.stringify(filterHotel));
+          } else {
+            filterTour.tien_ich.push(this.value);
+            window.localStorage.setItem('wphb_filter_tour', JSON.stringify(filterTour));
+          }
         } else {
-          filterRooms.tien_ich = filterRooms.tien_ich.filter(item => item !== this.value);
+          if (urlApi == 'search-hotel') {
+            filterHotel.tien_ich = filterHotel.tien_ich.filter(item => item !== this.value);
+          } else {
+            filterTour.tien_ich = filterTour.tien_ich.filter(item => item !== this.value);
+          }
         }
         wrapperResult.innerHTML = '';
         skeleton.style.display = 'block';
-        window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(filterRooms));
-        requestSearchRoom(filterRooms);
+        if (urlApi == 'search-hotel') {
+          window.localStorage.setItem('wphb_filter_hotel', JSON.stringify(filterHotel));
+          requestSearchRoom(filterHotel);
+        } else {
+          window.localStorage.setItem('wphb_filter_tour', JSON.stringify(filterTour));
+          requestSearchRoom(filterTour);
+        }
       });
     });
   }
 };
-const wphbPaginationRoom = (filterRooms, skeleton, wrapperResult) => {
+const wphbPaginationRoom = (filterHotel, filterTour, skeleton, wrapperResult) => {
   const paginationEle = document.querySelectorAll('.page-search-tour .rooms-pagination .page-numbers');
   paginationEle.length > 0 && paginationEle.forEach(ele => ele.addEventListener('click', event => {
     event.preventDefault();
@@ -193,13 +250,19 @@ const wphbPaginationRoom = (filterRooms, skeleton, wrapperResult) => {
     if (urlString) {
       const current = [...paginationEle].filter(el => el.classList.contains('current'));
       const paged = parseInt(event.currentTarget.textContent) || ele.classList.contains('next') && parseInt(current[0].textContent) + 1 || ele.classList.contains('prev') && parseInt(current[0].textContent) - 1;
-      filterRooms.paged = paged;
-      window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(filterRooms));
-      requestSearchRoom(filterRooms);
+      if (urlApi == 'search-hotel') {
+        filterHotel.paged = paged;
+        window.localStorage.setItem('wphb_filter_hotel', JSON.stringify(filterHotel));
+        requestSearchRoom(filterHotel);
+      } else {
+        filterTour.paged = paged;
+        window.localStorage.setItem('wphb_filter_tour', JSON.stringify(filterTour));
+        requestSearchRoom(filterTour);
+      }
     }
   }));
 };
-const searchFormCategory = (filterRooms, skeleton, wrapperResult) => {
+const searchFormCategory = (filterHotel, filterTour, skeleton, wrapperResult) => {
   const btn = document.querySelector('.search-right button.submit-search-room');
   if (btn === null) {
     return;
@@ -209,26 +272,45 @@ const searchFormCategory = (filterRooms, skeleton, wrapperResult) => {
     if (tax !== null) {
       wrapperResult.innerHTML = '';
       skeleton.style.display = 'block';
-      filterRooms.dia_diem = tax.value;
-      window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(filterRooms));
-      requestSearchRoom(filterRooms);
+      if (urlApi == 'search-hotel') {
+        filterHotel.dia_diem = tax.value;
+        window.localStorage.setItem('wphb_filter_hotel', JSON.stringify(filterHotel));
+        requestSearchRoom(filterHotel);
+      } else {
+        filterTour.dia_diem = tax.value;
+        window.localStorage.setItem('wphb_filter_tour', JSON.stringify(filterTour));
+        requestSearchRoom(filterTour);
+      }
     }
   });
 };
-const searchFormRating = (filterRooms, skeleton, wrapperResult) => {
+const searchFormRating = (filterHotel, filterTour, skeleton, wrapperResult) => {
   const ratings = document.querySelectorAll('.search-by-hotel-ranking input[name="ranking"]');
   if (ratings.length > 0) {
     ratings.forEach(function (rating) {
       rating.addEventListener('change', function () {
         if (rating.checked) {
-          filterRooms.star = rating.value;
+          if (urlApi == 'search-hotel') {
+            filterHotel.star = rating.value;
+          } else {
+            filterTour.star = rating.value;
+          }
         } else {
-          filterRooms.star = '';
+          if (urlApi == 'search-hotel') {
+            filterHotel.star = '';
+          } else {
+            filterTour.star = '';
+          }
         }
         wrapperResult.innerHTML = '';
         skeleton.style.display = 'block';
-        window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(filterRooms));
-        requestSearchRoom(filterRooms);
+        if (urlApi == 'search-hotel') {
+          window.localStorage.setItem('wphb_filter_hotel', JSON.stringify(filterHotel));
+          requestSearchRoom(filterHotel);
+        } else {
+          window.localStorage.setItem('wphb_filter_tour', JSON.stringify(filterTour));
+          requestSearchRoom(filterTour);
+        }
       });
     });
   }
@@ -423,11 +505,19 @@ const searchHotelHomePage = () => {
       var _document$querySelect7;
       e.preventDefault();
       const idDiaDiem = (_document$querySelect7 = document.querySelector('input[name="location-search-id"]')) === null || _document$querySelect7 === void 0 ? void 0 : _document$querySelect7.value;
-      filterRooms.dia_diem = idDiaDiem;
-      window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(filterRooms));
-      const urlPush = wphbAddQueryArgs(document.location, filterRooms);
-      const urlString = urlPush.search;
-      window.location.href = urlPageSearch + urlString;
+      if (urlApi == 'search-hotel') {
+        filterHotel.dia_diem = idDiaDiem;
+        window.localStorage.setItem('wphb_filter_hotel', JSON.stringify(filterHotel));
+        const urlPush = wphbAddQueryArgs(document.location, filterHotel);
+        const urlString = urlPush.search;
+        window.location.href = urlPageSearch + urlString;
+      } else {
+        filterTour.dia_diem = idDiaDiem;
+        window.localStorage.setItem('wphb_filter_tour', JSON.stringify(filterTour));
+        const urlPush = wphbAddQueryArgs(document.location, filterTour);
+        const urlString = urlPush.search;
+        window.location.href = urlPageSearch + urlString;
+      }
     });
   }
 };
@@ -461,11 +551,19 @@ const selectFormTour = () => {
         const data = [];
         const idDiaDiem = (_document$querySelect8 = document.querySelector('input#search-tour-text')) === null || _document$querySelect8 === void 0 ? void 0 : _document$querySelect8.dataset.id;
         data.push(idDiaDiem);
-        filterRooms.loai_hinh = data;
-        window.localStorage.setItem('wphb_filter_rooms', JSON.stringify(filterRooms));
-        const urlPush = wphbAddQueryArgs(document.location, filterRooms);
-        const urlString = urlPush.search;
-        window.location.href = urlPageSearch + urlString;
+        if (urlApi == 'search-hotel') {
+          filterHotel.loai_hinh = data;
+          window.localStorage.setItem('wphb_filter_hotel', JSON.stringify(filterHotel));
+          const urlPush = wphbAddQueryArgs(document.location, filterHotel);
+          const urlString = urlPush.search;
+          window.location.href = urlPageSearch + urlString;
+        } else {
+          filterTour.dia_diem = data;
+          window.localStorage.setItem('wphb_filter_tour', JSON.stringify(filterTour));
+          const urlPush = wphbAddQueryArgs(document.location, filterTour);
+          const urlString = urlPush.search;
+          window.location.href = urlPageSearch + urlString;
+        }
       });
     }
   }
@@ -475,12 +573,12 @@ const selectFormTour = () => {
 document.addEventListener('DOMContentLoaded', () => {
   if (custom_script_travel.is_search_ks == 1 || custom_script_travel.is_search_tour == 1 || custom_script_travel.is_archive_ks == 1) {
     searchRoomsPages();
-    searchTourText(filterRooms, skeleton, wrapperResult);
-    filterPriceRooms(filterRooms, skeleton, wrapperResult);
-    filterLoaiHinh(filterRooms, skeleton, wrapperResult);
-    filterTienIch(filterRooms, skeleton, wrapperResult);
-    searchFormCategory(filterRooms, skeleton, wrapperResult);
-    searchFormRating(filterRooms, skeleton, wrapperResult);
+    searchTourText(filterHotel, filterTour, skeleton, wrapperResult);
+    filterPriceRooms(filterHotel, filterTour, skeleton, wrapperResult);
+    filterLoaiHinh(filterHotel, filterTour, skeleton, wrapperResult);
+    filterTienIch(filterHotel, filterTour, skeleton, wrapperResult);
+    searchFormCategory(filterHotel, filterTour, skeleton, wrapperResult);
+    searchFormRating(filterHotel, filterTour, skeleton, wrapperResult);
   }
   //single ks
   changeQuantity();
