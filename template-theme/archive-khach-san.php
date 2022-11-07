@@ -41,7 +41,7 @@
                         </div>
                         <div class="search-by-hotel-ranking">
                             <div class="block-title">
-                                <h3>Hạng sao</h3>
+                                <h3>Hạng Khách Sạn</h3>
                             </div>
                             <div class="search-group">
                                 <div class="search-item">
@@ -88,29 +88,29 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="search-by-tx-hotel">
+                        <!-- <div class="search-by-tx-hotel">
                             <div class="block-title">
                                 <h3>Loại hình nhà ở</h3>
                             </div>
                             <div class="search-group">
 								<?php
-								$terms_noi_o = get_terms(
-									array(
-										'taxonomy' => 'loai-phong',
-										'hide_empty' => false,
-									)
-								);
-								if ( $terms_noi_o ) {
-									foreach( $terms_noi_o as $noi_o ) { ?>
+								//$terms_noi_o = get_terms(
+									//array(
+										//'taxonomy' => 'loai-phong',
+										//'hide_empty' => false,
+									//)
+								//);
+								//if ( $terms_noi_o ) {
+									//foreach( $terms_noi_o as $noi_o ) { ?>
                                         <div class="search-item">
-                                            <input id="input-tx-hotel-<?php echo $noi_o->term_id; ?>" type="checkbox" value="<?php echo $noi_o->term_id; ?>" name="tx_hotel">
-                                            <label for="input-tx-hotel-<?php echo $noi_o->term_id; ?>"> <span class="fake-checkbox"></span><?php echo $noi_o->name; ?></label>
+                                            <input id="input-tx-hotel-<?php// echo $noi_o->term_id; ?>" type="checkbox" value="<?php //echo $noi_o->term_id; ?>" name="tx_hotel">
+                                            <label for="input-tx-hotel-<?php //echo $noi_o->term_id; ?>"> <span class="fake-checkbox"></span><?php //echo $noi_o->name; ?></label>
                                         </div>
-									<?php }
-								}
+									<?php //}
+								//}
 								?>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="search-by-convenient">
                             <div class="block-title">
                                 <h3>Tiện ích</h3>
@@ -150,19 +150,7 @@
 											<div class="item">
 												<i class="icon-map-pin-fill"></i>
 												<input id="form-search-key" type="text" value="" placeholder="Bạn muốn đi đâu">
-												<!-- <div class="tt-menu">
-													<h5 class="item-title-autocomplete">
-														<span>Khu Vực</span>
-													</h5>
-													<div class="list-item-cate-search">
-														<div class="box-item">
-															<div class="box-title">
-																Khách sạn <strong class="tt-highlight">Đà Nẵng</strong>
-																<span class="pull-right extra-data">236 khách sạn</span> 
-															</div>
-														</div>
-													</div>
-												</div> -->
+												<input id="cate-dia-diem" type="hidden" >
 											</div>
 										</div>
 									</div>
@@ -174,6 +162,37 @@
 									</button>
 								</div>
 							</div>
+                            <div class="tt-menu" id="show-cate-ks">
+                                <h5 class="item-title-autocomplete">
+                                    <span>Địa điểm đang HOT nhất</span>
+                                </h5>
+                                <div class="list-item-cate-search">
+                                    <div class="container">
+                                        <div class="box-items row">
+                                            <?php
+                                                $terms = get_terms( array(
+                                                    'taxonomy' => 'dia-diem',
+                                                    'hide_empty' => false,
+                                                ) );
+                                                if(!empty($terms)){
+                                                    foreach($terms as $term){ ?>
+                                                        <div class="col col-md-4 item" data-id = "<?php echo $term->term_id; ?>"
+                                                        data-name="<?php echo $term->name; ?>">
+                                                            <img src="<?php echo get_field('img_cate', $term); ?>" alt="">
+                                                            <div>
+                                                                <div class="text">
+                                                                    <?php echo $term->name; ?>
+                                                                </div>
+                                                                <div><?php echo $term->count; ?> KS </div>
+                                                            </div>
+                                                        </div>
+                                                    <?php }
+                                                }
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 						</div>
 						<div class="block-result">
 							<?php echo nk_skeleton_animation_html( 20, '100%', 'height:20px', 'width:100%' ); ?>

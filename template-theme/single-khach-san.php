@@ -61,11 +61,53 @@
 						<span class="price-text">/đêm</span>
 					</div>
 					<div class="btn-book-hotel">
-						<a href="<?php echo get_field('link_book'); ?>" target="_blank">Liên hệ</a>
+						<a href="<?php echo get_field('link_book'); ?>" target="_blank">Đặt Phòng</a>
 					</div>
 				</div>
 			</div>
 			<div class="detail-hotel-wrapper">
+				<div class="wrapper-right">
+					<div class="block-detail-vi-tri">
+						<div class="title-tien-nghi">
+							<h3>Vị Trí</h3>
+						</div>
+						<div class="content-vi-tri">
+							<?php echo get_field('ban_do'); ?>
+						</div>
+					</div>
+					<div class="hotel-introduce">
+						<div class="hotel-introduce-content">
+							<div class="hotel-introduce-title">
+								<i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+								<h3><?php echo get_the_title(); ?></h3>
+							</div>
+							<div class="hotel-introduce-text">
+								<?php echo get_the_content(); ?>
+							</div>
+						</div>
+					</div>
+					<div class="hotel-utilities">
+						<div class="hotel-utilities-content">
+							<div class="hotel-utilities-title">
+								<span>Tiện ích khách sạn</span>
+							</div>
+							<div class="hotel-utilities-detail">
+								<ul>
+									<?php $terms = get_the_terms( get_the_ID(),'tien-nghi');
+										if ( !empty( $terms ) ){
+											foreach( $terms as $term ) { ?>
+												<li>
+													<i class="fa fa-check-square-o" aria-hidden="true"></i>
+													<span><?php echo $term->name; ?></span>
+												</li>
+										<?php }
+										}
+									?>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="wrapper-left">
 					<div class="block-detail-tien-nghi">
 						<div class="title-tien-nghi">
@@ -86,6 +128,20 @@
 							</ul>
 						</div>
 					</div>
+					<div class="block-detail-calendar">
+						<div class="hotel-box-date-start box-input-item"> 
+							<label class="">Ngày nhận phòng</label>
+							<input value="" required="" placeholder="Ngày nhận phòng" class="hotel-date-start form-control" type="text"> 
+						</div>
+						<div class="hotel-box-date-end box-input-item"> 
+							<label class="">Ngày trả phòng</label>
+							<input value="" required="" placeholder="Ngày trả phòng" class="hotel-date-end form-control" type="text"> 
+						</div>
+						<div class="box-input-item input-count-night">
+							<label class="">Số đêm</label>
+							<input type="number" placeholder="Số đêm" class="hotel-info-passenger form-control" max="30" value="1" min="1">
+						</div>
+					</div>
 					<div class="block-hotel-list-room">
 						<div class="block-hotel-list-room-content">
 							<div class="table-room">
@@ -94,9 +150,8 @@
 										<tr>
 											<th style="width: 243px;" scope="col">Loại phòng</th>
 											<th scope="col">Khuyến mại</th>
-											<th scope="col">Số Lượng</th>
 											<th scope="col" style="width: 16%;">Giá</th>
-											<th scope="col">Đặt phòng</th>
+											<th scope="col">Đặt Phòng</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -114,7 +169,18 @@
 																		<h3 class="heading-tertiary"><?php echo get_the_title($room_id); ?></h3>
 																	</div>
 																	<div class="hotel-room-image">
-																		<img src="<?php echo get_the_post_thumbnail_url( $room_id ); ?>" />
+																		<a href="<?php echo $image; ?>" data-fancybox ="images" rel="group1">
+																			<img src="<?php echo get_the_post_thumbnail_url( $room_id ); ?>" />
+																		</a>
+																		<?php if( have_rows('gallerys', $room_id) ): ?>
+																			<?php while( have_rows('gallerys', $room_id) ): the_row(); 
+																				$image = get_sub_field('img_gal');
+																				?>
+																					<a style="display:none;"href="<?php echo $image; ?>" data-fancybox ="images" rel="group1">
+																						<img src="<?php echo $image; ?>" alt="">
+																					</a>
+																			<?php endwhile; ?>
+																		<?php endif; ?>
 																	</div>
 																	<div class="hotel-room-description">
 																		<?php
@@ -160,20 +226,6 @@
 															</div>
 														</td>
 														<td>
-															<div class="hotel-room-number">
-																<div class="hotel-room-number-content">
-																	<div class="number-room">
-																		<span class="minus" id="minus-room-ks"><i class="fa fa-minus" aria-hidden="true"></i></span>
-																		<input type="text" min="0" max="999" step="1" value="1" class="numberOfroom" id="numberOfroom-<?php echo $room_id; ?>">
-																		<span class="plus" id="plus-room-ks"><i class="fa fa-plus" aria-hidden="true"></i></span>
-																	</div>
-																	<div class="room-max-people">
-																		<?php echo get_field( 'so_luong', $room_id ); ?>
-																	</div>
-																</div>
-															</div>
-														</td>
-														<td>
 															<div class="hotel-room-price">
 																<div class="hotel-room-price-content">
 																	Giá:  <span id="price-room-<?php echo $room_id; ?>" data-price= "<?php echo get_field( 'price_zoom', $room_id ); ?>"><?php echo number_format( get_field( 'price_zoom', $room_id ) ); ?> VNĐ</span>
@@ -183,6 +235,18 @@
 														<td class="col-book-room">
 															<div class="hotel-room-booking">
 																<div class="hotel-room-booking-content">
+																	<div class="hotel-room-number">
+																		<div class="hotel-room-number-content">
+																			<div class="number-room">
+																				<span class="minus" id="minus-room-ks"><i class="fa fa-minus" aria-hidden="true"></i></span>
+																				<input type="text" min="0" max="999" step="1" value="1" class="numberOfroom" id="numberOfroom-<?php echo $room_id; ?>">
+																				<span class="plus" id="plus-room-ks"><i class="fa fa-plus" aria-hidden="true"></i></span>
+																			</div>
+																			<div class="room-max-people">
+																				<?php echo get_field( 'so_luong', $room_id ); ?>
+																			</div>
+																		</div>
+																	</div>
 																	<a href="#" class="btn-oranges btn-booking-hotel" data-nid="<?php echo $room_id; ?>">Đặt phòng</a>	
 																</div>
 															</div>
@@ -223,48 +287,6 @@
 						</div>
 					</div>
 				</div>
-				<div class="wrapper-right">
-					<div class="block-detail-vi-tri">
-						<div class="title-tien-nghi">
-							<h3>Vị Trí</h3>
-						</div>
-						<div class="content-vi-tri">
-							<?php echo get_field('ban_do'); ?>
-						</div>
-					</div>
-					<div class="hotel-introduce">
-						<div class="hotel-introduce-content">
-							<div class="hotel-introduce-title">
-								<i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-								<h3><?php echo get_the_title(); ?></h3>
-							</div>
-							<div class="hotel-introduce-text">
-								<?php echo get_the_content(); ?>
-							</div>
-						</div>
-					</div>
-					<div class="hotel-utilities">
-						<div class="hotel-utilities-content">
-							<div class="hotel-utilities-title">
-								<span>Tiện ích khách sạn</span>
-							</div>
-							<div class="hotel-utilities-detail">
-								<ul>
-									<?php $terms = get_the_terms( get_the_ID(),'tien-nghi');
-										if ( !empty( $terms ) ){
-											foreach( $terms as $term ) { ?>
-												<li>
-													<i class="fa fa-check-square-o" aria-hidden="true"></i>
-													<span><?php echo $term->name; ?></span>
-												</li>
-										<?php }
-										}
-									?>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -280,21 +302,10 @@
 			'speedIn'		:	600, 
 			'speedOut'		:	200, 
 		});
-    //   $('.img-wrapper').slick({
-    //     slidesToShow: 1,
-	// 	slidesToScroll: 1,
-	// 	infinite: true,
-	// 	swipe: true,
-	// 	swipeToSlide: true,
-	// 	prevArrow: "<button type='button' class='slick-prev-galery detail-slick pull-left'></button>",
-    //   	nextArrow: "<button type='button' class='slick-next-galery detail-slick pull-right'></button>",
-	// 	arrows: false,
-	// 	draggable: true,
-	// 	dots: true,
-	// 	speed: 500,
-	// 	fade: true,
-	// 	cssEase: 'linear'
-    //   });
+		var checkin = $('.hotel-date-start');
+		checkin.datepicker({});
+		var checkout = $('.hotel-date-end');
+		checkout.datepicker({});
     });
 </script>
 <?php get_footer(); ?>

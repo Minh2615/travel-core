@@ -560,7 +560,7 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 		 * It enqueues the style-ramdom style sheet.
 		 */
 		public function enqueue_scripts() {
-
+			$v = rand();
 			$dependencies = array(
 				'jquery',
 				'jquery-ui-sortable',
@@ -569,7 +569,7 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 				'wp-api-fetch',
 			);
 
-			wp_enqueue_script( 'custom-script-travel-nk', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/js/index.js', $dependencies , '1.0.0', true );
+			wp_enqueue_script( 'custom-script-travel-nk', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/js/index.js', $dependencies , $v, true );
 			wp_localize_script(
 				'custom-script-travel-nk',
 				'custom_script_travel',

@@ -2,16 +2,16 @@
 	<div class="page-full-header book-hotel">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-3 col-md-3">
+				<!-- <div class="col-lg-3 col-md-3">
 					<div class="box-logo">
 						<div class="header-box-logo">
-							<a href="<?php echo home_url(); ?>">
+							<a href="<?php //echo home_url(); ?>">
 								<img src="https://data.vietnambooking.com/common/svg/logo_blue.svg" alt="logo">
 							</a>
 						</div>
 					</div>
-				</div>
-				<div class="col-lg-9 col-md-9">
+				</div> -->
+				<div class="col-lg-12 col-md-12">
 					<div class="box-step">
 						<ul>               
 							<li class="active "> <span>1</span> Điền thông tin </li>                
@@ -61,8 +61,9 @@
 							<div class="input-item form-group col-lg-12 col-md-12 box-full-services-extra">
 								<label for="info_services_extra">Hãy cho chúng tôi biết Quý khách cần gì? </label>
 								<div class="box-services-extra">
-									<div class="note"> Lưu ý tất cả các yêu cầu chỉ được đáp ứng tùy theo khách sạn</div>
-									<div class="box-services-extra-inner">
+									<textarea id="order_comments" autocomplete="off" maxlength="200" class="form-control txt_note" name="order_comments"></textarea>
+
+									<!-- <div class="box-services-extra-inner">
 										<div class="box-item type-radio">
 											<div class="box-item-inner">
 												<label for="rad-item-1"></label>
@@ -70,22 +71,10 @@
 												 Phòng không hút thuốc 
 											</div>
 										</div>
-									</div>
+									</div> -->
 								</div>
 							</div>
-							<div class="input-item form-group col-lg-12 col-md-12">
-<!--								<div class="hotel-box-note">-->
-<!--									<div class="box-title">-->
-<!--										<i class="fas fa-plus-circle"></i>-->
-<!--										Thêm yêu cầu đặc biệt -->
-<!--									</div>-->
-<!--									<textarea id="order_comments" autocomplete="off" maxlength="200" class="form-control txt_note hidden" name="order_comments"></textarea>-->
-<!--								</div>-->
-								<span class="help-block"></span>
-								<div class="box-submit">
-									<button type="submit" class="btn-submit-contact-booking">Tiếp Tục</button>
-								</div>
-							</div>
+							
 						</form>
 					</div>
 				</div>
@@ -123,10 +112,36 @@
 											</tr> -->
 											<tr>
 												<td> <div class="title"><i class="icon-vnbk icon-passenger-528-96"></i> Số khách phòng </div> </td>
-												<td> <div class="info-right"> 1 khách, 1 phòng </div> </td>
+												<td> <div class="info-right"> 2 người lớn, 1 trẻ em </div> </td>
 											</tr>
 										</tbody>
 									</table>                        
+								</div>
+								<div class="date-event">
+									<div class="sub-item">
+										<div class="title">
+											Ngày nhận phòng
+										</div>
+										<div class="content">
+											<?php echo $cart_item['info_rooms']['checkin'] ?? ''; ?>
+										</div>
+									</div>
+									<div class="sub-item">
+										<div class="title">
+											Ngày trả phòng
+										</div>
+										<div class="content">
+											<?php echo $cart_item['info_rooms']['checkout'] ?? ''; ?>
+										</div>
+									</div>
+									<div class="sub-item">
+										<div class="title">
+											Số đêm
+										</div>
+										<div class="content">
+											<?php echo $cart_item['info_rooms']['sodem'] ?? 1; ?>
+										</div>
+									</div>
 								</div>
 							<?php } 
 							} endif; ?>
@@ -135,7 +150,7 @@
 									<tbody>
 										<tr>
 											<!-- <td> <div class="title">1 phòng x 1 đêm </div> </td> -->
-											<td> <div class="info-right"><?php echo WC()->cart->get_cart_total(); ?></div> </td>
+											<!-- <td> <div class="info-right"><?php //echo WC()->cart->get_cart_total(); ?></div> </td> -->
 										</tr>
 										<!-- <tr>
 											<td> <div class="title box-promo">Promo giảm 40%</div> </td>
@@ -153,15 +168,21 @@
 											<td> <div class="title">Tổng tiền</div> </td>
 											<td> <div class="info-right"><?php echo WC()->cart->get_cart_total(); ?></div> </td>
 										</tr>
+										<tr class="tr-coupon">
+											<input type="text" placeholder="Mã giảm giá" id="coupon-book-room">
+										</tr>
 										<tr class="tr-note">
-											<td colspan="2"> 
-												<div class="alert alert-warning white">
+											<!-- <td colspan="2"> 
+												<div class="alert alert-warning">
 													Booking của bạn đang được chờ xác nhận. Tư vấn viên sẽ sớm liên hệ với bạn
 												</div>
-											</td>
+											</td> -->
 										</tr>
 									</tbody>
 								</table>
+								<div class="box-submit">
+									<button type="submit" class="btn-submit-contact-booking">Yêu cầu đặt phòng</button>
+								</div>
 								<div class="box-hotline"><i class="icon-vnbk icon-phone-96-48"></i> Gọi <a href="tel:19004698">1900 4698</a> để được hỗ trợ 24/7</div>
 							</div>
 						</div>

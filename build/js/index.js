@@ -7,8 +7,26 @@ var _custom_script_travel;
 /** search api */
 const urlCurrent = document.location.href;
 const urlPageSearch = (_custom_script_travel = custom_script_travel) === null || _custom_script_travel === void 0 ? void 0 : _custom_script_travel.url_page_search;
-let filterHotel = JSON.parse(window.localStorage.getItem('wphb_filter_hotel')) || {};
-let filterTour = JSON.parse(window.localStorage.getItem('wphb_filter_tour')) || {};
+let filterHotel = JSON.parse(window.localStorage.getItem('wphb_filter_hotel')) || {
+  dia_diem: 0,
+  text: '',
+  min_price: 0,
+  max_price: 0,
+  star: 0,
+  loai_hinh: [],
+  tien_ich: [],
+  paged: 1
+};
+let filterTour = JSON.parse(window.localStorage.getItem('wphb_filter_tour')) || {
+  dia_diem: 0,
+  text: '',
+  min_price: 0,
+  max_price: 0,
+  star: 0,
+  loai_hinh: [],
+  tien_ich: [],
+  paged: 1
+};
 const skeleton = document.querySelector('.page-search-tour .block-result ul.search-nk-skeleton-animation');
 const wrapperResult = document.querySelector('.page-search-tour .block-result .detail__booking-rooms');
 const urlApi = custom_script_travel.url_api;
@@ -268,7 +286,7 @@ const searchFormCategory = (filterHotel, filterTour, skeleton, wrapperResult) =>
     return;
   }
   btn.addEventListener('click', function (e) {
-    const tax = document.querySelector('#form-search-key');
+    const tax = document.querySelector('#cate-dia-diem');
     if (tax !== null) {
       wrapperResult.innerHTML = '';
       skeleton.style.display = 'block';
@@ -364,15 +382,21 @@ const addToCartHotel = () => {
     };
     btn.forEach((item, i) => {
       item.addEventListener('click', e => {
-        var _document$querySelect3, _document$querySelect4;
+        var _document$querySelect3, _document$querySelect4, _document$querySelect5, _document$querySelect6, _document$querySelect7;
         e.preventDefault();
         const id = item.dataset.nid;
         const quantity = (_document$querySelect3 = document.querySelector(`#numberOfroom-${id}`)) === null || _document$querySelect3 === void 0 ? void 0 : _document$querySelect3.value;
         const price = (_document$querySelect4 = document.querySelector(`#price-room-${id}`)) === null || _document$querySelect4 === void 0 ? void 0 : _document$querySelect4.dataset.price;
+        const checkin = (_document$querySelect5 = document.querySelector('.hotel-date-start')) === null || _document$querySelect5 === void 0 ? void 0 : _document$querySelect5.value;
+        const checkout = (_document$querySelect6 = document.querySelector('.hotel-date-end')) === null || _document$querySelect6 === void 0 ? void 0 : _document$querySelect6.value;
+        const soDem = (_document$querySelect7 = document.querySelector('.hotel-info-passenger')) === null || _document$querySelect7 === void 0 ? void 0 : _document$querySelect7.value;
         const data = {
           id: id,
           quantity: quantity,
-          price: price
+          price: price,
+          checkin: checkin,
+          checkout: checkout,
+          sodem: soDem
         };
         submit(data);
       });
@@ -482,11 +506,11 @@ const addToCartTour = () => {
       }
     };
     btn.addEventListener('click', e => {
-      var _document$querySelect5, _document$querySelect6;
+      var _document$querySelect8, _document$querySelect9;
       e.preventDefault();
       const id = btn.dataset.id;
-      const capacity = (_document$querySelect5 = document.querySelector('select[name="number_people"]')) === null || _document$querySelect5 === void 0 ? void 0 : _document$querySelect5.value;
-      const date_start = (_document$querySelect6 = document.querySelector('input[name="date_start"]')) === null || _document$querySelect6 === void 0 ? void 0 : _document$querySelect6.value;
+      const capacity = (_document$querySelect8 = document.querySelector('select[name="number_people"]')) === null || _document$querySelect8 === void 0 ? void 0 : _document$querySelect8.value;
+      const date_start = (_document$querySelect9 = document.querySelector('input[name="date_start"]')) === null || _document$querySelect9 === void 0 ? void 0 : _document$querySelect9.value;
       const price = btn.dataset.price;
       const data = {
         id: id,
@@ -502,9 +526,9 @@ const searchHotelHomePage = () => {
   const btn = document.querySelector('.mix-search .hotel-btn-submit');
   if (btn !== null) {
     btn.addEventListener('click', function (e) {
-      var _document$querySelect7;
+      var _document$querySelect10;
       e.preventDefault();
-      const idDiaDiem = (_document$querySelect7 = document.querySelector('input[name="location-search-id"]')) === null || _document$querySelect7 === void 0 ? void 0 : _document$querySelect7.value;
+      const idDiaDiem = (_document$querySelect10 = document.querySelector('input[name="location-search-id"]')) === null || _document$querySelect10 === void 0 ? void 0 : _document$querySelect10.value;
       if (urlApi == 'search-hotel') {
         filterHotel.dia_diem = idDiaDiem;
         window.localStorage.setItem('wphb_filter_hotel', JSON.stringify(filterHotel));
@@ -546,10 +570,10 @@ const selectFormTour = () => {
     const btn = document.querySelector('.box-search-tour .box-button-tour');
     if (btn !== null) {
       btn.addEventListener('click', function (e) {
-        var _document$querySelect8;
+        var _document$querySelect11;
         e.preventDefault();
         const data = [];
-        const idDiaDiem = (_document$querySelect8 = document.querySelector('input#search-tour-text')) === null || _document$querySelect8 === void 0 ? void 0 : _document$querySelect8.dataset.id;
+        const idDiaDiem = (_document$querySelect11 = document.querySelector('input#search-tour-text')) === null || _document$querySelect11 === void 0 ? void 0 : _document$querySelect11.dataset.id;
         data.push(idDiaDiem);
         if (urlApi == 'search-hotel') {
           filterHotel.loai_hinh = data;
@@ -568,7 +592,46 @@ const selectFormTour = () => {
     }
   }
 };
-
+const inSearchCateKS = () => {
+  const input = document.querySelector('#form-search-key');
+  if (input !== null) {
+    const ele = document.querySelector('#show-cate-ks');
+    input.addEventListener('focus', function () {
+      if (ele !== null) {
+        ele.classList.add('active');
+      }
+    });
+    window.addEventListener('click', function (e) {
+      if (!document.querySelector('#form-search-key').contains(e.target)) {
+        ele.classList.remove('active');
+      }
+    });
+    const list = document.querySelectorAll('#show-cate-ks .box-items .item');
+    list.forEach(function (item) {
+      item.addEventListener('click', function () {
+        input.value = item.dataset.name;
+        const inputSearch = document.querySelector('#cate-dia-diem');
+        if (inputSearch !== null) {
+          inputSearch.value = item.dataset.id;
+        }
+      });
+    });
+  }
+};
+const scrollElementKS = () => {
+  const btn = document.querySelector('.block-detail-hotel-content .btn-book-hotel a');
+  if (btn !== null) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      const contentPageSearch = document.querySelector('.block-detail-hotel-content .block-detail-tien-nghi');
+      if (contentPageSearch != null) {
+        contentPageSearch.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }
+    });
+  }
+};
 //
 document.addEventListener('DOMContentLoaded', () => {
   if (custom_script_travel.is_search_ks == 1 || custom_script_travel.is_search_tour == 1 || custom_script_travel.is_archive_ks == 1) {
@@ -591,6 +654,8 @@ document.addEventListener('DOMContentLoaded', () => {
   searchHotelHomePage();
   //single tour
   selectFormTour();
+  inSearchCateKS();
+  scrollElementKS();
 });
 /******/ })()
 ;

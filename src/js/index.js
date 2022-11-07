@@ -3,10 +3,29 @@ const urlCurrent = document.location.href;
 const urlPageSearch = custom_script_travel?.url_page_search;
 
 let filterHotel =
-    JSON.parse(window.localStorage.getItem('wphb_filter_hotel')) || {};
+    JSON.parse(window.localStorage.getItem('wphb_filter_hotel')) || {
+        dia_diem : 0,
+        text : '',
+        min_price : 0,
+        max_price : 0,
+        star : 0,
+        loai_hinh : [],
+        tien_ich : [],
+        paged : 1,
+    };
 
-let filterTour =
-    JSON.parse(window.localStorage.getItem('wphb_filter_tour')) || {};
+let filterTour = JSON.parse(
+    window.localStorage.getItem('wphb_filter_tour')
+) || {
+    dia_diem: 0,
+    text: '',
+    min_price: 0,
+    max_price: 0,
+    star: 0,
+    loai_hinh: [],
+    tien_ich: [],
+    paged: 1,
+};
 
 const skeleton = document.querySelector('.page-search-tour .block-result ul.search-nk-skeleton-animation');
 const wrapperResult = document.querySelector('.page-search-tour .block-result .detail__booking-rooms');
@@ -373,7 +392,7 @@ const searchFormCategory = (filterHotel,filterTour, skeleton, wrapperResult) => 
         return;
     }
     btn.addEventListener('click', function (e) {
-        const tax = document.querySelector('#form-search-key');
+        const tax = document.querySelector('#cate-dia-diem');
         if (tax !== null) {
             wrapperResult.innerHTML = '';
             skeleton.style.display = 'block';
@@ -494,10 +513,18 @@ const addToCartHotel = () => {
                 const id = item.dataset.nid;
                 const quantity = document.querySelector(`#numberOfroom-${id}`)?.value;
                 const price = document.querySelector(`#price-room-${id}`)?.dataset.price;
+                const checkin = document.querySelector('.hotel-date-start')?.value;
+                const checkout = document.querySelector('.hotel-date-end')?.value;
+                const soDem = document.querySelector(
+                    '.hotel-info-passenger'
+                )?.value;
                 const data = {
                     id: id,
                     quantity: quantity,
-                    price: price
+                    price: price,
+                    checkin: checkin,
+                    checkout: checkout,
+                    sodem : soDem
                 };
                 submit(data);
             });
@@ -690,10 +717,11 @@ const selectFormTour = () => {
                 data.push(idDiaDiem);
                 if (urlApi == 'search-hotel') {
                     filterHotel.loai_hinh = data;
-                     window.localStorage.setItem(
+                    window.localStorage.setItem(
                          'wphb_filter_hotel',
                          JSON.stringify(filterHotel)
-                     );
+                    );
+
                     const urlPush = wphbAddQueryArgs(
                         document.location,
                         filterHotel
@@ -719,6 +747,51 @@ const selectFormTour = () => {
     }
 }
 
+const inSearchCateKS = () => {
+    const input = document.querySelector('#form-search-key');
+    if (input !== null) {
+        const ele = document.querySelector('#show-cate-ks');
+        input.addEventListener('focus', function () {
+            if (ele !== null) {
+                ele.classList.add('active');
+            }
+        });
+        window.addEventListener('click', function (e) {
+            if ( !document.querySelector('#form-search-key').contains(e.target) ) {
+                ele.classList.remove('active');
+            }
+        });
+        const list = document.querySelectorAll('#show-cate-ks .box-items .item');
+        list.forEach(function (item) {
+            item.addEventListener('click', function () {
+                input.value = item.dataset.name;
+                const inputSearch = document.querySelector('#cate-dia-diem');
+                if (inputSearch !== null) {
+                    inputSearch.value = item.dataset.id;
+                }
+            });
+        })
+        
+    }
+}
+
+
+const scrollElementKS = () => {
+    const btn = document.querySelector(
+        '.block-detail-hotel-content .btn-book-hotel a'
+    );
+    if (btn !== null) {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const contentPageSearch = document.querySelector(
+                '.block-detail-hotel-content .block-detail-tien-nghi'
+            );
+            if (contentPageSearch != null) {
+                contentPageSearch.scrollIntoView({ behavior: 'smooth' });
+            }
+        })
+    }
+}
 //
 document.addEventListener( 'DOMContentLoaded', () => {
     if (
@@ -745,4 +818,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
     searchHotelHomePage();
     //single tour
     selectFormTour();
+
+    inSearchCateKS();
+
+    scrollElementKS();
 } );

@@ -123,21 +123,6 @@ class Travel_Core_Api {
 
 			$cart  = WC()->cart->get_cart();
 			$order = new WC_Order( $order_id );
-			// foreach ( $order->get_items() as $item_id => $item ) {
-			// 	$id_up_game = wc_get_order_item_meta( $item_id, '_up_game_id' );
-			// 	$id_up_rank = wc_get_order_item_meta( $item_id, '_up_rank_id' );
-			// 	foreach ( $cart as $cart_item_key => $cart_item ) {
-			// 		if ( $id_up_rank == $cart_item['product_id'] ) {
-			// 			wc_add_order_item_meta( $item_id, '_wc_item_webgame', $cart_item['info_up_rank'] );
-			// 		}
-			// 		if ( $id_up_game == $cart_item['product_id'] ) {
-			// 			wc_add_order_item_meta( $item_id, '_wc_item_webgame', $cart_item['info_customer'] );
-			// 		}
-			// 	}
-			// 	if ( get_post_type( $cart_item['product_id'] ) == 'sell-acc' ) {
-			// 		update_post_meta( $cart_item['product_id'], 'webgame_acccount_da_mua', 1 );
-			// 	}
-			// };
 
 			$order->payment_complete();
 			WC()->cart->empty_cart( false );
@@ -161,10 +146,16 @@ class Travel_Core_Api {
 		$price        = $params['price'] ?? 0;
 		$id           = $params['id'] ?? 0;
 		$quantity     = $params['quantity'] ?? 1;
+		$checkin      = $params['checkin'] ?? '';
+		$checkout     = $params['checkout'] ?? '';
+		$sodem       = $params['sodem'] ?? 1;
 
 		try {
 			if ( empty( $id ) ) {
 				throw new Exception( 'Phòng không hợp lệ, Vui lòng thử lại' );
+			}
+			if ( empty( $checkin ) || empty( $checkout ) ) {
+				throw new Exception( 'Vui lòng nhập ngày bắt đầu và kết thúc' );
 			}
 			$cart_id = WC()->cart->generate_cart_id(
 				$id,
@@ -174,6 +165,9 @@ class Travel_Core_Api {
 					'info_rooms' => array(
 						'price'    => $price * $quantity,
 						'quantity' => $quantity,
+						'checkin' => $checkin,
+						'checkout' => $checkout,
+						'sodem' => $sodem,
 					),
 				)
 			);
@@ -194,6 +188,9 @@ class Travel_Core_Api {
 						'info_rooms' => array(
 							'price'    => $price * $quantity,
 							'quantity' => $quantity,
+							'checkin'  => $checkin,
+							'checkout' => $checkout,
+							'sodem'    => $sodem,
 						),
 					),
 				);
