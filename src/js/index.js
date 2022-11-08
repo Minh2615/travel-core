@@ -672,17 +672,17 @@ const searchHotelHomePage = () => {
                 const urlString = urlPush.search;
                 window.location.href = urlPageSearch + urlString;
             } else {
-                  filterTour.dia_diem = idDiaDiem;
-                  window.localStorage.setItem(
-                      'wphb_filter_tour',
-                      JSON.stringify(filterTour)
-                  );
+                filterTour.dia_diem = idDiaDiem;
+                window.localStorage.setItem(
+                    'wphb_filter_tour',
+                    JSON.stringify(filterTour)
+                );
                   const urlPush = wphbAddQueryArgs(
                       document.location,
                       filterTour
                   );
-                  const urlString = urlPush.search;
-                  window.location.href = urlPageSearch + urlString;
+                const urlString = urlPush.search;
+                window.location.href = urlPageSearch + urlString;
             }
         });
     }
@@ -788,7 +788,7 @@ const scrollElementKS = () => {
         btn.addEventListener('click', function (e) {
             e.preventDefault();
             const contentPageSearch = document.querySelector(
-                '.block-detail-hotel-content .block-detail-tien-nghi'
+                '.block-detail-hotel-content .block-detail-calendar'
             );
             if (contentPageSearch != null) {
                 contentPageSearch.scrollIntoView({ behavior: 'smooth' });

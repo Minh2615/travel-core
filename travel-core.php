@@ -549,8 +549,8 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 		public function url_page_search(){
 			if(is_singular('travel-tour')){
 				$url_search = home_url( '/search-tour' );
-			}else if(is_home()){
-				$url_search = home_url( '/search-hotel' );
+			}else if(is_front_page()){
+				$url_search = home_url( '/khach-san' );
 			}else{
 				$url_search = home_url( '/search-hotel' );
 			}

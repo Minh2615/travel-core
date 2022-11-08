@@ -627,7 +627,7 @@ const scrollElementKS = () => {
   if (btn !== null) {
     btn.addEventListener('click', function (e) {
       e.preventDefault();
-      const contentPageSearch = document.querySelector('.block-detail-hotel-content .block-detail-tien-nghi');
+      const contentPageSearch = document.querySelector('.block-detail-hotel-content .block-detail-calendar');
       if (contentPageSearch != null) {
         contentPageSearch.scrollIntoView({
           behavior: 'smooth'
