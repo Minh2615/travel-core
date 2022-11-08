@@ -390,6 +390,10 @@ const addToCartHotel = () => {
         const checkin = (_document$querySelect5 = document.querySelector('.hotel-date-start')) === null || _document$querySelect5 === void 0 ? void 0 : _document$querySelect5.value;
         const checkout = (_document$querySelect6 = document.querySelector('.hotel-date-end')) === null || _document$querySelect6 === void 0 ? void 0 : _document$querySelect6.value;
         const soDem = (_document$querySelect7 = document.querySelector('.hotel-info-passenger')) === null || _document$querySelect7 === void 0 ? void 0 : _document$querySelect7.value;
+        if (!checkin || !checkout) {
+          alert('Mời nhập ngày nhận phòng và trả phòng');
+          return false;
+        }
         const data = {
           id: id,
           quantity: quantity,

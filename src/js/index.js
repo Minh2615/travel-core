@@ -518,6 +518,10 @@ const addToCartHotel = () => {
                 const soDem = document.querySelector(
                     '.hotel-info-passenger'
                 )?.value;
+                if ( ! checkin || ! checkout) {
+                    alert('Mời nhập ngày nhận phòng và trả phòng');
+                    return false;
+                }
                 const data = {
                     id: id,
                     quantity: quantity,

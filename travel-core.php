@@ -581,7 +581,7 @@ if ( ! class_exists( 'TRAVEL_CORE' ) ) {
 					'url_page_search' => $this->url_page_search(),
 				)
 			);
-			wp_enqueue_style( 'custom-style-travel-nk', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/style.css', array(), '1.0.0', '' );
+			wp_enqueue_style( 'custom-style-travel-nk', plugins_url( '/', TRAVEL_CORE_FILE ) . 'build/css/style.css', array(), $v, '' );
 			//font awesome
 			wp_enqueue_style( 'fontawesome', plugins_url( '/', TRAVEL_CORE_FILE ) . 'assets/font-awesome.min.css', array() );
 

@@ -109,25 +109,25 @@
 					</div>
 				</div>
 				<div class="wrapper-left">
-					<div class="block-detail-tien-nghi">
+					<!-- <div class="block-detail-tien-nghi">
 						<div class="title-tien-nghi">
 							<h3>Tiện Nghi Khách Sạn</h3>
 						</div>
 						<div class="content-facilities">
 							<ul class="tien-nghi">
-								<?php $terms = get_the_terms( get_the_ID(),'tien-nghi');
-									if ( !empty( $terms ) ){
-										foreach( $terms as $term ) { ?>
+								<?php //$terms = get_the_terms( get_the_ID(),'tien-nghi');
+									//if ( !empty( $terms ) ){
+										//foreach( $terms as $term ) { ?>
 											<li>
 												<i class="fa fa-check-square-o" aria-hidden="true"></i>
-												<span><?php echo $term->name; ?></span>
+												<span><?php //echo $term->name; ?></span>
 											</li>
-									<?php }
-									}
+									<?php// }
+									//}
 								?>
 							</ul>
 						</div>
-					</div>
+					</div> -->
 					<div class="block-detail-calendar">
 						<div class="hotel-box-date-start box-input-item"> 
 							<label class="">Ngày nhận phòng</label>
