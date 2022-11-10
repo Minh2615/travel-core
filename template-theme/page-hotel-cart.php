@@ -90,56 +90,101 @@
 								$product_id = apply_filters( 'woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key );
 								if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_cart_item_visible', true, $cart_item, $cart_item_key ) ) {
 								?>
-								<div class="summary-main">
-									<div class="box-img">
-										<?php echo $_product->get_image(); ?>
-									</div>
-									<div class="box-title">
-										<h3><?php echo get_the_title($product_id); ?></h3>
-										<div class="description"> Phòng Superior </div>
-									</div>
-								</div>
-								<div class="summary-total">
-									<table class="tlb-info">
-										<tbody>
-											<!-- <tr>
-												<td> <div class="title"><i class="icon-vnbk icon-calendar-from-570-48 "></i> Ngày nhận phòng </div> </td>
-												<td> <div class="info-right"> 27/10/2022 </div> </td>
-											</tr>
-											<tr>
-												<td> <div class="title"><i class="icon-vnbk icon-calendar-to-612-48 "></i> Ngày trả phòng </div> </td>
-												<td> <div class="info-right">  28/10/2022 </div> </td>
-											</tr> -->
-											<tr>
-												<td> <div class="title"><i class="icon-vnbk icon-passenger-528-96"></i> Số khách phòng </div> </td>
-												<td> <div class="info-right"> 2 người lớn, 1 trẻ em </div> </td>
-											</tr>
-										</tbody>
-									</table>                        
-								</div>
-								<div class="date-event">
-									<div class="sub-item">
-										<div class="title">
-											Ngày nhận phòng
+								<div id="item-cart-<?php echo $product_id; ?>" class="detail-item-cart" data-cart="<?php echo $cart_item_key; ?>" data-pid ="<?php echo $product_id; ?>">
+									<div class="summary-main">
+										<div class="box-img">
+											<?php echo $_product->get_image(); ?>
 										</div>
-										<div class="content">
-											<?php echo $cart_item['info_rooms']['checkin'] ?? ''; ?>
+										<div class="box-title">
+											<h3><?php echo get_the_title($product_id); ?></h3>
+											<div class="description"> Phòng Superior </div>
+										</div>
+										<div class="edit-cart">
+											<i class="fa fa-pencil-square-o edit-item" aria-hidden="true" data-pid="<?php echo $product_id; ?>"></i>
+											<i class="fa fa-trash-o delete-item" aria-hidden="true" data-pid="<?php echo $product_id; ?>"></i>
 										</div>
 									</div>
-									<div class="sub-item">
-										<div class="title">
-											Ngày trả phòng
+									<div class="summary-total">
+										<table class="tlb-info">
+											<tbody>
+												<!-- <tr>
+													<td> <div class="title"><i class="icon-vnbk icon-calendar-from-570-48 "></i> Ngày nhận phòng </div> </td>
+													<td> <div class="info-right"> 27/10/2022 </div> </td>
+												</tr>
+												<tr>
+													<td> <div class="title"><i class="icon-vnbk icon-calendar-to-612-48 "></i> Ngày trả phòng </div> </td>
+													<td> <div class="info-right">  28/10/2022 </div> </td>
+												</tr> -->
+												<tr>
+													<td> <div class="title"><i class="icon-vnbk icon-passenger-528-96"></i> Số khách phòng </div> </td>
+													<td> <div class="info-right"> <?php echo $cart_item['info_rooms']['adult'] ?? 1; ?> người lớn, <?php echo $cart_item['info_rooms']['child'] ?? 1;?> trẻ em </div> </td>
+												</tr>
+												<tr class="show-in-edit">
+													<td>
+														<label for="Người lớn">Người lớn</label>
+														<input id="adult_edit" type="number" placeholder="Số lượng người lớn" value="<?php echo $cart_item['info_rooms']['adult'] ?? 1; ?>">
+													</td>
+													<td>
+														<label for="Người lớn">Trẻ em</label>
+														<input id="child_edit" type="number" placeholder="Số lượng trẻ em" value="<?php echo $cart_item['info_rooms']['child'] ?? 1;?>">
+													</td>
+												</tr>
+											</tbody>
+										</table>                        
+									</div>
+									<div class="show-data-event-edit">
+										<div class="sub-item">
+											<div class="title">
+												Ngày nhận phòng
+											</div>
+											<div class="content">
+												<input id="checkin_edit" value="<?php echo $cart_item['info_rooms']['checkin'] ?? ''; ?>" required="" placeholder="Ngày nhận phòng" class="hotel-date-start form-control" type="text"> 
+											</div>
 										</div>
-										<div class="content">
-											<?php echo $cart_item['info_rooms']['checkout'] ?? ''; ?>
+										<div class="sub-item">
+											<div class="title">
+												Ngày trả phòng
+											</div>
+											<div class="content">
+												<input id="checkout_edit" value="<?php echo $cart_item['info_rooms']['checkout'] ?? ''; ?>" required="" placeholder="Ngày trả phòng" class="hotel-date-end form-control" type="text"> 
+											</div>
+										</div>
+										<div class="sub-item">
+											<div class="title">
+												Số đêm
+											</div>
+											<div class="content">
+												<span id="so_dem_update"><?php echo $cart_item['info_rooms']['sodem'] ?? 1; ?></span>
+											</div>
+										</div>
+										<div class="update-item">
+											<button>Cập nhật</button>
 										</div>
 									</div>
-									<div class="sub-item">
-										<div class="title">
-											Số đêm
+									<div class="date-event">
+										<div class="sub-item">
+											<div class="title">
+												Ngày nhận phòng
+											</div>
+											<div class="content">
+												<?php echo $cart_item['info_rooms']['checkin'] ?? ''; ?>
+											</div>
 										</div>
-										<div class="content">
-											<?php echo $cart_item['info_rooms']['sodem'] ?? 1; ?>
+										<div class="sub-item">
+											<div class="title">
+												Ngày trả phòng
+											</div>
+											<div class="content">
+												<?php echo $cart_item['info_rooms']['checkout'] ?? ''; ?>
+											</div>
+										</div>
+										<div class="sub-item">
+											<div class="title">
+												Số đêm
+											</div>
+											<div class="content">
+												<?php echo $cart_item['info_rooms']['sodem'] ?? 1; ?>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -191,4 +236,46 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+    jQuery(document).ready(function($){
+		var  today = new Date(),
+            tomorrow = new Date();
+		var checkin = $('.hotel-date-start');
+		var checkout = $('.hotel-date-end');
+		checkin.datepicker({
+			minDate: today,
+			maxDate: '+365D',
+			onSelect: function (selected) {
+				var checkout_date = checkin.datepicker('getDate'),
+					time = new Date(checkout_date);
+
+				checkout_date.setDate(checkout_date.getDate() + 1);
+				checkout.datepicker('option', 'minDate', checkout_date);
+			},
+			onClose: function () {
+				checkout.datepicker('show');
+			}
+		});
+		
+		checkout.datepicker({
+			minDate: tomorrow,
+			maxDate: '+365D',
+			onSelect: function () {
+				var checkin_date = checkout.datepicker('getDate'),
+					time = new Date(checkin_date);
+				checkin_date.setDate(checkin_date.getDate() - 1);
+				checkin.datepicker('option', 'maxDate', checkin_date);
+				updateSoDem();
+			}
+		});
+		function updateSoDem() {
+			var checkin_date = checkin.datepicker('getDate'),
+				checkout_date = checkout.datepicker('getDate'),
+				time = new Date(checkin_date),
+				time2 = new Date(checkout_date);
+			var so_dem = (time2 - time) / (1000 * 60 * 60 * 24);
+			$('#so_dem_update').text(so_dem - 1);
+		}
+    });
+</script>
 <?php get_footer();?>

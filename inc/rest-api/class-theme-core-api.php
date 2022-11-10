@@ -75,6 +75,103 @@ class Travel_Core_Api {
 				'permission_callback' => '__return_true',
 			),
 		);
+
+		register_rest_route(
+			$this->namespace,
+			'update-item-hotel',
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'update_item_hotel' ),
+				'permission_callback' => '__return_true',
+			),
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'remove-item-hotel',
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'remove_item_hotel' ),
+				'permission_callback' => '__return_true',
+			),
+		);
+	}
+
+	public function remove_item_hotel( WP_REST_Request $request ) {
+		$response = new stdClass();
+		$params   = $request->get_params();
+		$cart_item = $params['cartItem'];
+
+		try {
+			if ( empty( $cart_item ) ) {
+				throw new Exception( 'Sản phẩm không hợp lệ' );
+			}
+			if ( null === WC()->session ) {
+				$session_class = apply_filters( 'woocommerce_session_handler', 'WC_Session_Handler' );
+				WC()->session  = new $session_class();
+				WC()->session->init();
+			}
+
+			if ( null === WC()->customer ) {
+				WC()->customer = new WC_Customer( get_current_user_id(), true );
+			}
+			if ( null === WC()->cart ) {
+				WC()->cart = new WC_Cart();
+				WC()->cart->get_cart();
+			}
+			$cart      = WC()->cart;
+			$cart->remove_cart_item( $cart_item );
+			$response->status  = 'success';
+
+		} catch ( Exception $e ) {
+			$response->message = $e->getMessage();
+		}
+		return rest_ensure_response( $response );
+	}
+
+
+	public function update_item_hotel( WP_REST_Request $request ){
+		
+		$response = new stdClass();
+		$response->status = 'success';
+		$params = $request->get_params();
+		
+
+		$checkin = $params['checkinEdit'];
+		$checkout = $params['checkoutEdit'];
+		$adult = $params['adultEdit'];
+		$child = $params['childEdit'];
+		$sodem = $params['soDemEdit'];
+		$cart_item_key = $params['cartItem'];
+
+		try{
+			if ( null === WC()->session ) {
+				$session_class = apply_filters( 'woocommerce_session_handler', 'WC_Session_Handler' );
+				WC()->session  = new $session_class();
+				WC()->session->init();
+			}
+
+			if ( null === WC()->customer ) {
+				WC()->customer = new WC_Customer( get_current_user_id(), true );
+			}
+			if ( null === WC()->cart ) {
+				WC()->cart = new WC_Cart();
+				WC()->cart->get_cart();
+			}
+
+			WC()->cart->cart_contents[$cart_item_key]['info_rooms']['checkin']  = $checkin;
+			WC()->cart->cart_contents[$cart_item_key]['info_rooms']['checkout'] = $checkout;
+			WC()->cart->cart_contents[$cart_item_key]['info_rooms']['sodem']  = $sodem;
+			WC()->cart->cart_contents[$cart_item_key]['info_rooms']['adult']  = $adult;
+			WC()->cart->cart_contents[$cart_item_key]['info_rooms']['child']  = $child;
+			WC()->cart->set_session();
+					
+		} catch ( Exception $e ) {
+			$response->message = $e->getMessage();
+		}
+
+		return rest_ensure_response( $response );
+
 	}
 
 	public function checkout( WP_REST_Request $request ){
@@ -149,6 +246,8 @@ class Travel_Core_Api {
 		$checkin      = $params['checkin'] ?? '';
 		$checkout     = $params['checkout'] ?? '';
 		$sodem       = $params['sodem'] ?? 1;
+		$adult = $params['adult'] ?? 1;
+		$child = $params['child'] ?? 1;
 
 		try {
 			if ( empty( $id ) ) {
@@ -168,6 +267,8 @@ class Travel_Core_Api {
 						'checkin' => $checkin,
 						'checkout' => $checkout,
 						'sodem' => $sodem,
+						'adult' => $adult,
+						'child' => $child
 					),
 				)
 			);
@@ -191,6 +292,8 @@ class Travel_Core_Api {
 							'checkin'  => $checkin,
 							'checkout' => $checkout,
 							'sodem'    => $sodem,
+							'adult' => $adult,
+							'child' => $child
 						),
 					),
 				);
@@ -439,7 +542,7 @@ class Travel_Core_Api {
 		return rest_ensure_response( $response );
 	}
 
-	public function add_cart_tour ( WP_REST_Request $request ){
+	public function add_cart_tour( WP_REST_Request $request ){
 		wc_load_cart();
 		$response     = new stdClass();
 		$params       = $request->get_params();

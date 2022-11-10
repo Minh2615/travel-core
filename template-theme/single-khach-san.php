@@ -139,7 +139,7 @@
 						</div>
 						<div class="box-input-item input-count-night">
 							<label class="">Số đêm</label>
-							<input type="number" placeholder="Số đêm" class="hotel-info-passenger form-control" max="30" value="1" min="1">
+							<input readonly type="number" placeholder="Số đêm" class="hotel-info-passenger form-control" max="30" value="1" min="1">
 						</div>
 					</div>
 					<div class="block-hotel-list-room">
@@ -150,8 +150,7 @@
 										<tr>
 											<th style="width: 243px;" scope="col">Loại phòng</th>
 											<th scope="col">Khuyến mại</th>
-											<th scope="col" style="width: 16%;">Giá</th>
-											<th scope="col">Đặt Phòng</th>
+											<th scope="col" style="width:30%">Giá</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -230,24 +229,29 @@
 																<div class="hotel-room-price-content">
 																	Giá:  <span id="price-room-<?php echo $room_id; ?>" data-price= "<?php echo get_field( 'price_zoom', $room_id ); ?>"><?php echo number_format( get_field( 'price_zoom', $room_id ) ); ?> VNĐ</span>
 																</div>
-															</div>
-														</td>
-														<td class="col-book-room">
-															<div class="hotel-room-booking">
-																<div class="hotel-room-booking-content">
-																	<div class="hotel-room-number">
-																		<div class="hotel-room-number-content">
-																			<div class="number-room">
-																				<span class="minus" id="minus-room-ks"><i class="fa fa-minus" aria-hidden="true"></i></span>
-																				<input type="text" min="0" max="999" step="1" value="1" class="numberOfroom" id="numberOfroom-<?php echo $room_id; ?>">
-																				<span class="plus" id="plus-room-ks"><i class="fa fa-plus" aria-hidden="true"></i></span>
-																			</div>
-																			<div class="room-max-people">
-																				<?php echo get_field( 'so_luong', $room_id ); ?>
+																<div class="hotel-room-booking">
+																	<div class="hotel-room-booking-content">
+																		<div class="hotel-room-number">
+																			<div class="hotel-room-number-content">
+																				<div class="number-room">
+																					<span class="minus" id="minus-room-ks"><i class="fa fa-minus" aria-hidden="true"></i></span>
+																					<input type="text" min="0" max="999" step="1" value="1" class="numberOfroom" id="numberOfroom-<?php echo $room_id; ?>">
+																					<span class="plus" id="plus-room-ks"><i class="fa fa-plus" aria-hidden="true"></i></span>
+																				</div>
+																				<div class="room-max-people">
+																					<div class="max-adult">
+																						<label for="Người lớn">Người lớn</label>
+																						<input type="number" placeholder="Nhập số lượng.." value="1" id="max-adult-<?php echo $room_id; ?>">
+																					</div>
+																					<div class="max-child">
+																						<label for="Trẻ em">Trẻ em</label>
+																						<input type="number" placeholder="Nhập số lượng.." value="1" id="max-child-<?php echo $room_id; ?>">
+																					</div>
+																				</div>
 																			</div>
 																		</div>
+																		<a href="#" class="btn-oranges btn-booking-hotel" data-nid="<?php echo $room_id; ?>">Đặt phòng</a>	
 																	</div>
-																	<a href="#" class="btn-oranges btn-booking-hotel" data-nid="<?php echo $room_id; ?>">Đặt phòng</a>	
 																</div>
 															</div>
 														</td>
@@ -302,10 +306,44 @@
 			'speedIn'		:	600, 
 			'speedOut'		:	200, 
 		});
+		var  today = new Date(),
+            tomorrow = new Date();
 		var checkin = $('.hotel-date-start');
-		checkin.datepicker({});
 		var checkout = $('.hotel-date-end');
-		checkout.datepicker({});
+		checkin.datepicker({
+			minDate: today,
+			maxDate: '+365D',
+			onSelect: function (selected) {
+				var checkout_date = checkin.datepicker('getDate'),
+					time = new Date(checkout_date);
+
+				checkout_date.setDate(checkout_date.getDate() + 1);
+				checkout.datepicker('option', 'minDate', checkout_date);
+			},
+			onClose: function () {
+				checkout.datepicker('show');
+			}
+		});
+		
+		checkout.datepicker({
+			minDate: tomorrow,
+			maxDate: '+365D',
+			onSelect: function () {
+				var checkin_date = checkout.datepicker('getDate'),
+					time = new Date(checkin_date);
+				checkin_date.setDate(checkin_date.getDate() - 1);
+				checkin.datepicker('option', 'maxDate', checkin_date);
+				updateSoDem();
+			}
+		});
+		function updateSoDem() {
+			var checkin_date = checkin.datepicker('getDate'),
+				checkout_date = checkout.datepicker('getDate'),
+				time = new Date(checkin_date),
+				time2 = new Date(checkout_date);
+			var so_dem = (time2 - time) / (1000 * 60 * 60 * 24);
+			$('.hotel-info-passenger').val(so_dem - 1);
+		}
     });
 </script>
 <?php get_footer(); ?>

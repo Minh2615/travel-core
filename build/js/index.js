@@ -382,7 +382,7 @@ const addToCartHotel = () => {
     };
     btn.forEach((item, i) => {
       item.addEventListener('click', e => {
-        var _document$querySelect3, _document$querySelect4, _document$querySelect5, _document$querySelect6, _document$querySelect7;
+        var _document$querySelect3, _document$querySelect4, _document$querySelect5, _document$querySelect6, _document$querySelect7, _document$querySelect8, _document$querySelect9;
         e.preventDefault();
         const id = item.dataset.nid;
         const quantity = (_document$querySelect3 = document.querySelector(`#numberOfroom-${id}`)) === null || _document$querySelect3 === void 0 ? void 0 : _document$querySelect3.value;
@@ -390,6 +390,8 @@ const addToCartHotel = () => {
         const checkin = (_document$querySelect5 = document.querySelector('.hotel-date-start')) === null || _document$querySelect5 === void 0 ? void 0 : _document$querySelect5.value;
         const checkout = (_document$querySelect6 = document.querySelector('.hotel-date-end')) === null || _document$querySelect6 === void 0 ? void 0 : _document$querySelect6.value;
         const soDem = (_document$querySelect7 = document.querySelector('.hotel-info-passenger')) === null || _document$querySelect7 === void 0 ? void 0 : _document$querySelect7.value;
+        const adult = (_document$querySelect8 = document.querySelector(`input#max-adult-${id}`)) === null || _document$querySelect8 === void 0 ? void 0 : _document$querySelect8.value;
+        const child = (_document$querySelect9 = document.querySelector(`input#max-child-${id}`)) === null || _document$querySelect9 === void 0 ? void 0 : _document$querySelect9.value;
         if (!checkin || !checkout) {
           alert('Mời nhập ngày nhận phòng và trả phòng');
           return false;
@@ -400,7 +402,9 @@ const addToCartHotel = () => {
           price: price,
           checkin: checkin,
           checkout: checkout,
-          sodem: soDem
+          sodem: soDem,
+          adult: adult,
+          child: child
         };
         submit(data);
       });
@@ -424,8 +428,8 @@ const checkoutHotel = () => {
         } = response;
         if ("success" === status) {
           alert(message);
-          // window.location.href = redirect;
-          window.location.href = "/success";
+          window.location.href = redirect;
+          // window.location.href = "/success";
         } else {
           alert(message, false);
         }
@@ -510,11 +514,11 @@ const addToCartTour = () => {
       }
     };
     btn.addEventListener('click', e => {
-      var _document$querySelect8, _document$querySelect9;
+      var _document$querySelect10, _document$querySelect11;
       e.preventDefault();
       const id = btn.dataset.id;
-      const capacity = (_document$querySelect8 = document.querySelector('select[name="number_people"]')) === null || _document$querySelect8 === void 0 ? void 0 : _document$querySelect8.value;
-      const date_start = (_document$querySelect9 = document.querySelector('input[name="date_start"]')) === null || _document$querySelect9 === void 0 ? void 0 : _document$querySelect9.value;
+      const capacity = (_document$querySelect10 = document.querySelector('select[name="number_people"]')) === null || _document$querySelect10 === void 0 ? void 0 : _document$querySelect10.value;
+      const date_start = (_document$querySelect11 = document.querySelector('input[name="date_start"]')) === null || _document$querySelect11 === void 0 ? void 0 : _document$querySelect11.value;
       const price = btn.dataset.price;
       const data = {
         id: id,
@@ -530,9 +534,9 @@ const searchHotelHomePage = () => {
   const btn = document.querySelector('.mix-search .hotel-btn-submit');
   if (btn !== null) {
     btn.addEventListener('click', function (e) {
-      var _document$querySelect10;
+      var _document$querySelect12;
       e.preventDefault();
-      const idDiaDiem = (_document$querySelect10 = document.querySelector('input[name="location-search-id"]')) === null || _document$querySelect10 === void 0 ? void 0 : _document$querySelect10.value;
+      const idDiaDiem = (_document$querySelect12 = document.querySelector('input[name="location-search-id"]')) === null || _document$querySelect12 === void 0 ? void 0 : _document$querySelect12.value;
       if (urlApi == 'search-hotel') {
         filterHotel.dia_diem = idDiaDiem;
         window.localStorage.setItem('wphb_filter_hotel', JSON.stringify(filterHotel));
@@ -574,10 +578,10 @@ const selectFormTour = () => {
     const btn = document.querySelector('.box-search-tour .box-button-tour');
     if (btn !== null) {
       btn.addEventListener('click', function (e) {
-        var _document$querySelect11;
+        var _document$querySelect13;
         e.preventDefault();
         const data = [];
-        const idDiaDiem = (_document$querySelect11 = document.querySelector('input#search-tour-text')) === null || _document$querySelect11 === void 0 ? void 0 : _document$querySelect11.dataset.id;
+        const idDiaDiem = (_document$querySelect13 = document.querySelector('input#search-tour-text')) === null || _document$querySelect13 === void 0 ? void 0 : _document$querySelect13.dataset.id;
         data.push(idDiaDiem);
         if (urlApi == 'search-hotel') {
           filterHotel.loai_hinh = data;
@@ -636,6 +640,98 @@ const scrollElementKS = () => {
     });
   }
 };
+const updateCartHotel = () => {
+  const listBtnEdit = document.querySelectorAll('.hotel-page-sidebar .edit-cart .edit-item');
+  if (listBtnEdit.length > 0) {
+    listBtnEdit.forEach(btn => {
+      btn.addEventListener('click', function () {
+        const idProduct = btn.dataset.pid;
+        const parent = document.querySelector(`#item-cart-${idProduct}`);
+        if (parent !== null) {
+          parent.classList.toggle('show-edit');
+          const cartItem = parent.dataset.cart;
+          const btnUpdateItem = parent.querySelector('.update-item');
+          const submit = async data => {
+            try {
+              const response = await wp.apiFetch({
+                path: 'travel-core/v1/update-item-hotel',
+                method: 'POST',
+                data: data
+              });
+              const {
+                status
+              } = response;
+              if ('success' === status) {
+                // alert('Cập nhật thành công');
+                window.location.reload(true);
+              } else {
+                notify(message, false);
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          };
+          if (btnUpdateItem != null) {
+            btnUpdateItem.addEventListener('click', function (e) {
+              var _parent$querySelector, _parent$querySelector2, _parent$querySelector3, _parent$querySelector4, _parent$querySelector5;
+              e.preventDefault();
+              const adultEdit = (_parent$querySelector = parent.querySelector('#adult_edit')) === null || _parent$querySelector === void 0 ? void 0 : _parent$querySelector.value;
+              const childEdit = (_parent$querySelector2 = parent.querySelector('#child_edit')) === null || _parent$querySelector2 === void 0 ? void 0 : _parent$querySelector2.value;
+              const checkinEdit = (_parent$querySelector3 = parent.querySelector('#checkin_edit')) === null || _parent$querySelector3 === void 0 ? void 0 : _parent$querySelector3.value;
+              const checkoutEdit = (_parent$querySelector4 = parent.querySelector('#checkout_edit')) === null || _parent$querySelector4 === void 0 ? void 0 : _parent$querySelector4.value;
+              const soDemEdit = (_parent$querySelector5 = parent.querySelector('#so_dem_update')) === null || _parent$querySelector5 === void 0 ? void 0 : _parent$querySelector5.innerText;
+              const data = {
+                adultEdit: adultEdit,
+                childEdit: childEdit,
+                checkinEdit: checkinEdit,
+                checkoutEdit: checkoutEdit,
+                soDemEdit: soDemEdit,
+                cartItem: cartItem
+              };
+              submit(data);
+            });
+          }
+        }
+      });
+    });
+  }
+  const listBtnRemove = document.querySelectorAll('.hotel-page-sidebar .edit-cart .delete-item');
+  if (listBtnRemove.length > 0) {
+    listBtnRemove.forEach(btn => {
+      btn.addEventListener('click', function () {
+        const idProduct = btn.dataset.pid;
+        const parent = document.querySelector(`#item-cart-${idProduct}`);
+        if (parent !== null) {
+          const cartItem = parent.dataset.cart;
+          const submit = async data => {
+            try {
+              const response = await wp.apiFetch({
+                path: 'travel-core/v1/remove-item-hotel',
+                method: 'POST',
+                data: data
+              });
+              const {
+                status
+              } = response;
+              if ('success' === status) {
+                // alert('Cập nhật thành công');
+                window.location.reload(true);
+              } else {
+                notify(message, false);
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          };
+          const data = {
+            cartItem: cartItem
+          };
+          submit(data);
+        }
+      });
+    });
+  }
+};
 //
 document.addEventListener('DOMContentLoaded', () => {
   if (custom_script_travel.is_search_ks == 1 || custom_script_travel.is_search_tour == 1 || custom_script_travel.is_archive_ks == 1) {
@@ -660,6 +756,9 @@ document.addEventListener('DOMContentLoaded', () => {
   selectFormTour();
   inSearchCateKS();
   scrollElementKS();
+
+  //update item hotel cart
+  updateCartHotel();
 });
 /******/ })()
 ;

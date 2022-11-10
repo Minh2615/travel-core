@@ -518,6 +518,8 @@ const addToCartHotel = () => {
                 const soDem = document.querySelector(
                     '.hotel-info-passenger'
                 )?.value;
+                const adult = document.querySelector(`input#max-adult-${id}`)?.value;
+                const child = document.querySelector( `input#max-child-${id}`)?.value;
                 if ( ! checkin || ! checkout) {
                     alert('Mời nhập ngày nhận phòng và trả phòng');
                     return false;
@@ -528,7 +530,9 @@ const addToCartHotel = () => {
                     price: price,
                     checkin: checkin,
                     checkout: checkout,
-                    sodem : soDem
+                    sodem: soDem,
+                    adult: adult,
+                    child: child,
                 };
                 submit(data);
             });
@@ -549,8 +553,8 @@ const checkoutHotel = () => {
             const { status, message, redirect } = response;
             if ("success" === status) {
                 alert(message);
-                // window.location.href = redirect;
-                window.location.href = "/success";
+                window.location.href = redirect;
+                // window.location.href = "/success";
             } else {
               alert(message, false);
             }
@@ -796,6 +800,103 @@ const scrollElementKS = () => {
         })
     }
 }
+
+const updateCartHotel = () => {
+    const listBtnEdit = document.querySelectorAll(
+        '.hotel-page-sidebar .edit-cart .edit-item'
+    );
+    if (listBtnEdit.length > 0) {
+        listBtnEdit.forEach((btn) => {
+            btn.addEventListener('click', function () {
+                const idProduct = btn.dataset.pid;
+              
+                const parent = document.querySelector(`#item-cart-${idProduct}`);
+                if (parent !== null) {
+                    parent.classList.toggle('show-edit');
+                    const cartItem = parent.dataset.cart;
+                    const btnUpdateItem = parent.querySelector('.update-item');
+                    const submit = async (data) => {
+                        try {
+                            const response = await wp.apiFetch({
+                                path: 'travel-core/v1/update-item-hotel',
+                                method: 'POST',
+                                data: data,
+                            });
+                            const { status } = response;
+                            if ('success' === status) {
+                                // alert('Cập nhật thành công');
+                                window.location.reload(true);
+                            } else {
+                                notify(message, false);
+                            }
+                        } catch (error) {
+                            console.log(error);
+                        }
+                    };
+                    if (btnUpdateItem != null) {
+                        btnUpdateItem.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            const adultEdit = parent.querySelector('#adult_edit')?.value;
+                            const childEdit = parent.querySelector('#child_edit')?.value;
+                            const checkinEdit = parent.querySelector('#checkin_edit')?.value;
+                            const checkoutEdit = parent.querySelector('#checkout_edit')?.value;
+                            const soDemEdit = parent.querySelector('#so_dem_update')?.innerText;
+
+                            const data = {
+                                adultEdit: adultEdit,
+                                childEdit: childEdit,
+                                checkinEdit: checkinEdit,
+                                checkoutEdit: checkoutEdit,
+                                soDemEdit: soDemEdit,
+                                cartItem: cartItem
+                            };
+                            submit(data);
+                        });
+                    }
+                }
+            })
+        })
+    }
+    const listBtnRemove = document.querySelectorAll(
+        '.hotel-page-sidebar .edit-cart .delete-item'
+    );
+    if (listBtnRemove.length > 0) {
+        listBtnRemove.forEach((btn) => {
+            btn.addEventListener('click', function () {
+                const idProduct = btn.dataset.pid;
+                const parent = document.querySelector(
+                    `#item-cart-${idProduct}`
+                );
+                if (parent !== null) {
+                    const cartItem = parent.dataset.cart;
+                    const submit = async (data) => {
+                        try {
+                            const response = await wp.apiFetch({
+                                path: 'travel-core/v1/remove-item-hotel',
+                                method: 'POST',
+                                data: data,
+                            });
+                            const { status } = response;
+                            if ('success' === status) {
+                                // alert('Cập nhật thành công');
+                                window.location.reload(true);
+                            } else {
+                                notify(message, false);
+                            }
+                        } catch (error) {
+                            console.log(error);
+                        }
+                    };
+                    const data = {
+                        cartItem: cartItem,
+                    };
+                    
+                    submit(data);
+                }
+            });
+        });
+    }
+}
 //
 document.addEventListener( 'DOMContentLoaded', () => {
     if (
@@ -822,8 +923,9 @@ document.addEventListener( 'DOMContentLoaded', () => {
     searchHotelHomePage();
     //single tour
     selectFormTour();
-
     inSearchCateKS();
-
     scrollElementKS();
+
+    //update item hotel cart
+    updateCartHotel();
 } );

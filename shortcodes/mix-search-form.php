@@ -8,7 +8,7 @@ add_shortcode("mix-search-form", function ($atts) {
     <div class="mix-search">
         <div class="mix-search__header">
             <div class="mix-search__title">
-                <span>Vietnamvivu - Niềm tin của bạn</span>
+                <span>Vietnamvivu - Trải nghiệm thích thú!</span>
             </div>
             <div class="mix-search__tab-panels">
                 <ul>
@@ -35,7 +35,7 @@ add_shortcode("mix-search-form", function ($atts) {
         </div>
         <div class="mix-search__content">
             <div id="flight-tab" class="tab-content flight">
-                <div id="vjs-search"></div>
+                <div id="ADESearchFormClient"></div>
             </div>
             <div id="hotel-tab" class="tab-content hotel relative">
                 <p class="m_b_20px">
@@ -222,26 +222,20 @@ add_shortcode("mix-search-form", function ($atts) {
 
         })(jQuery)
     </script>
-    <script type='text/javascript'>
-        <?php if(is_home()) : ?>
-        var vjs_search = {
-            path: ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.vinajet.vn/plugins',
-            productKey: 'ADM-ADMVINAJET922',
-            languageCode: 'vi',
-            type: 'sidebar',//sidebar/full/short
-            width: "550px",
-            height: "550px"
-        };
-        (function () {
-            var vjs_head = document.getElementsByTagName('head')[0];
-            var vjs_script = document.createElement('script');
-            vjs_script.async = true;
-            vjs_script.src = vjs_search.path.concat('/tim-ve-bay-gia-re.min.js');
-            vjs_script.charset = 'UTF-8';
-            vjs_head.appendChild(vjs_script);
+    <script type="text/javascript">   
+var ADEHost = ("https:" == document.location.protocol ? "https://" : "http://") + "web.metatrip.vn/";
+var ADEResultPage = "https://vietnamvivu.com/chuyen-bay/";
+var ADEHomePage = "https://vietnamvivu.com/";
+var ADEProductKey = "C1M7CTOZ6U";
+(function () {
+            var ade = document.createElement("script");
+            ade.type = "text/javascript"; ade.async = true;
+            ade.src = ADEHost + "Script/ADEProgram.js";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(ade, s);
         })();
-        <?php endif; ?>
-    </script>
+</script>
+
 
 	<?php
 	$result = ob_get_contents();

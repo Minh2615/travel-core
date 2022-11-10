@@ -178,7 +178,7 @@
                                                     foreach($terms as $term){ ?>
                                                         <div class="col col-md-4 item" data-id = "<?php echo $term->term_id; ?>"
                                                         data-name="<?php echo $term->name; ?>">
-                                                            <img src="<?php echo get_field('img_cate', $term); ?>" alt="">
+                                                            
                                                             <div>
                                                                 <div class="text">
                                                                     <?php echo $term->name; ?>
